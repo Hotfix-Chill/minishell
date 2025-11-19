@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (*line != SPACE)
 				add_history(line);
-			//tokens = lexer(line);
+			tokens = lexer(line);
 			//ast = parser(tokens);
 			//execute(ast);
 			//free_all();
