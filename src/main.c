@@ -29,7 +29,7 @@ void	handler(int sig)
 // signal struct for Ctrl +C , etc...
 void	init_signals(void)
 {
-	struct sigaction	sa;
+	struct sigaction	sa;                                                                         
 
 	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
