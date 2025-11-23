@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2025/11/13 21:13:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:00:23 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	handler(int sig)
 {
 	g_exit_status = sig;
 	if (VERBOSE)
-		printf("\nVERBOSE: Exit Code: %i", g_exit_status + 128);
-	printf("\n");
+		write(1, "\n(CTRL + C) Exit Code: 130", 27);
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -29,7 +29,7 @@ void	handler(int sig)
 // signal struct for Ctrl +C , etc...
 void	init_signals(void)
 {
-	struct sigaction	sa;                                                                         
+	struct sigaction	sa;
 
 	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
@@ -50,9 +50,18 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 1)
 		return (0);
 	memset(&data, 0, sizeof(t_data));
+
+
+
+
+
 	prompt = "\001\033[1;32m\002❯ \001\033[1;37m\002minishell\001\033[0m\002 ▸ $ ";
 	if (!init_env(envp, &data))
 		return (cleanup(&data), 0);
+	if (VERBOSE)
+	{
+		init_single_command_struct(&data);/////////////////////////////////////
+	}
 	while (1)
 	{
 		init_signals();
@@ -63,11 +72,10 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (*line != SPACE)
 				add_history(line);
-			tokens = lexer(line);
+			//tokens = lexer(line);
 			//ast = parser(tokens);
-			//execute(ast);
-			//free_all();
-			printf("Input: %s\n", line);
+			//executor(line, &data);
+			//free_all(); free() structs !!!!!!!!!!!!!
 		}
 		free(line);
 	}
