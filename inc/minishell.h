@@ -76,11 +76,25 @@ typedef enum e_redir_type
 
 
 
+
+// creating enum for the lexer state
+typedef enum e_state
+{
+	STATE_NORMAL,        // outside any quote
+	STATE_SINGLE_QUOTE,  // inside '  '
+	STATE_DOUBLE_QUOTE   // inside "   "
+} t_state;
+
+
+
+
+// DS: Double - Linked list
 typedef struct Token
 {
 	int 			typ;  //WORD, PIPE, REDIR_IN, REDIR_OUT, APPEND, HEREDOC
 	char			*content; //string, "ls", "-l", "out.txt"
 	struct Token	*next;
+	struct Token	*prev;
 }	t_token;
 
 
@@ -179,6 +193,8 @@ void	exec_cmd(t_data *data, t_cmds *cmd);
 int		heredocs(t_data *data, t_cmds *cmd);
 
 //CLEANUP
+void free_tokens(char **tokens); // for Arsela's lexer
+
 void    free_split(char **split);
 void    redirs_lstclear(t_redirs **lst);
 void    cmd_lstclear(t_cmds **lst);
