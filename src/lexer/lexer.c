@@ -30,60 +30,19 @@ static int	def_quot_state(char *line, int *i_ptr, t_token *toklist)
 	c = line[i];
 	next_c = line[i + 1];
 	// state 1: we are not currently inside quotes (QUOTE_NORMAL)
-	if (toklist->quote == QUOTE_NORMAL)
-	{
-		if (c == '>' && next_c == '>')
-		{
-			toklist->typ = TOKEN_REDIR;
-			toklist->redir = REDIR_APPEND;
-			i += 2;
-		}
-		else if (c == '<' && next_c == '<')
-		{
-			toklist->typ = TOKEN_REDIR;
-			toklist->redir = REDIR_HEREDOC;
-			i += 2;
-		}
-		else if (c == '\'')
-		{
-			toklist->quote = QUOTE_SINGLE;
-			i++;
-		}
-		else if (c == '"')
-		{
-			toklist->quote = QUOTE_DOUBLE;
-			i++;
-		}
-		else if (c == '|')
-		{
-			toklist->typ = TOKEN_PIPE;
-			i++;
-		}
-		else if (c == '>')
-		{
-			toklist->typ = TOKEN_REDIR;
-			toklist->redir = REDIR_OUT;
-			i++;
-		}
-		else if (c == '<')
-		{
-			toklist->typ = TOKEN_REDIR;
-			toklist->redir = REDIR_IN;
-			i++;
-		}
-		else
-			toklist->typ = TOKEN_WORD;
-	}
+	normal_quote_state(c, next_c, i, toklist);
 	// state 2: we are currently inside double quotes (QUOTE_DOUBLE)
-	else if (toklist->quote == QUOTE_DOUBLE)
-	{
-		// if found collect till the next one; set a flag
-		// on unmatched quotes return error, and free
-	}
-	// state 3: we are currently inside single quotes (QUOTE_SINGLE)
-	else if (toklist->quote == QUOTE_SINGLE)
-	{
-	}
+
+	// else if (toklist->quote == QUOTE_DOUBLE)
+	// {
+	// 	// if found collect till the next one; set a flag
+	// 	// on unmatched quotes return error, and free
+	// }
+	// // state 3: we are currently inside single quotes (QUOTE_SINGLE)
+	// else if (toklist->quote == QUOTE_SINGLE)
+	// {
+	// }
+
 	*i_ptr = i;
 	return (EXIT_SUCCESS);
 }
