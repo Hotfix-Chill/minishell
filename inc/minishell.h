@@ -34,12 +34,12 @@
 # define SHLVL 1
 # define LAST_CMD 2
 
-# define TOKEN_REDIR_IN 0
-# define TOKEN_REDIR_OUT 1
-# define TOKEN_REDIR_APPEND 2
-# define TOKEN_REDIR_HEREDOC 3
-# define TOKEN_PIPE 4
-# define TOKEN_WORD 5
+// # define TOKEN_REDIR_IN 0
+// # define TOKEN_REDIR_OUT 1
+// # define TOKEN_REDIR_APPEND 2
+// # define TOKEN_REDIR_HEREDOC 3
+// # define TOKEN_PIPE 4
+// # define TOKEN_WORD 5
 
 # include <stdio.h>
 # include <limits.h>
@@ -75,29 +75,40 @@ typedef enum e_redir_type
 }   t_redir_type;
 
 
-
-
-// creating enum for the lexer state
-typedef enum e_state
+typedef enum e_token_type
 {
-	STATE_NORMAL,        // outside any quote
-	STATE_SINGLE_QUOTE,  // inside '  '
-	STATE_DOUBLE_QUOTE   // inside "   "
-} t_state;
+	TOKEN_WORD, // words
+	TOKEN_PIPE, // pipes
+	TOKEN_REDIR
+} t_token_type;
 
+
+typedef enum e_quote_type
+{
+	QUOTE_NORMAL,  // outside any quote
+	QUOTE_SINGLE,  // inside '  '
+	QUOTE_DOUBLE   // inside "   "
+} t_quote_type;
 
 
 
 // DS: Double - Linked list
 typedef struct Token
 {
-	int 			typ;  //WORD, PIPE, REDIR_IN, REDIR_OUT, APPEND, HEREDOC
-	char			*content; //string, "ls", "-l", "out.txt"
+	char			*content; // allocated str; can be NULL
+	t_quote_type	quote;	  // where the token came from
+	t_redir_type	redir;	  // valid if typ == TOKEN_REDIR
+	t_token_type	typ;	  // main token type
 	struct Token	*next;
 	struct Token	*prev;
 }	t_token;
 
-
+typedef struct s_token_list
+{
+	t_token *head;
+	t_token *tail;
+	int 	size;
+}	t_token_list;
 
 typedef struct flag
 {
@@ -109,19 +120,24 @@ typedef struct flag
 
 }	t_flag;
 
+
+
 typedef struct fildescriptor
 {
 	int	curr[2];
 	int	prev[2];
 }	t_fds;
 
+
+
 typedef struct redirections
 {
-	int					typ;
+	t_token_type		typ;
 	char				*filename;
 	bool				heredoc;	// ARESLA needs to set the flag! if REDIR_HEREDOC/ TOKEN_HERDOC
 	struct redirections	*next;
 }	t_redirs;
+
 
 
 typedef struct cmds
@@ -132,12 +148,16 @@ typedef struct cmds
 	struct cmds	*next;
 }	t_cmds;
 
+
+
 typedef struct list
 {
 	int		size;			//ARESELA has to count each t_cmds node with data->list.size++;
 	t_cmds	*head;
 	t_cmds	*tail;
 }	t_stack;
+
+
 
 typedef struct heredocs
 {
@@ -146,12 +166,17 @@ typedef struct heredocs
 	int		index;
 }	t_heredoc;
 
+
+
 typedef struct execute
 {
 	char	**search_paths;
 	char	*path;
 
 }	t_exec;
+
+
+
 
 typedef struct s_data
 {
@@ -160,7 +185,6 @@ typedef struct s_data
 	char		*user;
 	char		**env;
 	uint		return_value;		// handle in expander for echo $?
-
 
 	t_fds		fd;
 	t_exec		exec;
@@ -171,13 +195,29 @@ typedef struct s_data
 }	t_data;
 
 
+
+
+
 // GLOBAL VAR
 extern volatile sig_atomic_t g_signal;
+
+
+
 
 // START
 bool	init_env(char **envp, t_data *data);
 void	cleanup(t_data *data, int exit_code);
 char	*ft_extract_digits(char const *str);
+
+
+
+
+// LEXER
+t_token	*tokenizer(const char *line); // for Arsela's tokens
+t_token *create_node(char *line); // creating the double linked list
+int skip_whitespaces(char *line, int i); // checking for spaces here
+
+
 
 //EXECUTION
 void	single_cmd(t_data *data, t_cmds *cmd);
@@ -186,14 +226,18 @@ void	child_cleanup(int exit_code, char *message, t_data *data, t_cmds *cmd);
 void	handle_redirections(t_data *data, t_cmds *cmd);
 void	executor(t_cmds *cmd, t_data *data); ////DELETE LATER, JUST DEBUG
 void	multi_cmds(t_data *data, t_cmds *cmd);
-//void	executor(char *line, t_data *data); // FINAL one
+// void	executor(char *line, t_data *data); // FINAL one
 void	ft_close(t_data *data);
 void	get_exit_status(t_data *data, int pid);
 void	exec_cmd(t_data *data, t_cmds *cmd);
 int		heredocs(t_data *data, t_cmds *cmd);
 
+
+
 //CLEANUP
-void free_tokens(char **tokens); // for Arsela's lexer
+// void free_token_list(t+token *head); // to be implemented to free the list in the main in case of failure/success
+
+
 
 void    free_split(char **split);
 void    redirs_lstclear(t_redirs **lst);
@@ -213,7 +257,6 @@ void	print_env(t_data *data);
 void	init_single_command_struct(t_data *data);
 void	*debug_build_commands(t_data *data);
 void	print_cmd_list(t_cmds *head);
-
 
 
 
