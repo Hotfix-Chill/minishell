@@ -216,6 +216,7 @@ char	*ft_extract_digits(char const *str);
 t_token	*tokenizer(const char *line); // for Arsela's tokens
 t_token *create_node(char *line); // creating the double linked list
 int skip_whitespaces(char *line, int i); // checking for spaces here
+int ft_isspace(int c);
 
 
 
