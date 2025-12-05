@@ -12,17 +12,11 @@
 
 #include "minishell.h"
 
-int	skip_whitespaces(char *line, int i)
+int	skip_whitespace(char *line, int i)
 {
-	while (line[i] != '\0')
-	{
-		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n' || 
-			line[i] == '\r' || line[i] == '\v' || line[i] == 'f')
+	while (line[i] && line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
 			i++;
-		else
-			break ;
-	}
-	return (i); // return the index of the first non whitespace character
+	return (i);
 }
 int ft_isspace(int c)
 {
