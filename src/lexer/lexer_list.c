@@ -12,50 +12,62 @@
 
 #include "minishell.h"
 
-t_token_list *create_node(char *line)
-{
-	t_token_list *list;
 
-	list = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
-	if (!list)
+t_token_list *init_token_list(void)
+{
+	t_token_list *lst;
+
+	lst = (t_token_list *)ft_calloc(1, sizeof(*lst));
+	if (!lst)
 		return (NULL);
-	list->head = line;
-	list->tail = NULL;
-	list->size = NULL;
-	return (list);
 }
 
-// insert the node at the beggining
-// void insert_beginning(t_token_list **head, char *line)
-// {
-// 	t_token_list *list;
-
-// 	list = create_node(line);
-// 	if (*head == NULL)
-// 	{
-// 		*head = list;
-// 		return ;
-// 	}
-// 	list->next = *head;
-// 	(*head)->prev = list;
-// 	*head = list; 
-// }
-
-// insert a node in the end
-void insert_end(t_token **head, char *line)
+t_token *create_token(void)
 {
-	t_token *new_token;
-	t_token *tmp;
+	t_token *token;
 
-	new_token = create_node(line);
-	if (*head == NULL)
+	token = (t_token*)ft_calloc(1, sizeof(*token));
+	if (!token)
+		return (NULL);
+	token->typ = TOKEN_WORD;
+	token->redir = REDIR_NONE;
+	token->content = NULL;
+	token->len = 0;
+	token->cap = 0;
+	token->quote = QUOTE_NORMAL;
+	token->next = token->prev = NULL; 
+	return (token);
+}
+int add_token(t_token_list *lst, t_token *node)
+{
+	if (!lst || !node)
+		return (-1);
+	if (!lst->head)
+		lst->head = lst->tail = node;
+	else
 	{
-		*head = new_token;
-		return ;
+		lst->tail->next = node;
+		node->prev = lst->tail;
+		lst->tail = node;
 	}
-	tmp = *head;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->next = new_token;
-	new_token->prev = tmp;
+	lst->size++;
+	return (EXIT_SUCCESS);
+}
+
+void free_token_list(t_token_list *lst)
+{
+	t_token *cur;
+	t_token *next;
+
+	if (!lst)
+		return ;
+	cur = lst->head;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->content);
+		free(cur);
+		cur = next;
+	}
+	free(lst);
 }
