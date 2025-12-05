@@ -33,7 +33,7 @@ void normal_quote_state(char c, char next_c, int i, t_token *toklist)
 			toklist->quote = QUOTE_SINGLE;
 			i++;
 		}
-		else if (c == '"')
+		else if (c == '\"')
 		{
 			toklist->quote = QUOTE_DOUBLE;
 			i++;
