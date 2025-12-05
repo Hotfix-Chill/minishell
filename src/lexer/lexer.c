@@ -20,143 +20,223 @@ tokens according to a grammar and build the command table.
 
 */
 
-static int append_char_to_content(t_token *toklist, char c)
+static int	append_char_to_content(t_token *toklist, char c)
 {
-	char *new_content;
-	char *old_content;
-	char char_str[2];
+	char	*new_content;
+	char	*old_content;
+	char	char_str[2];
 
 	char_str[0] = c;
 	char_str[1] = '\0';
-
-	old_content = toklist->content;
-	new_content = ft_strjoin(old_content, char_str); // if not null join the existing str
+	if (toklist->content == NULL)
+		new_content = ft_strdup(char_str);
+	else
+	{
+		old_content = toklist->content;
+		new_content = ft_strjoin(old_content, char_str);
+		// if not null join the existing str
+	}
 	if (!new_content)
-		return (-1); // ALLOCATION_FAILED create an enum to clean up
+		return (-1);      // ALLOCATION_FAILED create an enum to clean up
 	if (toklist->content) // here i free the old contetn and update the pointer
 		free(toklist->content);
 	toklist->content = new_content;
 	return (EXIT_SUCCESS);
 }
 
-static int collect_quote_content(char *line, int *i_ptr, t_token *toklist)
+static int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 {
-	int prev_quote;
-	char c;
-	int i;
+	int		i;
+	char	c;
+	int		prev_quote;
 
 	i = *i_ptr;
+	tok->quote = QUOTE_NORMAL;
 	while (line[i])
 	{
-
 		// check if we hit a boundary (space, pipe, redir, eof)
 		c = line[i];
-		if (toklist->quote == QUOTE_NORMAL)
+		if (tok->quote == QUOTE_NORMAL)
 		{
-			if ((ft_isspace(c) || c == '|' || c == '<' || c == '>'))
-				break ; // stop collecting if outside the quotes
-		}
-		// check if we hit a quote that changes the state (i.e. closes the quote)
-		// cases like ('word'abc), it must also be checked if it ends the quote
-		prev_quote = toklist->quote;
-		def_quote_state(line, &i, toklist);
-		if (prev_quote != toklist->quote)
-		{
-			if (toklist->quote == QUOTE_NORMAL)
+			if (c == '\'')
+			{
+				tok->quote = QUOTE_SINGLE;
+				i++;
+				continue ;
+			}
+			if (c == '"')
+			{
+				tok->quote = QUOTE_DOUBLE;
+				i++;
+				continue ;
+			}
+			if (c == '|' || c == '<' || c == '>' || ft_isspace(c))
 				break ;
-			continue ; // state was changed, returned error or new quote and brake cus i now is incremented to the next
+			if (append_char_to_content(tok, c) < 0)
+				return (-1);
+			i++;
 		}
-		if (append_char_to_content(toklist, line[i]) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		i++;
+		else if (tok->quote == QUOTE_DOUBLE)
+		{
+			if (c == '\'')
+			{
+				tok->quote = QUOTE_NORMAL;
+				i++;
+				continue ;
+			}
+			if (append_char_to_content(tok, c) < 0)
+				return (-1);
+			i++;
+		}
+		else if (tok->quote == QUOTE_DOUBLE)
+		{
+			if (c == '"')
+			{
+				tok->quote = QUOTE_NORMAL;
+				i++;
+				continue ;
+			}
+			if (append_char_to_content(tok, c) < 0)
+				return (-1);
+			i++;
+		}
 	}
+	if (tok->quote != QUOTE_NORMAL)
+		return (-1); // unmatched quote error
 	*i_ptr = i;
 	return (EXIT_SUCCESS);
 }
 
-
-static int	def_quot_state(char *line, int *i_ptr, t_token *toklist)
+static int	decide_token_type(char *line, int *i_ptr, t_token *tok)
 {
+	int		i;
 	char	c;
 	char	next_c;
-	int i;
 
 	i = *i_ptr;
 	c = line[i];
 	next_c = line[i + 1];
-	// state 1: we are not currently inside quotes (QUOTE_NORMAL)
-	normal_quote_state(c, next_c, i, toklist);
-
-	// state 2: we are currently inside double quotes (QUOTE_DOUBLE)
-	// double_quote_state(c, i, toklist);
-	if (toklist->quote == QUOTE_DOUBLE)
-	{
-		// if found collect till the next one; set a flag
-		// on unmatched quotes return error, and free
-		
-		// found the closing quote
-		if (c == '"')
-		{
-			toklist->quote = QUOTE_NORMAL;
-			i++;
-		}
-		else if (c )
-
-	}
-
-	// state 3: we are currently inside single quotes (QUOTE_SINGLE)
-	// single_quote_state(c, i, toklist);
-	else if (toklist->quote == QUOTE_SINGLE)
-	{
-		// found the closing quote
-		if (c == '\'')
-		{
-			toklist->quote = QUOTE_NORMAL;
-			i++;
-		}
-		else
-		{
-
-		}
-	}
-
-	*i_ptr = i;
-	return (EXIT_SUCCESS);
+	if (c == '|')
+		return (tok->typ = TOKEN_PIPE, *i_ptr = i + 1, EXIT_SUCCESS);
+	else if (c == '>' && next_c == '>')
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_APPEND, *i_ptr = i
+			+ 2, EXIT_SUCCESS);
+	else if (c == '<' && next_c == '<')
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_HEREDOC, *i_ptr = i
+			+ 2, EXIT_SUCCESS);
+	else if (c == '>')
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT, *i_ptr = i + 1,
+			EXIT_SUCCESS);
+	else if (c == '<')
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN, *i_ptr = i + 1,
+			EXIT_SUCCESS);
+	tok->typ = TOKEN_WORD;
+	tok->quote = QUOTE_NORMAL;
+	return (0);
 }
-
 // Lexer allocates every t_token node and each content string.
 // return head of list if success or NULL in case of error
 t_token	*tokenizer(const char *line)
 {
-	int i;
-	t_token *toklist;
-	t_token_list *token_head;
+	int				i;
+	t_token			*tok;
+	t_token_list	*lst;
 
 	i = 0;
-	token_head = NULL;
+	lst = init_token_list();
+	if (!lst)
+		return (NULL);
 	// toklist->quote = QUOTE_NORMAL;
-	while (line[i])
+	while (line && line[i])
 	{
 		// a funct that advances i for each iter and checks for whitespaces
 		i = skip_whitespace(line, i);
 		// check if we hit the null term after skipping spaces
-		if (line[i] == '\0') 
+		if (!line[i])
 			break ;
-		toklist = (t_token *)ft_calloc(1, sizeof(t_token));
-		if (!toklist)
-			return (NULL);
-		// defoult state of quote
-		toklist->quote = QUOTE_NORMAL;
+		tok = create_token;
+		if (!tok)
+			return (free_token_list(lst), NULL);
 		// token definition function
-		def_quot_state((char *)line, &i, toklist);
-		if (toklist->typ == TOKEN_WORD)
-			// iterate i till it hits a space or pipe quote
-			// and allocate toklist->content
-			i = collect_word_content(line, &i, toklist);
-		else if (toklist->quote != QUOTE_NORMAL)
-			i = collect_word_content(line, i, toklist);
-		// add_token_to_list(&head, toklist);
-		// storing the token found in the list
+		decide_token_type((char *)line, &i, tok);
+		if (tok->typ == TOKEN_WORD)
+		{
+			if (collect_word_content(line, &i, tok) != EXIT_SUCCESS)
+				return (free(tok->content), free(tok), free_token_list(lst), NULL);
+		}
+		else
+		{
+			if (tok->typ == TOKEN_PIPE)
+				append_str_to_content(tok, "|");
+			else if (tok->typ == TOKEN_REDIR)
+			{
+				if (tok->redir == REDIR_APPEND)
+					append_str_to_content(tok, ">>");
+				else if (tok->redir == REDIR_HEREDOC)
+					append_str_to_content(tok, "<<");
+				else if (tok->redir == REDIR_IN)
+					append_str_to_content(tok, "<");
+				else if (tok->redir == REDIR_OUT)
+					append_str_to_content(tok, ">");
+			}
+		}
+		if (add_token(lst, tok) != EXIT_SUCCESS)
+			return (free_token_list(lst), free(tok->content), free(tok), NULL);
 	}
-	return (token_head);
+	return (lst);
 }
+
+
+// /* test_main.c */
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// /* print helper */
+// const char *type_name(t_token *t)
+// {
+//     if (!t) return "NULL";
+//     if (t->typ == TOKEN_WORD) return "WORD";
+//     if (t->typ == TOKEN_PIPE) return "PIPE";
+//     if (t->typ == TOKEN_REDIR) return "REDIR";
+//     return "UNK";
+// }
+
+// void print_tokens_list(t_token_list *lst)
+// {
+//     t_token *cur = lst->head;
+//     int idx = 0;
+//     while (cur)
+//     {
+//         printf("[%02d] %s (%s) : '%s'\n", idx++,
+//                type_name(cur),
+//                (cur->redir==REDIR_NONE?"-":
+//                 cur->redir==REDIR_IN?"IN":
+//                 cur->redir==REDIR_OUT?"OUT":
+//                 cur->redir==REDIR_APPEND?"APPEND":"HEREDOC"),
+//                cur->content ? cur->content : "");
+//         cur = cur->next;
+//     }
+// }
+
+// /* provide or link tokenizer, free_token_list */
+// int main(void)
+// {
+//     char *line = NULL;
+//     size_t cap = 0;
+//     ssize_t n;
+//     printf("Enter lines (Ctrl+D to quit):\n> ");
+//     while ((n = getline(&line, &cap, stdin)) > 0)
+//     {
+//         if (line[n-1] == '\n') line[n-1] = '\0';
+//         t_token_list *lst = tokenizer(line);
+//         if (!lst) fprintf(stderr, "tokenizer error\n");
+//         else
+//         {
+//             print_tokens_list(lst);
+//             free_token_list(lst);
+//         }
+//         printf("> ");
+//     }
+//     free(line);
+//     return 0;
+// }
