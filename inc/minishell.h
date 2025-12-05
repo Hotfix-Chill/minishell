@@ -68,7 +68,8 @@
 
 typedef enum e_redir_type
 {
-    REDIR_IN,        // <
+    REDIR_NONE = 0,
+	REDIR_IN,        // <
     REDIR_OUT,       // >
     REDIR_APPEND,    // >>
     REDIR_HEREDOC    // <<
@@ -77,7 +78,7 @@ typedef enum e_redir_type
 
 typedef enum e_token_type
 {
-	TOKEN_WORD, // words
+	TOKEN_WORD = 0, // words
 	TOKEN_PIPE, // pipes
 	TOKEN_REDIR
 } t_token_type;
@@ -85,7 +86,7 @@ typedef enum e_token_type
 
 typedef enum e_quote_type
 {
-	QUOTE_NORMAL,  // outside any quote
+	QUOTE_NORMAL = 0,  // outside any quote
 	QUOTE_SINGLE,  // inside '  '
 	QUOTE_DOUBLE   // inside "   "
 } t_quote_type;
@@ -93,14 +94,16 @@ typedef enum e_quote_type
 
 
 // DS: Double - Linked list
-typedef struct Token
+typedef struct s_token
 {
-	char			*content; // allocated str; can be NULL
-	t_quote_type	quote;	  // where the token came from
-	t_redir_type	redir;	  // valid if typ == TOKEN_REDIR
 	t_token_type	typ;	  // main token type
-	struct Token	*next;
-	struct Token	*prev;
+	t_redir_type	redir;	  // valid if typ == TOKEN_REDIR
+	char			*content; // allocated str; can be NULL
+	int 			len;	  // current len of the content
+	int 			cap;	  // allowed capacity
+	t_quote_type	quote;	  // where the token came from
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef struct s_token_list
@@ -215,8 +218,11 @@ char	*ft_extract_digits(char const *str);
 // LEXER
 t_token	*tokenizer(const char *line); // for Arsela's tokens
 t_token *create_node(char *line); // creating the double linked list
-int skip_whitespaces(char *line, int i); // checking for spaces here
+int skip_whitespace(char *line, int i); // checking for spaces here
 int ft_isspace(int c);
+int add_token(t_token_list *lst, t_token *node);
+t_token *create_token(void);
+t_token_list *init_token_list(void);
 
 
 
@@ -236,7 +242,7 @@ int		heredocs(t_data *data, t_cmds *cmd);
 
 
 //CLEANUP
-// void free_token_list(t+token *head); // to be implemented to free the list in the main in case of failure/success
+void free_token_list(t_token_list *lst);
 
 
 
