@@ -46,6 +46,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <stddef.h>
 # include <stdlib.h>
 # include <stdint.h>
 # include <fcntl.h>
@@ -179,8 +180,6 @@ typedef struct execute
 }	t_exec;
 
 
-
-
 typedef struct s_data
 {
 	char		*tmp;
@@ -215,14 +214,44 @@ char	*ft_extract_digits(char const *str);
 
 
 
-// LEXER
-t_token	*tokenizer(const char *line); // for Arsela's tokens
-t_token *create_node(char *line); // creating the double linked list
-int skip_whitespace(char *line, int i); // checking for spaces here
-int ft_isspace(int c);
-int add_token(t_token_list *lst, t_token *node);
-t_token *create_token(void);
+// LEXER //
+
+// main tokenizer flow
+t_token_list	*tokenizer(const char *line);
+
+
+// lexer append funct to build the content (content manipulation)
+int	append_char_to_content(t_token *tok, char c);
+int append_str_to_content(t_token *tok, char *str);
+int	collect_word_content(char *line, int *i_ptr, t_token *tok);
+
+// creating adding list
 t_token_list *init_token_list(void);
+t_token *create_token(void);
+int add_token(t_token_list *lst, t_token *node);
+void free_token_list(t_token_list *lst);
+
+
+// lexer quote state
+int handle_quote_char(t_token *tok, char c);
+
+
+// character validation
+int	skip_whitespace(char *line, int i);
+bool is_metachar(char c);
+bool should_break_word(char c, t_quote_type quote);
+
+// quote handling
+bool is_quote(char c);
+bool is_closing_quote(char c, t_quote_type quote);
+
+// lexer cleanup
+void *cleanup_token(t_token *tok);
+void *cleanup_all(t_token_list *lst, t_token *tok);
+
+
+
+
 
 
 
