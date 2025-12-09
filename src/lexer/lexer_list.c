@@ -6,7 +6,7 @@
 /*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:48:09 by abita             #+#    #+#             */
-/*   Updated: 2025/12/02 20:48:11 by abita            ###   ########.fr       */
+/*   Updated: 2025/12/09 17:03:54 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_token_list *init_token_list(void)
 	lst = (t_token_list *)ft_calloc(1, sizeof(*lst));
 	if (!lst)
 		return (NULL);
+	lst->head = NULL;
+	lst->tail = NULL;
+	lst->size = 0;
+	return (lst);
 }
 
 t_token *create_token(void)
@@ -35,7 +39,8 @@ t_token *create_token(void)
 	token->len = 0;
 	token->cap = 0;
 	token->quote = QUOTE_NORMAL;
-	token->next = token->prev = NULL; 
+	token->next = NULL;
+	token->prev = NULL; 
 	return (token);
 }
 int add_token(t_token_list *lst, t_token *node)
@@ -43,7 +48,10 @@ int add_token(t_token_list *lst, t_token *node)
 	if (!lst || !node)
 		return (-1);
 	if (!lst->head)
-		lst->head = lst->tail = node;
+	{
+		lst->head = node;
+		lst->tail = node;
+	}
 	else
 	{
 		lst->tail->next = node;
