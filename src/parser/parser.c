@@ -33,28 +33,53 @@
 // taking the tooken list from the header
 t_stack *parsing(t_token_list *token)
 {
-	t_token			*cur;
+	t_token			*tok;
+	t_cmds			*curr_cmd;
+	t_stack			*cmd_list;
 
-	cur = token->head;
-	while (cur)
+	cmd_list = init_cmd_list(); /// (holds all items)
+	if (!cmd_list)
+		return (NULL);
+	curr_cmd = create_cmds(); // (current command) item im currently putting in 
+	if (!curr_cmd)
+		return (NULL);
+	tok = token->head; /// moving through the token list to each token
+	while (tok)
 	{
 		
-		if (cur->typ == TOKEN_WORD)
+		if (tok->typ == TOKEN_PIPE)
 		{
-			// add c to the arg list
-
+			// so i detect what the current cmd is, 
+			// so in this case pipe i set the flag as true 
+			// and add it to the list.
+			curr_cmd->pipe_after = true;
+			if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
+				return (NULL);
+			// here start a new cmd
+			curr_cmd = create_cmd();
 		}
-		else if(cur->typ == TOKEN_REDIR)
+		else if(tok->typ == TOKEN_REDIR)
 		{
 			// add c to the redir list
+			add_redir_to_cmd(curr_cmd, tok, tok->next);
+			tok = tok->next; // skip the next token as its filename
+		}
+		else if (tok->typ == TOKEN_WORD)
+			add_arg_to_cmd(curr_cmd, tok->content);
+		/*
+		Example:
+		Token: "echo"
+		Before: current_cmd->argv = NULL
+		After:  current_cmd->argv = ["echo", NULL]
 
-		}
-		else if (cur->typ == TOKEN_PIPE)
-		{
-			// add c to the pipe list
-		}
-		cur = cur->next;
-		cur++;
+		Token: "hello"
+		Before: current_cmd->argv = ["echo", NULL]
+		After:  current_cmd->argv = ["echo", "hello", NULL]
+		
+		*/
+		
+		tok = tok->next;
 	}
-	return (token);
+	add_cmd_to_list(cmd_list, curr_cmd);
+	return (cmd_list);
 }
