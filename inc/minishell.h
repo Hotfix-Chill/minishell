@@ -67,6 +67,7 @@
 
 
 
+// LEXER //
 typedef enum e_redir_type
 {
     REDIR_NONE = 0,
@@ -113,6 +114,8 @@ typedef struct s_token_list
 	t_token *tail;
 	int 	size;
 }	t_token_list;
+//////////////////////////////////////////// Lexer END
+
 
 typedef struct flag
 {
@@ -248,12 +251,17 @@ bool is_closing_quote(char c, t_quote_type quote);
 // lexer cleanup
 void *cleanup_token(t_token *tok);
 void *cleanup_all(t_token_list *lst, t_token *tok);
+///////////////////////////////////////////////////////////// END OF LEXER
+
+/// Parser
+
+// parser_cmd
+t_stack *init_cmd_list(void);
+t_cmds *create_cmds(void);
+int add_cmd_to_list(t_stack *lst, t_cmds *node);
 
 
-
-
-
-
+///////////////////////////////////////////////////////////// END OF PARSER
 
 //EXECUTION
 void	single_cmd(t_data *data, t_cmds *cmd);
