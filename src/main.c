@@ -22,7 +22,7 @@ int	init_data(t_data *data)
 }
 int	main_loop(char *line, char	*prompt, t_data	*data)
 {
-	char **tokens;
+	char *tokens;
 
 	while (1)
 	{
@@ -57,7 +57,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			// debuging purposes
 			///////////////////////////////////////////////////////////
 
-			// cmd = parser(tokens);
+			parser(tokens);
 			debug_build_commands(&data);
 			print_cmd_list(data->list.head);
 			fprintf(stderr, "data_list_size: %i\n", data->list.size);
