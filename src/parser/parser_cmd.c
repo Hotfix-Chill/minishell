@@ -56,16 +56,23 @@ int add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 	lst->size++;
 	return (EXIT_SUCCESS);
 }
-int count_args(char **args)
-{
-	int count;
 
-	count = 0;
-	if (!args)
-		return (NULL);
-	while (args[count])
-		count++;
-	return (count);
+void free_cmd_list(t_stack *lst)
+{
+	t_cmds *cur;
+	t_cmds *next;
+
+	if (!lst)
+		return ;
+	cur = lst->head;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur->argv);
+		free(cur);
+		cur = next;
+	}
+	free(lst);
 }
 
 // Add the token content like words to command's argv array
@@ -76,23 +83,28 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
 	char **new_argv;
 
 	if (!curr_cmd || !tok_content)
-		return (NULL);
-	arg_count = count_args(tok_content);
+		return (-1);
+	arg_count = 0;
+	if (curr_cmd->argv != NULL)
+	{
+		while (curr_cmd->argv[arg_count])
+			arg_count++;
+	}
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
 	if (!new_argv)
-		return (NULL);
+		return (-1);
 	i = 0;
-	while (curr_cmd->argv[i])
+	while (i < arg_count)
 	{
 		new_argv[i] = curr_cmd->argv[i];
 		i++;
 	}
-	// curr_cmd->argv = new_argv;
-	// new_argv = '\0';
+	new_argv[i] = ft_strdup(tok_content);
+	if (!new_argv[i])
+		return (free(new_argv), -1);
+	i++;
+	new_argv[i] = NULL;
+	free(curr_cmd->argv);
+	curr_cmd->argv = new_argv;
 	return (EXIT_SUCCESS);
 }
-
-// int add_redir_to_cmd(t_cmds *cmd, t_redir *redir)
-// {
-
-// }
