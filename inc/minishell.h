@@ -135,16 +135,15 @@ typedef struct fildescriptor
 	int	prev[2];
 }	t_fds;
 
-
+///////// PARSER //////////////////////
 
 typedef struct redirections
 {
-	t_token_type		typ;
+	t_redir_type		typ;
 	char				*filename;
 	bool				heredoc;	// ARESLA needs to set the flag! if REDIR_HEREDOC/ TOKEN_HERDOC
 	struct redirections	*next;
 }	t_redirs;
-
 
 
 typedef struct cmds
@@ -156,7 +155,6 @@ typedef struct cmds
 }	t_cmds;
 
 
-
 typedef struct list
 {
 	int		size;			//ARESELA has to count each t_cmds node with data->list.size++;
@@ -164,7 +162,7 @@ typedef struct list
 	t_cmds	*tail;
 }	t_stack;
 
-
+/////////////////////////////////////////////
 
 typedef struct heredocs
 {
@@ -179,7 +177,6 @@ typedef struct execute
 {
 	char	**search_paths;
 	char	*path;
-
 }	t_exec;
 
 
@@ -253,12 +250,21 @@ void *cleanup_token(t_token *tok);
 void *cleanup_all(t_token_list *lst, t_token *tok);
 ///////////////////////////////////////////////////////////// END OF LEXER
 
-/// Parser
+/// Parser /// 
 
 // parser_cmd
 t_stack *init_cmd_list(void);
 t_cmds *create_cmds(void);
 int add_cmd_to_list(t_stack *lst, t_cmds *node);
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content);
+void free_cmd_list(t_stack *lst);
+
+// parser redir
+int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token);
+t_redirs *init_redir(void);
+
+// main parser
+t_stack *parsing(t_token_list *token);
 
 
 ///////////////////////////////////////////////////////////// END OF PARSER
