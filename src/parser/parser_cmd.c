@@ -57,24 +57,6 @@ int add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 	return (EXIT_SUCCESS);
 }
 
-void free_cmd_list(t_stack *lst)
-{
-	t_cmds *cur;
-	t_cmds *next;
-
-	if (!lst)
-		return ;
-	cur = lst->head;
-	while (cur)
-	{
-		next = cur->next;
-		free(cur->argv);
-		free(cur);
-		cur = next;
-	}
-	free(lst);
-}
-
 // Add the token content like words to command's argv array
 int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
 {
