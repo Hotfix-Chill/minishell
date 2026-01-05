@@ -53,22 +53,11 @@ static int lexer_loop(const char *line, t_token_list *lst, t_token	*tok)
 			break ;
 		tok = create_token();
 		if (!tok)
-		{
-			cleanup_all(lst, NULL);
-			return (EXIT_FAILURE);
-		}
-		// token definition function
+			return (cleanup_all(lst, NULL), EXIT_FAILURE);
 		if (token_check(line, &i, tok) != EXIT_SUCCESS)
-		{
-			cleanup_all(lst, tok); //leak
-			return (EXIT_FAILURE);
-		}
-		// here i add to the list
+			return (cleanup_all(lst, tok), EXIT_FAILURE);
 		if (add_token(lst, tok) != EXIT_SUCCESS)
-		{
-			cleanup_all(lst, tok);
-			return (EXIT_FAILURE);
-		}
+			return (cleanup_all(lst, tok), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
