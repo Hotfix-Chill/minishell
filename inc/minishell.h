@@ -228,6 +228,9 @@ int	append_char_to_content(t_token *tok, char c);
 int append_str_to_content(t_token *tok, char *str);
 int	collect_word_content(char *line, int *i_ptr, t_token *tok);
 int redir_check(char *line, int *i_ptr, t_token *tok);
+int	decide_token_type(char *line, int *i_ptr, t_token *tok);
+int set_operator_content(t_token *tok);
+int pipe_check(char *line, int *i_ptr, t_token *tok);
 
 // creating adding list
 t_token_list *init_token_list(void);
