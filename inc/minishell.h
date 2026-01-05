@@ -65,6 +65,9 @@
 // data->cmd->argv -----> free_split	**array of command and arguments**
 // data->exec.heredoc_files				**array of tmp heredoc_filenames
 
+# define 	REDIR_NOT_FOUND  0
+# define 	REDIR_ERROR  -1
+# define 	REDIR_FOUND  1	 // a check that lets me know i found a redir
 
 
 // LEXER //
@@ -74,7 +77,7 @@ typedef enum e_redir_type
 	REDIR_IN,        // <
     REDIR_OUT,       // >
     REDIR_APPEND,    // >>
-    REDIR_HEREDOC    // <<
+    REDIR_HEREDOC,   // <<
 }   t_redir_type;
 
 
@@ -213,7 +216,7 @@ char	*ft_extract_digits(char const *str);
 
 
 
-
+///////////////////////////////////////////////////////////
 // LEXER //
 
 // main tokenizer flow
