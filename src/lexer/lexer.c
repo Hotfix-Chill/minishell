@@ -22,24 +22,20 @@ tokens according to a grammar and build the command table.
 static int	decide_token_type(char *line, int *i_ptr, t_token *tok)
 {
 	int		i;
-	char	c;
-	char	next_c;
+	int		res;
 
 	i = *i_ptr;
-	c = line[i];
-	next_c = line[i + 1];
-	if (c == '>' && next_c == '>')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_APPEND, *i_ptr = i
-			+ 2, EXIT_SUCCESS);  // add a check in case there is another think right next to it like >>>>>>
-	else if (c == '<' && next_c == '<')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_HEREDOC, *i_ptr = i
-			+ 2, EXIT_SUCCESS);
-	else if (c == '|')
+	res = redir_check(line, i_ptr, tok);
+	if (res == REDIR_ERROR)
+		return (-1);
+	else if (res == REDIR_FOUND)
+		return (EXIT_SUCCESS);
+	else if (line[i] == '|')
 		return (tok->typ = TOKEN_PIPE, *i_ptr = i + 1, EXIT_SUCCESS);
-	else if (c == '>')
+	else if (line[i] == '>')
 		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT, *i_ptr = i + 1,
 			EXIT_SUCCESS);
-	else if (c == '<')
+	else if (line[i] == '<')
 		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN, *i_ptr = i + 1,
 			EXIT_SUCCESS);
 	tok->typ = TOKEN_WORD;
