@@ -17,7 +17,7 @@ t_token_list *init_token_list(void)
 {
 	t_token_list *lst;
 
-	lst = (t_token_list *)ft_calloc(1, sizeof(*lst));
+	lst = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	if (!lst)
 		return (NULL);
 	lst->head = NULL;
@@ -30,7 +30,7 @@ t_token *create_token(void)
 {
 	t_token *token;
 
-	token = (t_token*)ft_calloc(1, sizeof(*token));
+	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->typ = TOKEN_WORD;
@@ -77,5 +77,5 @@ void free_token_list(t_token_list *lst)
 		free(cur);
 		cur = next;
 	}
-	free(lst);
+	free(lst); //here leak
 }
