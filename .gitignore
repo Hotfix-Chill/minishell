@@ -9,3 +9,4 @@ src/parser/lexer/
 src/parser/readline.supp
 src/parser/tests/
 readline.supp
+src/lexer/readline.supp
