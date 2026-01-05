@@ -18,3 +18,31 @@ int	skip_whitespace(char *line, int i)
 			i++;
 	return (i);
 }
+
+int redir_check(char *line, int *i_ptr, t_token *tok)
+{
+	int		i;
+	char	next_c;
+
+	i = *i_ptr;
+	next_c = line[i + 1];
+	if (line[i] == '>' && line[i + 1] == '>')
+	{
+		if (line[i + 2] == '>')
+			return (REDIR_ERROR);
+		tok->typ = TOKEN_REDIR;
+		tok->redir = REDIR_APPEND;
+		*i_ptr = i + 2;
+		return (REDIR_FOUND);
+	}
+	else if (line[i] == '<' && line[i + 1] == '<')
+	{
+		if (line[i + 2] == '<')
+			return (REDIR_ERROR);
+		tok->typ = TOKEN_REDIR;
+		tok->redir = REDIR_HEREDOC;
+		*i_ptr = i + 2;
+		return (REDIR_FOUND);
+	}
+	return (REDIR_NONE);
+}
