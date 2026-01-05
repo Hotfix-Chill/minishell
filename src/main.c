@@ -22,7 +22,8 @@ int	init_data(t_data *data)
 }
 int	main_loop(char *line, char	*prompt, t_data	*data)
 {
-	char *tokens;
+	t_stack *cmds;
+	t_token_list *tokens;
 
 	while (1)
 	{
@@ -42,22 +43,14 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				continue ;
 			}
 			// success but there are no tokens :(
-			if (!tokens[0])
-			{
-				fprintf(stderr, "tokenizer: no tokens produced\n");
-				free_tokens(tokens);
-				free(line);
-				continue ;
-			}
-			
-			///////////////////////////////////////////////////////////
-			// debuging purposes
-			for (int i = 0; tokens[i]; ++i)
-				fprintf(stderr, "tokens[%d] = '%s'\n", i, tokens[i]);
-			// debuging purposes
-			///////////////////////////////////////////////////////////
-
-			parser(tokens);
+			// if (!tokens[0])
+			// {
+			// 	fprintf(stderr, "tokenizer: no tokens produced\n");
+			// 	free_tokens(tokens);
+			// 	free(line);
+			// 	continue ;
+			// }
+			parsing(tokens);
 			debug_build_commands(&data);
 			print_cmd_list(data->list.head);
 			fprintf(stderr, "data_list_size: %i\n", data->list.size);
