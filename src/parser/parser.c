@@ -77,6 +77,7 @@ t_stack *parsing(t_token_list *token)
 			add_arg_to_cmd(curr_cmd, tok->content);
 		tok = tok->next;
 	}
-	add_cmd_to_list(cmd_list, curr_cmd);
-	return (cmd_list);
+	if (add_cmd_to_list(cmd_list, curr_cmd) == EXIT_SUCCESS)
+		return (cmd_list);
+	return (NULL);
 }
