@@ -36,7 +36,7 @@ void free_cmd_list(t_stack *lst)
 	while (cur)
 	{
 		next = cur->next;
-		free_argv(cur->argv);
+		free_arg(cur->argv);
 		free_redirs(cur->redirs);
 		free(cur);
 		cur = next;
