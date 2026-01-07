@@ -6,7 +6,7 @@
 /*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:37:55 by abita             #+#    #+#             */
-/*   Updated: 2025/12/17 17:37:56 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/07 15:39:38 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,18 @@ int add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 	lst->size++;
 	return (EXIT_SUCCESS);
 }
+static int count(t_cmds *curr_cmd)
+{
+	int arg_count;
 
+	arg_count = 0;
+	if (curr_cmd->argv != NULL)
+	{
+		while (curr_cmd->argv[arg_count])
+			arg_count++;
+	}
+	return (arg_count);
+}
 // Add the token content like words to command's argv array
 int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
 {
@@ -66,12 +77,7 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
 
 	if (!curr_cmd || !tok_content)
 		return (-1);
-	arg_count = 0;
-	if (curr_cmd->argv != NULL)
-	{
-		while (curr_cmd->argv[arg_count])
-			arg_count++;
-	}
+	arg_count = count(curr_cmd);
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
 	if (!new_argv)
 		return (-1);
