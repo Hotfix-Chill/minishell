@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /*
 	Shell Parameter Expansion
 		The ‘$’ character introduces parameter expansion, command substitution, 
@@ -19,3 +18,13 @@
 	to be expanded from characters immediately following it which could be 
 	interpreted as part of the name.
 */
+
+#include "minishell.h"
+
+int expansion (t_stack *cmd_list, t_data data)
+{
+
+	// while ()
+
+	return ();
+}
