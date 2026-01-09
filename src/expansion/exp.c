@@ -23,8 +23,10 @@
 
 int expansion (t_stack *cmd_list, t_data data)
 {
+	while (cmd_list->head)
+	{
 
-	// while ()
+	}
 
 	return ();
 }
