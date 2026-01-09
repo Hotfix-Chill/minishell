@@ -21,16 +21,37 @@
 
 #include "minishell.h"
 
-int expan_str(t_cmds *cmd, t_data *data)
-{
 
-	return (EXIT_SUCCESS);
+char **expan_str(const char *str, t_data *data)
+{
+	int i;
+	char *result;
+
+	// to check if it needs expansion
+	if (!has_variable(str))
+		return (ft_strdup(str)); // if there are no variables then just copy ..
+	result = ft_strdup(""); //.. start w empty str
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1])
+		{
+			//so literaly here i find a variable, just extract the var, 
+			//check it and then add the value to the result
+		}
+		else
+		{
+			append_char(&result, str[i]);
+			i++;
+		}
+	}
+	return (result);
 }
 
 int expansion(t_stack *cmd_list, t_data *data)
 {
 	int i;
-	char *expanded;
+	char **expanded;
 	t_cmds *cmd;
 
 	if (!cmd_list || !data)
