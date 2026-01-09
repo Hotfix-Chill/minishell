@@ -21,12 +21,45 @@
 
 #include "minishell.h"
 
-int expansion (t_stack *cmd_list, t_data data)
+// int expan_str(t_cmds *cmd, t_data *data)
+// {
+
+// 	return (EXIT_SUCCESS);
+// }
+
+int expansion(t_stack *cmd_list, t_data *data)
 {
-	while (cmd_list->head)
+	int i;
+	char *expanded;
+	t_cmds *cmd;
+
+	if (!cmd_list || !data)
+		return (EXIT_FAILURE);
+	i = 0;
+	cmd = cmd_list->head;
+	while (cmd)
 	{
-
+		i = 0;
+		// here to expand argv
+		while (cmd->argv[i])
+		{
+			printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
+			// look now at each argv[0], [1], for variables.. so if i have $USER
+			// SO CHAR BY CHAR I CHECK ifff i see a $ sign i extract the variable
+			// expanded = expan_str(cmd->argv[i], data); // check if failure
+			// free(cmd->argv[i]);
+			// cmd->argv[i] = expanded;
+			i++;
+		}
+		// here to expand redirections
+		// while (cmd->redirs)
+		// {
+		// 	expanded = expan_str(cmd->redirs->filename, data); // check if failure
+		// 	free(cmd->redirs->filename);
+		// 	cmd->redirs->filename = expanded;
+		// 	cmd->redirs = cmd->redirs->next;
+		// }
+		cmd = cmd->next;
 	}
-
-	return ();
+	return (EXIT_SUCCESS);
 }
