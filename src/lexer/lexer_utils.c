@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:04:12 by abita             #+#    #+#             */
-/*   Updated: 2025/12/09 17:04:13 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/10 21:26:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ int	skip_whitespace(char *line, int i)
 int pipe_check(char *line, int *i_ptr, t_token *tok)
 {
 	int		i;
-	char	next_c;
 
 	i = *i_ptr;
-	next_c = line[i + 1];
 	if (line[i] == '|')
 	{
 		if (line[i + 1] == '|')
@@ -38,10 +36,8 @@ int pipe_check(char *line, int *i_ptr, t_token *tok)
 int redir_check(char *line, int *i_ptr, t_token *tok)
 {
 	int		i;
-	char	next_c;
 
 	i = *i_ptr;
-	next_c = line[i + 1];
 	if (line[i] == '>' && line[i + 1] == '>')
 	{
 		if (line[i + 2] == '>')
