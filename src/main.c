@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/10 16:10:07 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 17:06:09 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				free(line);
 				continue ;
 			}
+			printf("INSIDE PARSING\n");
+
 			data->list = parsing(tokens);
 
 			if (!data->list->head)
@@ -54,14 +56,19 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				print_cmd_list(data->list->head);
 				printf("data_list_size: %i\n", data->list->size);
 			}
-			if (heredocs(data, data->list->head) == SIGINT)
-			{
-				free(line);
-				data->return_value = 130;
-				continue ;
-			}
+			printf("INSIDE HEREDOC\n");
+
+			// if (heredocs(data, data->list->head) == SIGINT)
+			// {
+			// 	free(line);
+			// 	data->return_value = 130;
+			// 	continue ;
+			// }
 
 			// expansions
+
+			printf("INSIDE EXECUTOR\n");
+
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}

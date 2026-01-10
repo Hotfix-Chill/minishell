@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:37:55 by abita             #+#    #+#             */
-/*   Updated: 2026/01/07 15:39:38 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/10 16:56:06 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_stack *init_cmd_list(void)
 	lst->head = NULL;
 	lst->tail = NULL;
 	lst->size = 0;
-	return (lst); 
+	return (lst);
 }
 
 t_cmds *create_cmds(void)
@@ -35,6 +35,7 @@ t_cmds *create_cmds(void)
 	cmd->argv = NULL;
 	cmd->redirs = NULL;
 	cmd->pipe_after = false;
+	cmd->builtin = false;
 	cmd->next = NULL;
 	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 15:41:52 by abita             #+#    #+#             */
-/*   Updated: 2026/01/10 16:08:27 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:59:40 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,15 @@ t_stack *parsing(t_token_list *token)
 
 	cmd_list = init_cmd_list();
 	if (!cmd_list)
-		return (false);
+		return (NULL);
 	curr_cmd = create_cmds();
 	if (!curr_cmd)
-		free(cmd_list);
+		return (free(cmd_list), NULL);
 	if (parser_loop(token->head, curr_cmd, cmd_list) != EXIT_SUCCESS)
-		free_cmd_list(cmd_list);
+		return (free_cmd_list(cmd_list), NULL);
 	if ((!curr_cmd->argv && !curr_cmd->redirs))
-		free_cmd_list(cmd_list);
+		return (free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
-		free_cmd_list(cmd_list);
+		return (free_cmd_list(cmd_list), NULL);
 	return (cmd_list) ;
 }

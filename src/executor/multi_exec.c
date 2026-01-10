@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/10 16:11:37 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 17:03:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	multi_cmds(t_data *data, t_cmds *cmd)
 	i = 0;
 	while (i < data->list->size)
 	{
+		printf("INSIDE MULTPLE CMD LOOP\n");
+
 		if (i != data->list->size - 1)
 			if (pipe(data->fd.curr) < 0)
 				child_cleanup(1, "pipe fd.curr failed\n", data, cmd);
@@ -117,5 +119,7 @@ void	multi_cmds(t_data *data, t_cmds *cmd)
 			cmd = cmd->next;
 		i++;
 	}
+	printf("OUTSIDE LOOP\n");
+	
 	get_exit_status(data, pid);
 }
