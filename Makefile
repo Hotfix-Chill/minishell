@@ -15,21 +15,28 @@ OBJ_DIR     = obj
 
 SRCS = \
 	main.c \
-	signals.c \
-	cleanup.c \
-	init_env.c \
 	utils.c \
 	verbose.c \
-	executor/landing_file.c \
-	executor/single_exec.c \
-	executor/child_cleanup.c \
-	executor/redirections.c \
+	signals.c \
+	cleanup.c \
+	realloc.c \
+	init_env.c \
+	update_env.c \
+	builtins/cd.c \
+	builtins/pwd.c \
+	builtins/env.c  \
+	update_export.c \
+	builtins/echo.c \
+	builtins/exit.c \
+	builtins/unset.c \
 	executor/input.c \
-	executor/multi_exec.c \
+	builtins/export.c \
 	executor/heredoc.c \
-
-
-
+	executor/multi_exec.c \
+	executor/single_exec.c \
+	executor/landing_file.c \
+	executor/redirections.c \
+	executor/child_cleanup.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
