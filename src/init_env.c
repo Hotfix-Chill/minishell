@@ -1,16 +1,16 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: netrunner <netrunner@student.42.fr>        +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 19:34:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/11/14 04:09:42 by netrunner        ###   ########.fr       */
+/*   Updated: 2025/11/27 22:44:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 static char	*increment_shlvl(char *str)
 {
@@ -32,38 +32,45 @@ static char	*increment_shlvl(char *str)
 		return (free(level), NULL);
 	free(level);
 	if (VERBOSE)
-		printf("SHLVL\n\n%s\n", shlvl);
+		fprintf(stderr, "SHLVL\n\n%s\n", shlvl);
 	return (shlvl);
 }
 
 // add SHLVL, PWD, _= to environment if they have been removed by command env -u SHLVL
 static bool	add_env(t_data *data, int i)
 {
+	char *str;
+
 	if (!data->flag.shlvl)
 	{
-		data->env[i] = ft_strdup("SHLVL=1");
-		if (!data->env[i])
-			return (false);
 		i++;
+		data->env[i] = ft_strdup("SHLVL=1");
+		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
+			return (false);
 	}
 	if (!data->flag.pwd)
 	{
-		data->env[i] = ft_strjoin("PWD=", getcwd(NULL, 0));
-		if (!data->env[i])
-			return (false);
 		i++;
+		str = getcwd(NULL, 0);
+		if (!str)
+			return (false);
+		data->env[i] = ft_strjoin("PWD=", str);
+		free(str);
+		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
+			return (false);
 	}
 	if (!data->flag.last_cmd)
 	{
+		i++;
 		data->env[i] = ft_strdup("_=/usr/bin/env");
-		if (!data->env[i])
+		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}
 	return (true);
 }
 
-//counts envp for allocation and checks SHLVL, PWD, and _=
-int	loop_envp(t_data *data, char **envp)
+//counts envp for allocation and checks if SHLVL, PWD, and _= existis and if not it counts i for later allocation!
+static int	count_lines(t_data *data, char **envp)
 {
 	int	i;
 
@@ -89,12 +96,8 @@ int	loop_envp(t_data *data, char **envp)
 //copies enviroment from envp to data->env[i]
 static bool	extract_env(t_data *data, char **envp)
 {
-	int	i;
+	int i;
 
-	i = loop_envp(data, envp);
-	data->env = ft_calloc(i + 1, sizeof(char *));
-	if (!data->env)
-		return (false);
 	i = 0;
 	while (envp[i])
 	{
@@ -111,9 +114,33 @@ static bool	extract_env(t_data *data, char **envp)
 			data->env[i] = ft_strdup(envp[i]);
 		if (!data->env[i])
 			return (false);
+		if (!split_into_key_and_value(data, data->env[i], i))
+			return (false);
 		i++;
 	}
-	if (!add_env(data, i))
+	if (!add_env(data, i - 1))
+		return (false);
+	return (true);
+}
+bool	create_export_list(t_data *data)
+{
+	data->export[PWD].key = ft_strdup("PWD");
+	if (!data->export[PWD].key)
+		return (false);
+	data->export[PWD].value = getcwd(NULL, 0);
+	if (!data->export[PWD].value)
+		return (false);
+	data->export[SHLVL].key = ft_strdup("SHLVL");
+	if (!data->export[SHLVL].key)
+		return (false);
+	data->export[SHLVL].value = ft_strdup("1");
+	if (!data->export[SHLVL].value)
+		return (false);
+	data->export[LAST_CMD].key = ft_strdup("_");
+	if (!data->export[LAST_CMD].key)
+		return (false);
+	data->export[LAST_CMD].value = ft_strdup("/usr/bin/env");
+	if (!data->export[LAST_CMD].value)
 		return (false);
 	return (true);
 }
@@ -122,13 +149,14 @@ static bool	extract_env(t_data *data, char **envp)
 static bool	create_env(t_data *data)
 {
 	char	**env;
+	char	*str;
 
-	env = NULL;
-	data->env = ft_calloc(6, sizeof(char *));
-	if (!data->env)
-		return (false);
 	env = data->env;
-	env[PWD] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	str = getcwd(NULL, 0);
+	if (!str)
+		return (false);
+	env[PWD] = ft_strjoin("PWD=", str);
+	free(str);
 	if (!env[PWD])
 		return (false);
 	env[SHLVL] = ft_strdup("SHLVL=1");
@@ -136,6 +164,8 @@ static bool	create_env(t_data *data)
 		return (false);
 	env[LAST_CMD] = ft_strdup("_=/usr/bin/env");
 	if (!env[LAST_CMD])
+		return (false);
+	if (!create_export_list(data))
 		return (false);
 	return (true);
 }
@@ -145,12 +175,22 @@ bool	init_env(char **envp, t_data *data)
 {
 	if (!envp || !*envp)
 	{
-		if (!create_env(data))
+		data->env_len = 3;
+		data->export_len = data->env_len;
+		data->env = ft_calloc(data->env_len + 1, sizeof(char *));
+		if (!data->env)
+			return (false);
+		data->export = ft_calloc(data->export_len, sizeof(t_export));
+		if (!data->export || !create_env(data))
 			return (false);
 	}
 	else
 	{
-		if (!extract_env(data, envp))
+		data->env_len = count_lines(data, envp);
+		data->export_len = data->env_len;
+		data->env = ft_calloc(data->env_len + 1, sizeof(char *));
+		data->export = ft_calloc(data->export_len, sizeof(t_export));
+		if (!data->env || !data->export	|| !extract_env(data, envp))
 			return (false);
 	}
 	if (VERBOSE)

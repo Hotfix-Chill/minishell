@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 11:15:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/03 12:12:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/12/02 01:01:49 by pjelinek          #+#    #+#             */
+/*   Updated: 2025/12/11 16:19:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalpha(int str)
+void	ft_env(t_data *data)
 {
-	if ((str >= 97 && str <= 122) || (str >= 65 && str <= 90))
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		printf("%s\n", data->env[i++]);
+	}
+	data->return_value = 0;
 }
-
-/* int	main(void)
-{
-	int	a = 65;
-	int	b = '0';
-	int	c = '&';
-
-	printf("%d\n", ft_isalpha(a));
-	printf("%d\n", ft_isalpha(b));
-	printf("%d", ft_isalpha(c));
-} */

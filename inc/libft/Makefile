@@ -58,6 +58,9 @@ SRC := \
 	ft_calloc.c \
 	ft_atoi.c \
 	ft_itoa.c \
+	ft_skip_zeros.c \
+	ft_strcmp.c \
+	ft_atoll.c \
 	ft_putchar_fd.c \
 	ft_putstr_fd.c \
 	ft_putendl_fd.c \
@@ -65,6 +68,10 @@ SRC := \
 	ft_wordcount.c \
 	ft_putnbr_fd.c \
 	ft_lstnew_bonus.c \
+	ft_skip_whitespaces.c \
+	ft_skip_signs.c \
+	ll_overflow_check.c \
+	int_overflow_check.c \
 	ft_lstadd_front_bonus.c \
 	ft_lstadd_back_bonus.c \
 	ft_lstdelone_bonus.c \
@@ -72,7 +79,8 @@ SRC := \
 	ft_lstiter_bonus.c \
 	ft_lstlast_bonus.c \
 	ft_lstmap_bonus.c \
-	ft_lstsize_bonus.c
+	ft_lstsize_bonus.c \
+	gnl/get_next_line.c \
 
 OBJ := $(SRC:.c=.o)
 

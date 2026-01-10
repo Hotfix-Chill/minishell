@@ -1,47 +1,85 @@
-NAME = minishell
+NAME        = minishell
+CC          = cc
+CFLAGS      = -Wall -Werror -Wextra
+DEBUG_FLAGS = -g -DVERBOSE=1
+ALLOC_FLAG =  -g -DDEBUG_ALLOC
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
-INCLUDES = -I inc -I $(LIBFT_DIR)  # include dirs
-EXT_LIBS = -lreadline
+LIBFT_DIR   = inc/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-LIBFT_DIR = inc/libft/
-LIBFT = $(LIBFT_DIR)libft.a
+INCLUDES    = -I inc -I $(LIBFT_DIR)
+EXT_LIBS    = -lreadline
 
-SRCS = src/cleanup.c src/init_env.c src/main.c src/utils.c src/verbose.c
-OBJDIR = obj/
-OBJS = $(patsubst src/%.c,$(OBJDIR)%.o,$(SRCS))
+SRC_DIR     = src
+OBJ_DIR     = obj
+
+SRCS = \
+	main.c \
+	utils.c \
+	verbose.c \
+	signals.c \
+	cleanup.c \
+	realloc.c \
+	init_env.c \
+	update_env.c \
+	builtins/cd.c \
+	builtins/pwd.c \
+	builtins/env.c  \
+	update_export.c \
+	builtins/echo.c \
+	builtins/exit.c \
+	builtins/unset.c \
+	executor/input.c \
+	builtins/export.c \
+	executor/heredoc.c \
+	executor/multi_exec.c \
+	executor/single_exec.c \
+	executor/landing_file.c \
+	executor/redirections.c \
+	executor/child_cleanup.c \
+
+# baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 # ==========================
 # Build rules
 # ==========================
+
 all: $(LIBFT) $(NAME)
 
-# Object files
-$(OBJDIR)%.o: src/%.c inc/minishell.h
+# Debug-Build: CFLAGS erweitern und komplett neu bauen
+verbose: CFLAGS += $(DEBUG_FLAGS)
+verbose: re
+
+alloc: CFLAGS += $(ALLOC_FLAGS)
+alloc: re
+
+# Objektdateien
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c inc/minishell.h
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Build executable
+# Executable
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(EXT_LIBS) -o $(NAME)
 
-# Build libft
+# Libft bauen
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) all
 
 # ==========================
 # Clean rules
 # ==========================
+
 clean:
 	@rm -f $(OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all re clean fclean
+.PHONY: all debug clean fclean re

@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_skip_whitespaces.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 11:15:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/03 12:12:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/12/02 04:59:56 by pjelinek          #+#    #+#             */
+/*   Updated: 2025/12/02 05:25:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int str)
+void	ft_skip_whitespaces(const char **p)
 {
-	if ((str >= 97 && str <= 122) || (str >= 65 && str <= 90))
-		return (1);
-	return (0);
+	while (**p == 32 || (**p >= 9 && **p <= 13))
+		(*p)++;
 }
-
-/* int	main(void)
-{
-	int	a = 65;
-	int	b = '0';
-	int	c = '&';
-
-	printf("%d\n", ft_isalpha(a));
-	printf("%d\n", ft_isalpha(b));
-	printf("%d", ft_isalpha(c));
-} */

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 11:15:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/03 12:12:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/12/02 00:55:40 by pjelinek          #+#    #+#             */
+/*   Updated: 2025/12/09 14:13:01 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalpha(int str)
+void	ft_pwd(t_data *data)
 {
-	if ((str >= 97 && str <= 122) || (str >= 65 && str <= 90))
-		return (1);
-	return (0);
+	char *pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		cleanup(data, ERROR);
+	fprintf(stderr,"%s\n", pwd);
+	free(pwd);
+	data->return_value = 0;
 }
-
-/* int	main(void)
-{
-	int	a = 65;
-	int	b = '0';
-	int	c = '&';
-
-	printf("%d\n", ft_isalpha(a));
-	printf("%d\n", ft_isalpha(b));
-	printf("%d", ft_isalpha(c));
-} */

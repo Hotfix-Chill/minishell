@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 11:15:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/03 12:12:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/12/02 03:00:02 by pjelinek          #+#    #+#             */
+/*   Updated: 2025/12/02 05:46:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int str)
+long long	ft_atoll(const char *str)
 {
-	if ((str >= 97 && str <= 122) || (str >= 65 && str <= 90))
-		return (1);
-	return (0);
+	long long	num;
+	int			minus;
+	bool		minus_flag;
+
+	num = 0;
+	minus = 1;
+	ft_skip_whitespaces(&str);
+	minus_flag = ft_skip_signs(&str);
+	if (minus_flag)
+		minus = -1;
+	ft_skip_zeros(&str);
+	while (*str >= 48 && *str <= 57)
+	{
+		num = num * 10;
+		num = num + *str - '0';
+		str++;
+	}
+	return (minus * num);
 }
-
-/* int	main(void)
-{
-	int	a = 65;
-	int	b = '0';
-	int	c = '&';
-
-	printf("%d\n", ft_isalpha(a));
-	printf("%d\n", ft_isalpha(b));
-	printf("%d", ft_isalpha(c));
-} */
