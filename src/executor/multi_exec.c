@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/15 00:46:59 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:11:37 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ static void	child_process(t_data *data, t_cmds *cmd, int loop)
 			child_cleanup(1, "child[1] - dup2 fd.curr failed\n", data, cmd);
 		}
 	}
-	else if (loop > 0 && loop < data->list.size - 1)  // IN BETWEEN cmd 2 - (n-1)
+	else if (loop > 0 && loop < data->list->size - 1)  // IN BETWEEN cmd 2 - (n-1)
 	{
 		if (dup2(data->fd.prev[0], STDIN_FILENO) < 0)
 			child_cleanup(1, "child - dup2 fd.prev[0] failed\n", data, cmd);
 		if (dup2(data->fd.curr[1], STDOUT_FILENO) < 0)
 			child_cleanup(1, "child - dup2 fd.curr[1]] failed\n", data, cmd);
 	}
-	else if (loop == data->list.size - 1) // Last COMMAND
+	else if (loop == data->list->size - 1) // Last COMMAND
 	{
 		if (dup2(data->fd.prev[0], STDIN_FILENO) < 0)
 			child_cleanup(1, "child[last] - dup2 fd.prev[0] failed\n", data, cmd);
@@ -83,7 +83,7 @@ static void	parent_process(t_data *data, t_cmds *cmd, int loop)
 {
 	if (close(data->fd.prev[0]) < 0 || close(data->fd.prev[1]) < 0)
 		child_cleanup(1, "parent - close fd.prev failed\n", data, cmd);
-	if (loop != data->list.size - 1)
+	if (loop != data->list->size - 1)
 	{
 		data->fd.prev[0] = data->fd.curr[0];
 		data->fd.prev[1] = data->fd.curr[1];
@@ -101,9 +101,9 @@ void	multi_cmds(t_data *data, t_cmds *cmd)
 	if (pipe(data->fd.prev) < 0)
 		child_cleanup(1, "open pipe fd.prev failed\n", data, cmd);
 	i = 0;
-	while (i < data->list.size)
+	while (i < data->list->size)
 	{
-		if (i != data->list.size - 1)
+		if (i != data->list->size - 1)
 			if (pipe(data->fd.curr) < 0)
 				child_cleanup(1, "pipe fd.curr failed\n", data, cmd);
 		pid = fork();

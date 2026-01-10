@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/10 15:39:58 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:08:33 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,7 @@ typedef struct s_token_list
 	int 	size;
 }	t_token_list;
 
-typedef struct Token
-{
-	int 			typ;  //WORD, PIPE, REDIR_IN, REDIR_OUT, APPEND, HEREDOC
-	char			*content; //string, "ls", "-l", "out.txt"
-	struct Token	*next;
-}	t_token;
+
 
 typedef struct flag
 {
@@ -105,7 +100,7 @@ typedef struct flag
 	bool	pwd;
 	bool	last_cmd;
 	bool	redirect_fail;
-	bool	abort;				// for heredoc interruption
+	bool	equal_exists;
 
 }	t_flag;
 
@@ -171,7 +166,7 @@ typedef struct data
 	t_fds			fd;
 	t_exec			exec;
 	t_cmds			*cmd;
-	t_stack			list;
+	t_stack			*list;
 	t_flag			flag;
 	t_export		*export;
 	t_heredoc		heredoc;

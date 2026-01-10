@@ -22,20 +22,30 @@ SRCS = \
 	realloc.c \
 	init_env.c \
 	update_env.c \
+	lexer/lexer.c \
 	builtins/cd.c \
 	builtins/pwd.c \
-	builtins/env.c  \
+	builtins/env.c \
+	parser/parser.c \
 	update_export.c \
 	builtins/echo.c \
 	builtins/exit.c \
 	builtins/unset.c \
-	executor/input.c \
 	builtins/export.c \
 	executor/heredoc.c \
+	lexer/lexer_list.c \
+	parser/parser_cmd.c \
+	lexer/lexer_utils.c \
+	lexer/lexer_quotes.c \
+	lexer/lexer_checks.c \
+	parser/parser_redir.c \
 	executor/multi_exec.c \
+	lexer/lexer_content.c \
+	lexer/lexer_cleanup.c \
 	executor/single_exec.c \
-	executor/landing_file.c \
+	parser/parser_cleanup.c \
 	executor/redirections.c \
+	executor/landing_file.c \
 	executor/child_cleanup.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"

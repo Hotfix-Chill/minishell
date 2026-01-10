@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/13 08:58:46 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 15:43:16 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	cleanup(t_data *data, int exit_code)
 		{
 			unlink(data->heredoc.files[i++]);
 			if (VERBOSE)
-				fprintf(stderr, "HEREDOC FILE %s DELETED\n", data->heredoc.files[i - 1]);
+				printf("HEREDOC FILE %s DELETED\n", data->heredoc.files[i - 1]);
 		}
 		free_split(data->heredoc.files);
 		ft_memset(&data->heredoc, 0, sizeof(t_heredoc));
@@ -129,6 +129,6 @@ void	cleanup(t_data *data, int exit_code)
 		return ;
 	data->return_value = exit_code;
 	if (VERBOSE)
-		fprintf(stderr, "CLEANUP CALLED WITH EXIT CODE: %d\n", data->return_value);
+		printf("CLEANUP CALLED WITH EXIT CODE: %d\n", data->return_value);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 22:12:31 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/13 08:12:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:09:53 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ bool	exec_builtins(t_data *data, t_cmds *cmd)
 void	executor(t_cmds *cmd, t_data *data)
 // void	executor(char *line, t_data *data)
 {
-	if (data->list.size == 1 && cmd->builtin)
-		exec_builtins(data, cmd);
-	else if (data->list.size == 1)
+	if (data->list->size == 1)
 		single_cmd(data, cmd);
-	else if (data->list.size > 1)
+	else if (data->list->size > 1)
 		multi_cmds(data, cmd);
 	else
 		return ;

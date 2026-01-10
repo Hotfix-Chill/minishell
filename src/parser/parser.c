@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 15:41:52 by abita             #+#    #+#             */
-/*   Updated: 2026/01/07 15:39:22 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/10 16:08:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	P​arser that processes the tokens according to a grammar 
+	P​arser that processes the tokens according to a grammar
 	and build the command table.
 
 	Parser's Job:
@@ -35,7 +35,7 @@
 
 		Token: "hello"
 		Before: current_cmd->argv = ["echo", NULL]
-		After:  current_cmd->argv = ["echo", "<<", "file name", NULL]		
+		After:  current_cmd->argv = ["echo", "<<", "file name", NULL]
 */
 
 static int handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, t_stack *cmd_list)
@@ -79,7 +79,7 @@ static int parser_loop(t_token *tok, t_cmds *curr_cmd, t_stack *cmd_list)
 				return (EXIT_FAILURE);
 			tok = tok->next;
 		}
-		else 
+		else
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -93,15 +93,15 @@ t_stack *parsing(t_token_list *token)
 
 	cmd_list = init_cmd_list();
 	if (!cmd_list)
-		return (NULL);
+		return (false);
 	curr_cmd = create_cmds();
 	if (!curr_cmd)
-		return (free(cmd_list), NULL);
+		free(cmd_list);
 	if (parser_loop(token->head, curr_cmd, cmd_list) != EXIT_SUCCESS)
-		return (free_cmd_list(cmd_list), NULL);
+		free_cmd_list(cmd_list);
 	if ((!curr_cmd->argv && !curr_cmd->redirs))
-		return (free_cmd_list(cmd_list), NULL);
+		free_cmd_list(cmd_list);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
-		return (free_cmd_list(cmd_list), NULL);
-	return (cmd_list);
+		free_cmd_list(cmd_list);
+	return (cmd_list) ;
 }
