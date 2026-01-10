@@ -12,7 +12,20 @@
 
 #include "minishell.h"
 
+void free_tokens(char **tokens)
+{
+	int i;
 
+	if (!tokens)
+		return (NULL);
+	i = 0;
+	while (tokens[i])
+	{
+		free(tokens[i]);
+		i++;
+	}	
+	free(tokens);
+}
 
 void	free_split(char **split)
 {

@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   lexer_cleanup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 14:23:38 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/05/15 14:38:27 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/12/09 16:43:05 by abita             #+#    #+#             */
+/*   Updated: 2025/12/09 17:03:40 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void *cleanup_token(t_token *tok)
 {
-	size_t	i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
+	if (tok)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		free(tok->content);
+		free(tok);
 	}
-	ft_putchar_fd('\n', fd);
+	return (NULL);
 }
 
-/* int	main()
+void *cleanup_all(t_token_list *lst, t_token *tok)
 {
-	char *src = NULL;
-	int fd = 1;
-	ft_putendl_fd(src, fd);
-	return (0);
-} */
+	cleanup_token(tok);
+	free_token_list(lst);
+	return (NULL);
+}

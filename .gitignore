@@ -2,3 +2,11 @@
 minishell
 minishell_debug
 .vscode
+src/lexer/Makefile
+src/lexer/tests/
+src/parser/Makefile
+src/parser/lexer/
+src/parser/readline.supp
+src/parser/tests/
+readline.supp
+src/lexer/readline.supp
