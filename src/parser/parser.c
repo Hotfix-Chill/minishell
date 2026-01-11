@@ -83,12 +83,12 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list)
 	}
 	return (EXIT_SUCCESS);
 }
-static bool check_builtins(t_stack *lst)
+static void check_builtins(t_stack *lst)
 {
 	t_cmds *cmd;
 
 	if (!lst)
-		return (false);
+		return ;
 	cmd = lst->head;
 	while (cmd)
 	{
@@ -116,7 +116,6 @@ static bool check_builtins(t_stack *lst)
 			cmd->builtin = false;
 		cmd = cmd->next;
 	}
-	return (true);
 }
 
 // taking the tooken list from the header
@@ -137,7 +136,6 @@ t_stack *parsing(t_token_list *token)
 			return (free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
 		return (free_cmd_list(cmd_list), NULL);
-	if (!check_builtins(cmd_list))
-		return (free_cmd_list(cmd_list), NULL);
+	check_builtins(cmd_list);
 	return (cmd_list);
 }
