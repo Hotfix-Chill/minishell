@@ -36,6 +36,14 @@ static void free_redirs(t_redirs *r)
 		r = next;
 	}
 }
+void free_cmds(t_cmds *cmd)
+{
+	if (!cmd)
+		return ;
+	free_arg(cmd->argv);
+	free_redirs(cmd->redirs);
+	free(cmd);
+}
 
 void free_cmd_list(t_stack *lst)
 {
@@ -48,9 +56,7 @@ void free_cmd_list(t_stack *lst)
 	while (cur)
 	{
 		next = cur->next;
-		free_arg(cur->argv);
-		free_redirs(cur->redirs);
-		free(cur);
+		free_cmds(cur);
 		cur = next;
 	}
 	free(lst);
