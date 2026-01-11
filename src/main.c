@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/11 08:05:25 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/11 15:21:12 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			if (VERBOSE)
 				print_token_list(tokens);
 
-
-
-
-
 			// PARSING
 
 			data->list = parsing(tokens);
@@ -61,8 +57,6 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				print_cmd_list(data->list->head);
 				printf("data_list_size: %i\n", data->list->size);
 			}
-
-
 
 
 			//HERDOCS
