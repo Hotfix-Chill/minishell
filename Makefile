@@ -15,30 +15,29 @@ OBJ_DIR     = obj
 
 SRCS = \
 	main.c \
-	utils.c \
-	verbose.c \
-	signals.c \
-	cleanup.c \
-	realloc.c \
-	init_env.c \
-	update_env.c \
 	lexer/lexer.c \
 	builtins/cd.c \
+	utils/utils.c \
 	builtins/pwd.c \
 	builtins/env.c \
+	utils/signals.c \
+	utils/realloc.c \
+	utils/verbose.c \
 	parser/parser.c \
-	update_export.c \
 	builtins/echo.c \
 	builtins/exit.c \
+	utils/init_env.c \
 	builtins/unset.c \
 	builtins/export.c \
 	executor/heredoc.c \
 	lexer/lexer_list.c \
 	parser/parser_cmd.c \
 	lexer/lexer_utils.c \
+	utils/main_cleanup.c \
 	lexer/lexer_quotes.c \
 	lexer/lexer_checks.c \
 	parser/parser_redir.c \
+	builtins/update_env.c \
 	executor/multi_exec.c \
 	lexer/lexer_content.c \
 	lexer/lexer_cleanup.c \
@@ -46,6 +45,7 @@ SRCS = \
 	parser/parser_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \
+	builtins/update_export.c \
 	executor/child_cleanup.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
