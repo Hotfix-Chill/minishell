@@ -92,8 +92,6 @@ typedef struct s_token_list
 	int 	size;
 }	t_token_list;
 
-
-
 typedef struct flag
 {
 	bool	shlvl;
@@ -293,6 +291,7 @@ t_stack *init_cmd_list(void);
 t_cmds *create_cmds(void);
 int add_cmd_to_list(t_stack *lst, t_cmds *node);
 int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content);
+void free_cmds(t_cmds *cmd);
 void free_cmd_list(t_stack *lst);
 
 // parser redir
