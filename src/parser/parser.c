@@ -92,8 +92,12 @@ static bool check_builtins(t_stack *lst)
 	cmd = lst->head;
 	while (cmd)
 	{
-		if (!cmd || !cmd->argv || !cmd->argv[0])
-		return (false);
+		if (!cmd->argv || !cmd->argv[0])
+		{
+			cmd->builtin = false;
+			cmd = cmd->next;
+			continue;
+		}
 		if (ft_strcmp(cmd->argv[0], "echo") == 0)
 			cmd->builtin = true;
 		else if (ft_strcmp(cmd->argv[0], "cd") == 0)
@@ -128,11 +132,12 @@ t_stack *parsing(t_token_list *token)
 	if (!curr_cmd)
 		return (free(cmd_list), NULL);
 	if (parser_loop(token->head, &curr_cmd, cmd_list) != EXIT_SUCCESS)
-		return (free_cmd_list(cmd_list),NULL);
+		return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if ((!curr_cmd->argv && !curr_cmd->redirs))
-			return (free_cmd_list(cmd_list),NULL);
+			return (free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
-		return (free_cmd_list(cmd_list),NULL);
-	check_builtins(cmd_list);
-	return (cmd_list) ;
+		return (free_cmd_list(cmd_list), NULL);
+	if (!check_builtins(cmd_list))
+		return (free_cmd_list(cmd_list), NULL);
+	return (cmd_list);
 }
