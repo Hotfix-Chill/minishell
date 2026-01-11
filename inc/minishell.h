@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/10 16:08:33 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/11 08:06:55 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ typedef struct cmds
 	char		**argv;
 	t_redirs	*redirs;
 	bool		builtin;		//double check
-	bool		pipe_after;
 	struct cmds	*next;
 }	t_cmds;
 
@@ -238,6 +237,11 @@ void	print_env(t_data *data);
 void	init_single_command_struct(t_data *data);
 void	*debug_build_commands(t_data *data);
 void	print_cmd_list(t_cmds *head);
+
+
+
+void	print_token_list(t_token_list *tokens);
+
 
 
 ///////////////////////////////////////////////////////////

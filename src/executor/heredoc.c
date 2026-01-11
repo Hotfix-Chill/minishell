@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/10 17:11:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/11 07:42:02 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ static void	create_file(t_data *data, t_redirs *redir)
 	fd = -1;
 	if (!redir)
 		return ;
-	data->heredoc.files = ft_calloc(data->heredoc.count + 1, sizeof(char *));
-	if (!data->heredoc.files)
-		cleanup(data, ERROR);
+
 	index = data->heredoc.index;
 	heredoc_name = get_filename(index);
 	data->heredoc.files[index] = ft_strdup(heredoc_name);
@@ -105,6 +103,9 @@ int	heredocs(t_data *data, t_cmds *cmd)
 	t_cmds		*curr;
 	t_redirs	*redirs;
 
+	data->heredoc.files = ft_calloc(data->heredoc.count + 1, sizeof(char *));
+	if (!data->heredoc.files)
+		cleanup(data, ERROR);
 	curr = cmd;
 	while (curr)
 	{

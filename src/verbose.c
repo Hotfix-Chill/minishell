@@ -6,11 +6,52 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 19:34:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/10 16:37:34 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/11 08:07:10 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* void	print_split(char **argv)
+{
+    int i = 0;
+    while (argv[i])
+    {
+        printf("ARGV[%i]: %s\n", i, argv[i]);
+        i++;
+    }
+    return ;
+}
+
+
+void print_cmd_list(t_stack *list)
+{
+
+    t_cmds *cur = list->head;
+
+    while (cur)
+    {
+        print_split(cur->argv);
+        cur = cur->next;
+    }
+    return ;
+
+} */
+
+
+
+void	print_token_list(t_token_list *tokens)
+{
+    t_token_list *curr = tokens;
+    t_token *cur = curr->head;
+    while (cur)
+    {
+        printf("Tokentyp: %d, Content: %s\n", cur->typ, cur->content);
+        cur = cur->next;
+    }
+    return ;
+}
+
 
 static const char *redir_type_to_str(int type)
 {
@@ -60,9 +101,6 @@ static void print_one_cmd(t_cmds *cmd, int idx)
     }
     if (!cmd->redirs)
         printf("  (no redirections)\n");
-
-    if (cmd->pipe_after)
-        printf("\n  PIPE  ---> cmd %d\n", idx + 1);
 
     printf("\n");
 }

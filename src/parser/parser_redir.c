@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:44:31 by abita             #+#    #+#             */
-/*   Updated: 2026/01/07 15:39:46 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/11 06:46:23 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token)
 	return (-1);
 	new_redirs = init_redir();
 	if (!new_redirs)
-	return (-1);
+		return (-1);
 	new_redirs->typ = redir_token->redir;
 	new_redirs->filename = ft_strdup(filename_token->content);
 	if (!new_redirs->filename)
