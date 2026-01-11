@@ -83,26 +83,35 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list)
 	}
 	return (EXIT_SUCCESS);
 }
-static bool check_builtins(t_cmds *cmd)
+static bool check_builtins(t_stack *lst)
 {
-	if (!cmd || !cmd->argv || !cmd->argv[0])
+	t_cmds *cmd;
+
+	if (!lst)
 		return (false);
-	if (ft_strcmp(cmd->argv[0], "echo") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-		cmd->builtin = true;
-	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
-		cmd->builtin = true;
-	else
-		cmd->builtin = false;
+	cmd = lst->head;
+	while (cmd)
+	{
+		if (!cmd || !cmd->argv || !cmd->argv[0])
+		return (false);
+		if (ft_strcmp(cmd->argv[0], "echo") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "cd") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "export") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "unset") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "env") == 0)
+			cmd->builtin = true;
+		else if (ft_strcmp(cmd->argv[0], "exit") == 0)
+			cmd->builtin = true;
+		else
+			cmd->builtin = false;
+		cmd = cmd->next;
+	}
 	return (true);
 }
 
@@ -124,6 +133,6 @@ t_stack *parsing(t_token_list *token)
 			return (free_cmd_list(cmd_list),NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
 		return (free_cmd_list(cmd_list),NULL);
-	check_builtins(curr_cmd);
+	check_builtins(cmd_list);
 	return (cmd_list) ;
 }
