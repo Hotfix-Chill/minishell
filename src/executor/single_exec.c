@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2025/12/15 00:47:15 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:46:13 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 
 	if (!!cmd->redirs) // if redirs type is NULL dont go in
 		handle_redirections(data, cmd);
-	if (exec_builtins(data, cmd))
+	if (cmd->builtin)
 	{
+		exec_builtins(data, cmd);
 		//ft_close(data);
 		cleanup(data, OK_EXIT);
 	}

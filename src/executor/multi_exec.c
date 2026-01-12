@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/11 07:50:08 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:54:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	get_exit_status(t_data *data, int pid)
 	init_signals_prompt();
 	data->return_value = exit_code;				// use for $? in expander
 	if (VERBOSE)
-		printf("ExitCode: %i\n", data->return_value);
+		printf("ExitCode Parent: %i\n", data->return_value);
 }
 void	ft_close(t_data *data)
 {
@@ -93,7 +93,6 @@ static void	parent_process(t_data *data, t_cmds *cmd, int loop)
 
 void	multi_cmds(t_data *data, t_cmds *cmd)
 {
-
 	int		i;
 	pid_t	pid;
 
