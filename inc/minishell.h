@@ -157,6 +157,7 @@ typedef struct data
 	char			*tmp;
 	char			**path_list;
 	char			**env;
+	char			*pwd;
 	size_t			env_len;
 	size_t			export_len;
 	unsigned int	return_value;		// handle in expander for echo $?

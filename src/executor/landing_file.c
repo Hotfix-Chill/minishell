@@ -42,8 +42,11 @@ void	executor(t_cmds *cmd, t_data *data)
 // void	executor(char *line, t_data *data)
 {
 	printf("INSIDE EXEC\n");
+
+	if (data->list->size == 1 && cmd->builtin)
+		exec_builtins(data, cmd);
 	
-	if (data->list->size == 1)
+	else if (data->list->size == 1)
 		single_cmd(data, cmd);
 	else if (data->list->size > 1)
 		multi_cmds(data, cmd);
