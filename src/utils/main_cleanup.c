@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   main_cleanup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/11 08:04:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:30:57 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,6 @@ void	cleanup(t_data *data, int exit_code)
 		return ;
 	data->return_value = exit_code;
 	if (VERBOSE)
-		printf("CLEANUP CALLED WITH EXIT CODE: %d\n", data->return_value);
+		printf("CLEANUP EXIT CODE: %d\n", data->return_value);
 	exit(exit_code);
 }
