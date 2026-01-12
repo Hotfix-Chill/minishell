@@ -22,27 +22,22 @@
 #include "minishell.h"
 
 
-char **expan_str(const char *str, t_data *data)
+char **expan_str(const char *args, t_data *data)
 {
 	int i;
 	char *result;
 
 	// to check if it needs expansion
-	if (!has_variable(str))
-		return (ft_strdup(str)); // if there are no variables then just copy ..
+	if (!has_variable(args))
+		return (ft_strdup(args)); // if there are no variables then just copy ..
 	result = ft_strdup(""); //.. start w empty str
 	i = 0;
-	while (str[i])
+	while (args[i])
 	{
-		if (str[i] == '$' && str[i + 1])
+		if (args[i] == '$' && args[i + 1])
 		{
 			//so literaly here i find a variable, just extract the var, 
 			//check it and then add the value to the result
-		}
-		else
-		{
-			append_char(&result, str[i]);
-			i++;
 		}
 	}
 	return (result);
