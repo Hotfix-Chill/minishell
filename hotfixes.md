@@ -3,15 +3,12 @@
 
 
 $ exit ""
-minishell: parsing error
+
+Minshell Output: minishell: parsing error
 
 
-exit ""
-    Output: bash: exit: : numeric argument required
-    Behavior: An empty string is treated as non-numeric. The shell exits with status 2.
-
-
-
+Bash Output: bash: exit: : numeric argument required
+Behavior is handled in builtin exit. The shell exits with status 2.
 
 
 
