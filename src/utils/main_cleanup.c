@@ -110,6 +110,11 @@ void	cleanup(t_data *data, int exit_code)
 		cmd_lstclear(&cmd);
 		ft_memset(&data->cmd, 0, sizeof(t_cmds));
 	}
+	if (data->list)
+	{
+		free_cmd_list(data->list);
+		data->list = NULL;
+	}
 	if (data->heredoc.files)
 	{
 		int i = 0;
