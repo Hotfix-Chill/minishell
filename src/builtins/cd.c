@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/10 15:06:51 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:10:23 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,29 @@ void	save_free(char **tmp, char **arr)
 void	change_pwd_path(t_data *data, char *path)
 {
 	int		i;
-	char	*curr_dir;
+	char	*dir;
 	char	*tmp;
+	char	*pwd;
 
 	i = 0;
-	curr_dir = NULL;
+	dir = NULL;
 	tmp = NULL;
 	while (data->env[i])
 	{
 		if (ft_strncmp(data->env[i], "PWD=", 4) == 0)
 		{
-			curr_dir = getcwd(NULL, 0);
-			printf("dir: %s\npath: %s\n", curr_dir, path);
-			tmp = ft_strjoin(curr_dir, "/");
-			data->pwd = ft_strjoin(tmp, path);
-			printf("pwd: %s\n", data->pwd);
-			if (!curr_dir || !tmp)
+			dir = getcwd(NULL, 0);
+			tmp = ft_strjoin(dir, "/");
+			pwd = ft_strjoin(tmp, path);
+			if (!dir || !tmp || !pwd)
 				break ;
 			free(data->env[i]);
-			data->env[i] = curr_dir;
+			data->env[i] = pwd;
 			break ;
 		}
 		i++;
 	}
-	//save_free(&tmp, &curr_dir);
+	save_free(&tmp, &dir);
 }
 
 char	*find_home_path(t_data *data)
@@ -56,7 +55,6 @@ char	*find_home_path(t_data *data)
 
 
 	i = 0;
-	printf("ENTERING FUNCT\n");
 	while (data->env[i])
 	{
 		if (ft_memcmp(data->env[i], "HOME=", 5) == 0)
@@ -68,8 +66,6 @@ char	*find_home_path(t_data *data)
 		fprintf(stderr, "minishell: cd: HOME not set\n");
 		data->return_value = 1;
 	}
-	printf("EXITING FUNCT\n");
-	printf("path in find>home: %s \n", path);
 	return (path);
 }
 
@@ -80,7 +76,7 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 	path = NULL;
 	if (!cmd->argv[1])
 	{
-		data->pwd = find_home_path(data);
+		path = find_home_path(data);
 		if (!path)
 			return ;
 	}
@@ -91,15 +87,13 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 		return ;
 	}
 	else
-		path = getcwd(NULL, 0);
-	change_pwd_path(data, cmd->argv[1]);
-	printf("data INLINE pwd %s\n", data->pwd);
-	if (chdir(data->pwd) == -1)
+		path = cmd->argv[1];
+	if (chdir(path) == -1)
 	{
 		perror("minishell: cd: ");
 		data->return_value = 1;
 		return ;
 	}
-	data->pwd = NULL;
+	change_pwd_path(data, path);
 	data->return_value = 0;
 }
