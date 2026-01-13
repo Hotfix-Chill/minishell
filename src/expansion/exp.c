@@ -22,37 +22,49 @@
 #include "minishell.h"
 
 
-char **expan_str(const char *args, t_data *data)
+char *expan_str(const char *args, t_data *data)
 {
 	int i;
 	char *result;
+	(void)data;
 
-	// to check if it needs expansion
-	if (!has_variable(args))
-		return (ft_strdup(args)); // if there are no variables then just copy ..
 	result = ft_strdup(""); //.. start w empty str
+	printf("ENTER EXPAN_STR\n");
 	i = 0;
 	while (args[i])
 	{
-		if (args[i] == '$' && args[i + 1])
+		if (args[i] == '$' && (args[i + 1] != ' ' || args[i + 1] != '\0'))
 		{
-			//so literaly here i find a variable, just extract the var, 
-			//check it and then add the value to the result
+			i++;
+			result = ft_strdup(args + 1);
+			printf("new_var: %s\n", result);
 		}
+		i++;
 	}
+	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strncmp(data->env[i], result, ft_strlen(result) - 1) == 0)
+		{
+			
+		}
+		i++;
+	}
+	printf("EXITING EXPAN_STR\n");
 	return (result);
 }
 
 int expansion(t_stack *cmd_list, t_data *data)
 {
 	int i;
-	char **expanded;
+	char *expanded;
 	t_cmds *cmd;
 
 	if (!cmd_list || !data)
 		return (EXIT_FAILURE);
 	i = 0;
 	cmd = cmd_list->head;
+	printf("ENTER\n");
 	while (cmd)
 	{
 		i = 0;
@@ -68,14 +80,15 @@ int expansion(t_stack *cmd_list, t_data *data)
 			i++;
 		}
 		// here to expand redirections
-		while (cmd->redirs)
-		{
-			expanded = expan_str(cmd->redirs->filename, data); // check if failure
-			free(cmd->redirs->filename);
-			cmd->redirs->filename = expanded;
-			cmd->redirs = cmd->redirs->next;
-		}
+		// while (cmd->redirs)
+		// {
+		// 	expanded = expan_str(cmd->redirs->filename, data); // check if failure
+		// 	free(cmd->redirs->filename);
+		// 	cmd->redirs->filename = expanded;
+		// 	cmd->redirs = cmd->redirs->next;
+		// }
 		cmd = cmd->next;
 	}
+	printf("EXITING\n");
 	return (EXIT_SUCCESS);
 }

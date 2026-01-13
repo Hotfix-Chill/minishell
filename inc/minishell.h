@@ -303,4 +303,9 @@ t_stack *parsing(t_token_list *token);
 
 ///////////////////////////////////////////////////////////// END OF PARSER
 
+/// EXPANDER ///
+int expansion(t_stack *cmd_list, t_data *data);
+
+
+
 #endif
