@@ -49,7 +49,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 
 			// PARSING
 
-			data->list = parsing(tokens);
+			data->list = parsing(tokens, data);
 			if (!data->list)
 				cleanup(data, OK_EXIT);
  			if (VERBOSE)
