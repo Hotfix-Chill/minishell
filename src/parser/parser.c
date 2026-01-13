@@ -58,7 +58,7 @@ static int handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, t_stack *cmd_li
 	return (EXIT_SUCCESS);
 }
 
-static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list)
+static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_data *data)
 {
 	while (tok)		//loops through all tokens and processes them based on their type
 	{
@@ -68,7 +68,7 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list)
 		{
 			if (!tok->next || tok->next->typ != TOKEN_WORD)
 				return (EXIT_FAILURE);
-			if (add_redir_to_cmd(*curr_cmd, tok, tok->next) != EXIT_SUCCESS)
+			if (add_redir_to_cmd(*curr_cmd, tok, tok->next, data) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next->next;
 		}
@@ -83,12 +83,12 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list)
 	}
 	return (EXIT_SUCCESS);
 }
-static bool check_builtins(t_stack *lst)
+static void check_builtins(t_stack *lst)
 {
 	t_cmds *cmd;
 
 	if (!lst)
-		return (false);
+		return ;
 	cmd = lst->head;
 	while (cmd)
 	{
@@ -116,11 +116,10 @@ static bool check_builtins(t_stack *lst)
 			cmd->builtin = false;
 		cmd = cmd->next;
 	}
-	return (true);
 }
 
 // taking the tooken list from the header
-t_stack *parsing(t_token_list *token)
+t_stack *parsing(t_token_list *token, t_data *data)
 {
 	t_cmds			*curr_cmd;
 	t_stack			*cmd_list;
@@ -131,13 +130,12 @@ t_stack *parsing(t_token_list *token)
 	curr_cmd = create_cmds();		// allocates t_cmds
 	if (!curr_cmd)
 		return (free(cmd_list), NULL);
-	if (parser_loop(token->head, &curr_cmd, cmd_list) != EXIT_SUCCESS)
+	if (parser_loop(token->head, &curr_cmd, cmd_list, data) != EXIT_SUCCESS)
 		return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if ((!curr_cmd->argv && !curr_cmd->redirs))
-			return (free_cmd_list(cmd_list), NULL);
+			return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
 		return (free_cmd_list(cmd_list), NULL);
-	if (!check_builtins(cmd_list))
-		return (free_cmd_list(cmd_list), NULL);
+	check_builtins(cmd_list);
 	return (cmd_list);
 }
