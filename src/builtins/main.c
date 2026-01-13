@@ -144,7 +144,7 @@ int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num)
 	s2 = (unsigned char *) ptr2;
 	i = 0;
 	if (!s1 || !s2)
-		return (0)
+		return (0);
 	while (i < num)
 	{
 		if (s1[i] != s2[i])

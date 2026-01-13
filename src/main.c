@@ -58,9 +58,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				printf("data_list_size: %i\n", data->list->size);
 			}
 
-
 			//HERDOCS
-
 			if (heredocs(data, data->list->head) == SIGINT)
 			{
 				free(line);
@@ -69,9 +67,8 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			}
 
 			// expansions
-
-
-
+			// exp();
+		
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}

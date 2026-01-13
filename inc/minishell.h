@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/11 08:06:55 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:38:58 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ typedef struct data
 	char			*tmp;
 	char			**path_list;
 	char			**env;
+	char			*pwd;
 	size_t			env_len;
 	size_t			export_len;
 	unsigned int	return_value;		// handle in expander for echo $?
@@ -186,8 +187,7 @@ void		single_cmd(t_data *data, t_cmds *cmd);
 void		handle_errno(t_data *data, t_cmds *cmd, int error_code);
 void		child_cleanup(int exit_code, char *message, t_data *data, t_cmds *cmd);
 void		handle_redirections(t_data *data, t_cmds *cmd);
-void		executor(t_cmds *cmd, t_data *data); ////DELETE LATER, JUST DEBUG. final version below
-//void		executor(char *line, t_data *data); // FINAL one
+void		executor(t_cmds *cmd, t_data *data);
 void		multi_cmds(t_data *data, t_cmds *cmd);
 void		ft_close(t_data *data);
 void		get_exit_status(t_data *data, int pid);

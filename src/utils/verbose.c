@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 19:34:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/11 08:07:10 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:43:47 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ static const char *redir_type_to_str(int type)
     return "UNKNOWN";
 }
 
-
-
-
 static void print_one_cmd(t_cmds *cmd, int idx)
 {
     int     i;
@@ -110,12 +107,17 @@ void print_cmd_list(t_cmds *head)
     int   i;
     t_cmds *cur;
 
-    puts("======= PARSED COMMAND STRUCTURE =======\n");
+    puts("\n======= PARSED COMMAND STRUCTURE =======\n");
     cur = head;
     i = 1;
     while (cur)
     {
         print_one_cmd(cur, i);
+        printf("\tbuiltin\n");
+        if (cur->builtin)
+            printf("  -> TRUE\n");
+        else
+            printf("  -> FALSE\n");
         cur = cur->next;
         i++;
     }
