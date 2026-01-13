@@ -25,7 +25,8 @@ t_redirs *init_redir(void)
 	return (redirs);
 }
 
-int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token)
+int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
+	t_token *filename_token, t_data *data)
 {
 	t_redirs *new_redirs;
 	t_redirs *last;
@@ -40,7 +41,10 @@ int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token)
 	if (!new_redirs->filename)
 		return (free(new_redirs), -1);
 	if (new_redirs->typ == REDIR_HEREDOC)
+	{
 		new_redirs->heredoc = true;
+		data->heredoc.count++;
+	}
 	if (!cmd->redirs)
 		cmd->redirs = new_redirs;
 	else

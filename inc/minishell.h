@@ -295,11 +295,11 @@ void free_cmds(t_cmds *cmd);
 void free_cmd_list(t_stack *lst);
 
 // parser redir
-int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token);
+int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, t_token *filename_token, t_data *data);
 t_redirs *init_redir(void);
 
 // main parser
-t_stack *parsing(t_token_list *token);
+t_stack *parsing(t_token_list *token, t_data *data);
 
 ///////////////////////////////////////////////////////////// END OF PARSER
 
