@@ -33,9 +33,13 @@ char *expan_str(const char *args, t_data *data)
 	i = 0;
 	while (args[i])
 	{
-		if (args[i] == '$' && (args[i + 1] != ' ' || args[i + 1] != '\0'))
+		if (args[i] == '$' && (!ft_isspace(args[i + 1]) || args[i + 1] != '\0'))
 		{
-			i++;
+			if (args[i + 1] == '?' )
+			{
+				printf("%u\n", data->return_value);
+				return (NULL);
+			}
 			result = ft_strdup(args + 1);
 			printf("new_var: %s\n", result);
 		}
@@ -44,9 +48,9 @@ char *expan_str(const char *args, t_data *data)
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], result, ft_strlen(result) - 1) == 0)
+		if (ft_strncmp(data->env[i], result, ft_strlen(result) + 1) == 61)
 		{
-			
+			take data->[i] entry and loop to '=' and the substring after = and save it into
 		}
 		i++;
 	}
