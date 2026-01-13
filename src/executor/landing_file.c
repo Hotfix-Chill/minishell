@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 22:12:31 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 00:50:51 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:41:47 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	executor(t_cmds *cmd, t_data *data)
 		single_cmd(data, cmd);
 	else if (data->list->size > 1)
 		multi_cmds(data, cmd);
-	/* else
-		return ; */
+	else
+		return ;
 }

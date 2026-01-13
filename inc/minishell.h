@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/12 22:38:58 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:32:03 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/ioctl.h>
 # include "libft/libft.h"
 
 typedef enum e_redir_type
