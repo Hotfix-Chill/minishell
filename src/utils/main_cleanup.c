@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/12 22:30:57 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/13 01:11:43 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,15 @@ void	cleanup(t_data *data, int exit_code)
 		cmd_lstclear(&cmd);
 		ft_memset(&data->cmd, 0, sizeof(t_cmds));
 	}
+	if (data->list)
+	{
+		free_cmd_list(data->list);
+		data->list = NULL;
+	}
 	if (data->heredoc.files)
 	{
 		int i = 0;
-		while (i < data->heredoc.count)
+		while (i < data->heredoc.index)
 		{
 			unlink(data->heredoc.files[i++]);
 			if (VERBOSE)
