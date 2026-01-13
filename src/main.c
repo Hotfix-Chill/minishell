@@ -55,7 +55,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				printf("minishell: parsing error\n");
 				free_token_list(tokens);
 				free(line);
-				// data->return_value = ?;
+				data->return_value = 2;
 				continue ;
 			}
  			if (VERBOSE)
