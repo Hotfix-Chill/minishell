@@ -40,24 +40,30 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			// handeling tokenizing error incase of allocation failure
 			if (!tokens)
 			{
-				printf("token failure\n");
+				printf("minishell: tokenization failed\n");
 				free(line);
+				data->return_value = 1;
 				continue ;
 			}
 			if (VERBOSE)
 				print_token_list(tokens);
 
 			// PARSING
-
 			data->list = parsing(tokens, data);
 			if (!data->list)
-				cleanup(data, OK_EXIT);
+			{
+				printf("minishell: parsing error\n");
+				free_token_list(tokens);
+				free(line);
+				// data->return_value = ?;
+				continue ;
+			}
  			if (VERBOSE)
 			{
 				print_cmd_list(data->list->head);
 				printf("data_list_size: %i\n", data->list->size);
 			}
-
+			free_token_list(tokens);
 
 			//HERDOCS
 
