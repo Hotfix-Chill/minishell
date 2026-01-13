@@ -66,7 +66,6 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			free_token_list(tokens);
 
 			//HERDOCS
-
 			if (heredocs(data, data->list->head) == SIGINT)
 			{
 				free(line);
@@ -75,9 +74,8 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			}
 
 			// expansions
-
-
-
+			// exp();
+		
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}
