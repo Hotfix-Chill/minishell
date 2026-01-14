@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 20:32:03 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:49:55 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,9 @@ bool		check_entry_export(t_data *data, char *key, char *value);
 bool		check_entry_env(t_data *data, char *key, char *str);
 char		**ft_realloc_env(t_data *data, char **env, size_t len, int min);
 t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min);
+int			find_equal(char *str);
+
+
 
 //CLEANUP
 void    	free_split(char **split);

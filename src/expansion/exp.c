@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/08 14:21:57 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/14 08:51:18 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	Shell Parameter Expansion
-		The ‘$’ character introduces parameter expansion, command substitution, 
-	or arithmetic expansion. The parameter name or symbol to be expanded may be 
-	enclosed in braces, which are optional but serve to protect the variable 
-	to be expanded from characters immediately following it which could be 
+		The ‘$’ character introduces parameter expansion, command substitution,
+	or arithmetic expansion. The parameter name or symbol to be expanded may be
+	enclosed in braces, which are optional but serve to protect the variable
+	to be expanded from characters immediately following it which could be
 	interpreted as part of the name.
 */
 
@@ -36,7 +36,11 @@ char **expan_str(const char *args, t_data *data)
 	{
 		if (args[i] == '$' && args[i + 1])
 		{
-			//so literaly here i find a variable, just extract the var, 
+			// You can use
+			//int find_equal(char *str);
+			// to look for "=" in the variable name and it returns the index!
+
+			//so literaly here i find a variable, just extract the var,
 			//check it and then add the value to the result
 		}
 	}

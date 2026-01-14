@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 20:26:32 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:42:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,23 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 	}
 }
 
+
 static char	*get_filename(int index)
+{
+	char *idx;
+	char *filename;
+
+	idx = ft_itoa(index);
+	if (!idx)
+		return (NULL);
+	filename = ft_strjoin("heredoc_", idx);
+	free(idx);
+	if (!filename)
+		return (NULL);
+	return (filename);
+}
+
+/* static char	*get_filename(int index)
 {
 	int pid_nb;
 	char *tmp;
@@ -68,7 +84,7 @@ static char	*get_filename(int index)
 	if (!filename)
 		return (NULL);
 	return (filename);
-}
+} */
 
 // creates a file with random name from name + pid + index
 static void	create_file(t_data *data, t_redirs *redir)
