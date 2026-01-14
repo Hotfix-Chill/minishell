@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/14 10:50:28 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 11:02:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,16 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 
 	i = 0;
 	init_signals_child();
-	if (!!cmd->redirs) // if redirs type is NULL dont go in
+	if (!!cmd->redirs) // if redirs type is not NULL
 		handle_redirections(data, cmd);
 	if (cmd->argv == NULL || exec_builtins(data, cmd))
 		cleanup(data, OK_EXIT);
 	if (ft_strchr(cmd->argv[0], '/') || (cmd->argv[0][0] == '.'
-		&& cmd->argv[0][1] == '/' ) || !data->path_list)
+		&& cmd->argv[0][1] == '/' ))
 		execute_relative_path(data, cmd);
+	data->path_list = get_path_list(data);
+	if (!data->path_list)
+		child_cleanup(127, ": command not found\n", data, cmd);/////
 	while (data->path_list[i])
 	{
 		data->exec.path = create_path(data->path_list[i], cmd->argv[0], data, cmd);

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 10:40:38 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:56:24 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void		get_exit_status(t_data *data, int pid);
 void		print_exit_signals(int status);
 void		exec_cmd(t_data *data, t_cmds *cmd);
 int			heredocs(t_data *data, t_cmds *cmd);
-//char		**get_path_list(t_data *data);
+char		**get_path_list(t_data *data);
 
 
 // BUILTINS

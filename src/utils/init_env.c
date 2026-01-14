@@ -103,13 +103,6 @@ static bool	extract_env(t_data *data, char **envp)
 	{
 		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
 			data->env[i] = increment_shlvl(envp[i]);
-		else if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			data->path_list = ft_split(&envp[i][5], ':');
-			data->env[i] = ft_strdup(envp[i]);
-			if (!data->path_list)
-				return (false);
-		}
 		else
 			data->env[i] = ft_strdup(envp[i]);
 		if (!data->env[i])
