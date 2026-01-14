@@ -64,10 +64,10 @@ char	*expan_str(const char *args, t_data *data)
 				return (ft_itoa(data->return_value));
 
 			new_var = extract_var(args, i);
-			// printf("new_var: %s\n", new_var);
+			printf("new_var: %s\n", new_var);
 		
 			env_var = extract_env(data, new_var);
-			// printf("env_var: %s\n", env_var);
+			printf("env_var: %s\n", env_var);
 		
 			if (env_var)
 				result = ft_strdup(env_var);
@@ -75,7 +75,7 @@ char	*expan_str(const char *args, t_data *data)
 				result = ft_strdup("");
 			free(new_var);
 			return (result);
-			// printf("new_var_final: %s\n", result);
+			printf("new_var_final: %s\n", result);
 		}
 		i++;
 	}
@@ -97,7 +97,7 @@ int	expansion(t_stack *cmd_list, t_data *data)
 		i = 0;
 		while (cmd->argv[i])
 		{
-			// printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
+			printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
 			expanded = expan_str(cmd->argv[i], data); // check if failure
 			if (!expanded)
 				return (EXIT_FAILURE);
