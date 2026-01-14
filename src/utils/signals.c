@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 21:32:40 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/01 21:04:24 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:30:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,29 @@ void	heredoc_handler(int sig)
 {
 	(void) sig;
 	if (VERBOSE)
-		write(1, "\n(CTRL + C) Heredoc Exit: 130\n", 31);
-	write(1, "\n", 1);
+		write(1, "\n(CTRL + C) Prompt Code: 130\n", 30);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 	g_signal = 1;
+
 }
 
 // signal struct for Ctrl +C ,in heredoc.
 void	init_signals_heredoc(void)
 {
 	struct sigaction	sa;
+	struct sigaction	sa_quit;
 
 	sa.sa_handler = heredoc_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 // signal struct for Ctrl +C ,in child processes.

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 19:38:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/13 08:18:59 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:49:54 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	child_cleanup(int exit_code, char *message, t_data *data, t_cmds *cmd)
 {
 	ft_close(data);
+	write(2, "minishell: ", 12);
 	if (!message)
 	{
 		if (data->flag.redirect_fail == false)

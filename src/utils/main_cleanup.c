@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 01:11:43 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:37:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	cleanup(t_data *data, int exit_code)
 		free_split(data->env);
 		data->env = NULL;
 	}
-	if (data->path_list && exit_code != RESET)
+	if (data->path_list)
 	{
 		free_split(data->path_list);
 		data->path_list = NULL;
@@ -130,6 +130,7 @@ void	cleanup(t_data *data, int exit_code)
 	}
 	ft_memset(&data->fd, -1, sizeof(t_fds));
 	ft_memset(&data->list, 0, sizeof(t_list));
+	g_signal = 0;
 	if (exit_code == RESET)
 		return ;
 	data->return_value = exit_code;

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:12:03 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/12 12:31:16 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:37:22 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	print_export(t_data *data)
 		printf("\n");
 		i++;
 	}
-	data->return_value = 0;
 }
 
 void	add_values(t_data *data, char *str)
@@ -109,6 +108,7 @@ void	ft_export(t_data *data, t_cmds *cmd)
 	bool	valid;
 
 	valid = true;
+	data->return_value = 0;
 	if (!cmd->argv[1])
 	{
 		print_export(data);

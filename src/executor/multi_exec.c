@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/12 22:54:17 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:31:55 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	get_exit_status(t_data *data, int pid)
 	}
 	init_signals_prompt();
 	data->return_value = exit_code;				// use for $? in expander
+	if (data->return_value == 128 + SIGQUIT)
+		printf("Quit (core dumped)\n");
+	if (data->return_value == 128 + SIGINT)
+		printf("\n");
 	if (VERBOSE)
 		printf("ExitCode Parent: %i\n", data->return_value);
 }
@@ -55,6 +59,7 @@ void	ft_close(t_data *data)
 
 static void	child_process(t_data *data, t_cmds *cmd, int loop)
 {
+	init_signals_child();
 	if (loop == 0) // 1ST Loop, redir pipe to stdout
 	{
 		if (dup2(data->fd.curr[1], STDOUT_FILENO) < 0)

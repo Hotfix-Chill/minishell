@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 00:49:15 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:42:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 	while (1)
 	{
 		write(1, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = readline(STDIN_FILENO);
 		line_count++;
 		if ((!line))
 		{
 			line_count--;
-			return (fprintf(stderr, "minishell: warning: here-document at line %li delimited by end-of-file (wanted `%s')\n",  \
-				line_count, redirs->filename), 0);
+			if (g_signal == 0)
+				printf("minishell: warning: here-document at line %li delimited by end-of-file (wanted `%s')\n",  \
+				line_count, redirs->filename);
+			return (0);
 		}
 		if (!ft_strncmp(line, delimiter, delimiter_len) || g_signal == 1)
 			return (line_count--, free(line), 0);
@@ -41,7 +43,23 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 	}
 }
 
+
 static char	*get_filename(int index)
+{
+	char *idx;
+	char *filename;
+
+	idx = ft_itoa(index);
+	if (!idx)
+		return (NULL);
+	filename = ft_strjoin("heredoc_", idx);
+	free(idx);
+	if (!filename)
+		return (NULL);
+	return (filename);
+}
+
+/* static char	*get_filename(int index)
 {
 	int pid_nb;
 	char *tmp;
@@ -66,7 +84,7 @@ static char	*get_filename(int index)
 	if (!filename)
 		return (NULL);
 	return (filename);
-}
+} */
 
 // creates a file with random name from name + pid + index
 static void	create_file(t_data *data, t_redirs *redir)
@@ -112,7 +130,7 @@ int	heredocs(t_data *data, t_cmds *cmd)
 		redirs = curr->redirs;
 		while (redirs)
 		{
-			if (redirs->heredoc == true)
+			if (redirs->heredoc == true && g_signal == 0)
 				create_file(data, redirs);
 			redirs = redirs->next;
 		}

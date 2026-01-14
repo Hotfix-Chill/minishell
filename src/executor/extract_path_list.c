@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   extract_path_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 00:55:40 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 09:22:47 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/14 10:10:38 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/14 11:09:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_data *data)
+char	**get_path_list(t_data *data)
 {
-	char *pwd;
+	int		i;
+	char	**path_list;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	i = 0;
+	path_list = NULL;
+	if (!data->env)
+		return (NULL);
+	while (data->env[i])
 	{
-		data->return_value = 1;
-		return ;
+		if (ft_strncmp(data->env[i], "PATH=", 5) == 0)
+		{
+			path_list = ft_split(&data->env[i][5], ':');
+			if (!path_list)
+				return (NULL);
+		}
+		i++;
 	}
-	printf("%s\n", pwd);
-	free(pwd);
-	data->return_value = 0;
+	return (path_list);
 }
+
+
