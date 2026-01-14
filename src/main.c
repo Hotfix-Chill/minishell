@@ -74,7 +74,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			}
 
 			// expansions
-			// exp();
+			expansion(data->list, data);
 		
 			executor(data->list->head, data);
 			cleanup(data, RESET);

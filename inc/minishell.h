@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 10:56:24 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:27:27 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,5 +308,10 @@ t_redirs *init_redir(void);
 t_stack *parsing(t_token_list *token, t_data *data);
 
 ///////////////////////////////////////////////////////////// END OF PARSER
+
+/// EXPANDER ///
+int expansion(t_stack *cmd_list, t_data *data);
+
+
 
 #endif

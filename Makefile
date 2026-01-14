@@ -20,6 +20,7 @@ SRCS = \
 	utils/utils.c \
 	builtins/pwd.c \
 	builtins/env.c \
+	expansion/exp.c \
 	utils/signals.c \
 	utils/realloc.c \
 	utils/verbose.c \

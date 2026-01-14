@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/14 08:51:18 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:27:58 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,72 @@
 
 #include "minishell.h"
 
+char 	*extract_env(t_data *data, char *new_var)
+{
+	int	j;
 
-char **expan_str(const char *args, t_data *data)
+	j = 0;
+	while (data->env[j])
+	{
+		if (ft_strncmp(data->env[j], new_var, ft_strlen(new_var)) == 0
+			&& data->env[j][ft_strlen(new_var)] == '=')
+			return (ft_strchr(data->env[j], '=') + 1);
+		j++;
+	}
+	return (NULL);
+}
+
+char	*extract_var(const char *args, int start)
 {
 	int i;
-	char *result;
 
-	// to check if it needs expansion
-	if (!has_variable(args))
-		return (ft_strdup(args)); // if there are no variables then just copy ..
-	result = ft_strdup(""); //.. start w empty str
+	i = 0;
+	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_')
+	i++;
+	return (ft_substr(args, start + 1, i));
+}
+
+char	*expan_str(const char *args, t_data *data)
+{
+	int		i;
+	char	*new_var;
+	char	*env_var;
+	char	*result;
+	
+	if (!args || !data)
+		return (ft_strdup(""));
 	i = 0;
 	while (args[i])
 	{
-		if (args[i] == '$' && args[i + 1])
+		if (args[i] == '$')
 		{
-			// You can use
-			//int find_equal(char *str);
-			// to look for "=" in the variable name and it returns the index!
+			if (args[i + 1] == '?')
+				return (ft_itoa(data->return_value));
 
-			//so literaly here i find a variable, just extract the var,
-			//check it and then add the value to the result
+			new_var = extract_var(args, i);
+			// printf("new_var: %s\n", new_var);
+		
+			env_var = extract_env(data, new_var);
+			// printf("env_var: %s\n", env_var);
+		
+			if (env_var)
+				result = ft_strdup(env_var);
+			else
+				result = ft_strdup("");
+			free(new_var);
+			return (result);
+			// printf("new_var_final: %s\n", result);
 		}
+		i++;
 	}
-	return (result);
+	return (ft_strdup(args));
 }
 
-int expansion(t_stack *cmd_list, t_data *data)
+int	expansion(t_stack *cmd_list, t_data *data)
 {
-	int i;
-	char **expanded;
-	t_cmds *cmd;
+	int		i;
+	char	*expanded;
+	t_cmds	*cmd;
 
 	if (!cmd_list || !data)
 		return (EXIT_FAILURE);
@@ -60,13 +95,12 @@ int expansion(t_stack *cmd_list, t_data *data)
 	while (cmd)
 	{
 		i = 0;
-		// here to expand argv
 		while (cmd->argv[i])
 		{
-			printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
-			// look now at each argv[0], [1], for variables.. so if i have $USER
-			// SO CHAR BY CHAR I CHECK ifff i see a $ sign i extract the variable
+			// printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
 			expanded = expan_str(cmd->argv[i], data); // check if failure
+			if (!expanded)
+				return (EXIT_FAILURE);
 			free(cmd->argv[i]);
 			cmd->argv[i] = expanded;
 			i++;
@@ -74,7 +108,8 @@ int expansion(t_stack *cmd_list, t_data *data)
 		// here to expand redirections
 		while (cmd->redirs)
 		{
-			expanded = expan_str(cmd->redirs->filename, data); // check if failure
+			expanded = expan_str(cmd->redirs->filename, data);
+			// check if failure
 			free(cmd->redirs->filename);
 			cmd->redirs->filename = expanded;
 			cmd->redirs = cmd->redirs->next;
