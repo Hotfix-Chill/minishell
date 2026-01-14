@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 15:39:26 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:19:05 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/14 10:33:23 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void free_cmds(t_cmds *cmd)
 		return ;
 	free_arg(cmd->argv);
 	free_redirs(cmd->redirs);
-	free(cmd);
+	if (cmd)
+		free(cmd);
 }
 
 void free_cmd_list(t_stack *lst)

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 17:10:23 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:11:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*find_home_path(t_data *data)
 	int i;
 	char *path = NULL;
 
-
 	i = 0;
 	while (data->env[i])
 	{
@@ -63,7 +62,7 @@ char	*find_home_path(t_data *data)
 	}
 	if (!path)
 	{
-		fprintf(stderr, "minishell: cd: HOME not set\n");
+		printf("minishell: cd: HOME not set\n");
 		data->return_value = 1;
 	}
 	return (path);
@@ -82,7 +81,7 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 	}
 	else if (cmd->argv[2])
 	{
-		fprintf(stderr, "minishell: cd: too many arguments\n");
+		printf("minishell: cd: too many arguments\n");
 		data->return_value = 1;
 		return ;
 	}

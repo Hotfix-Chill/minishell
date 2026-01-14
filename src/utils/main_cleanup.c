@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 19:31:42 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:37:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	cleanup(t_data *data, int exit_code)
 		free_split(data->env);
 		data->env = NULL;
 	}
-	if (data->path_list && exit_code != RESET)
+	if (data->path_list)
 	{
 		free_split(data->path_list);
 		data->path_list = NULL;

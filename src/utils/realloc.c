@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:22:49 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/12 18:06:53 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:39:14 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min
 		tmp[i].value = ft_strdup(export[i].value);
 		if (!tmp[i].key || !tmp[i].value)
 		{
-			printf("INSIDE REALLOC\n");
 			clean_export(tmp, size);
 			free(tmp);
 			cleanup(data, ERROR);
@@ -55,8 +54,6 @@ char	**ft_realloc_env(t_data *data, char **env, size_t len, int min)
 		tmp[i] = ft_strdup(env[i]);
 		if (!tmp[i])
 		{
-			printf("index %zu\n", i);
-
 			free_split(tmp);
 			cleanup(data, ERROR);
 		}
