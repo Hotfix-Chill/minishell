@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/15 16:37:25 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 18:16:08 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char 	*extract_env(t_data *data, char *new_var)
 	int	j;
 
 	j = 0;
+	if (args[i + 1] == '?')
+		return (ft_itoa(data->return_value));
 	while (data->env[j])
 	{
 		if (ft_strncmp(data->env[j], new_var, ft_strlen(new_var)) == 0
@@ -59,7 +61,7 @@ char	*expan_str(const char *args, t_data *data)
 	i = 0;
 	while (args[i])
 	{
-		
+
 		if (args[i] == '$')
 		{
 			if (args[i + 1] == '?')
@@ -105,6 +107,8 @@ int	expansion(t_stack *cmd_list, t_data *data)
 		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
+
+
 			// printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
 			expanded = expan_str(cmd->argv[i], data); // check if failure
 			printf("EXPANDED: %s\n", expanded);
