@@ -6,13 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/12 16:47:16 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/14 08:49:12 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	find_equal(char *str)
+int	find_equal(char *str)
 {
 	int i = 0;
 

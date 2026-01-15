@@ -48,6 +48,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/ioctl.h>
 # include "libft/libft.h"
 
 typedef enum e_redir_type
@@ -194,6 +195,8 @@ void		get_exit_status(t_data *data, int pid);
 void		print_exit_signals(int status);
 void		exec_cmd(t_data *data, t_cmds *cmd);
 int			heredocs(t_data *data, t_cmds *cmd);
+char		**get_path_list(t_data *data);
+
 
 // BUILTINS
 bool		exec_builtins(t_data *data, t_cmds *cmd);
@@ -214,6 +217,9 @@ bool		check_entry_export(t_data *data, char *key, char *value);
 bool		check_entry_env(t_data *data, char *key, char *str);
 char		**ft_realloc_env(t_data *data, char **env, size_t len, int min);
 t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min);
+int			find_equal(char *str);
+
+
 
 //CLEANUP
 void    	free_split(char **split);

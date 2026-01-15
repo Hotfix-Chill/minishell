@@ -48,6 +48,7 @@ SRCS = \
 	executor/landing_file.c \
 	builtins/update_export.c \
 	executor/child_cleanup.c \
+	executor/extract_path_list.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

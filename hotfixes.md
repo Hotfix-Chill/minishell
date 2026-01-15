@@ -1,6 +1,21 @@
 
 ### COMMANDS THAT ARE NOT GIVING THE RIGHT OUTPUT OR NOT WORKING AS EXPECTED
 
+
+$ exit ""
+
+Minshell Output: minishell: parsing error
+
+
+Bash Output: bash: exit: : numeric argument required
+Behavior is handled in builtin exit. The shell exits with status 2.
+
+
+
+
+#########################################
+
+
 $ cat Makefile >
 
 
