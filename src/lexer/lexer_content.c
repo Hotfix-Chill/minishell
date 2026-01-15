@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_content.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:50:58 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:20:33 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/15 12:43:13 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 	}
 	if (tok->quote != QUOTE_NORMAL)	// check for unclosed quotes
 		return (-1); // syntax error, unclosed quote
+	if (!tok->content)
+		tok->content = ft_strdup("");
 	return (*i_ptr = i, EXIT_SUCCESS);
 }

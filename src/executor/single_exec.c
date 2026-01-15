@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 05:07:13 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:09:51 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	execute_relative_path(t_data *data, t_cmds *cmd)
 	int	error_code;
 
 	error_code = 0;
+	if (!cmd->argv[0][3])
+		child_cleanup(126, " : is a directory\n", data, cmd);
 	if (access(cmd->argv[0], X_OK) == -1)
 	{
 		error_code = errno;
@@ -48,7 +50,7 @@ static char	*create_path(char *dir, char *cmd_line, t_data *data, t_cmds *cmd)
 	char	*tmp;
 	char	*full_path;
 
-	if (!cmd_line || !cmd_line[0])
+	if (!cmd_line || !cmd_line[0] || !*cmd_line)
 		child_cleanup(127, " \"\" : empty command not found\n", data, cmd);
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
@@ -68,12 +70,12 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 	init_signals_child();
 	if (!!cmd->redirs) // if redirs type is not NULL
 		handle_redirections(data, cmd);
-	if (cmd->argv == NULL || exec_builtins(data, cmd))
+	if (exec_builtins(data, cmd))
 		cleanup(data, data->return_value);
 	if (ft_strchr(cmd->argv[0], '/') || (cmd->argv[0][0] == '.'
 		&& cmd->argv[0][1] == '/' ))
 		execute_relative_path(data, cmd);
-	data->path_list = get_path_list(data);
+	data->path_list = get_path_list(data, cmd);
 	if (!data->path_list)
 		child_cleanup(127, ": command not found\n", data, cmd);/////
 	while (data->path_list[i])

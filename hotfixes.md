@@ -2,6 +2,19 @@
 ### COMMANDS THAT ARE NOT GIVING THE RIGHT OUTPUT OR NOT WORKING AS EXPECTED
 
 
+
+####
+
+WORKING ON
+$ export HEHE=hehe$HEHE$HEHE
+$ $HOME$BULLSHIT$USER
+	--> /home/pj   '\0'(empty)    pjelinek
+
+
+
+####
+
+
 in minishell command: env -i ./minishell
 not starting a new minishell with ignored environment but printing env
 instead of starting the shell
@@ -9,7 +22,7 @@ instead of starting the shell
 -----> nessecary ??
 
 
-###
+### DONE
 
 $ exit ""
 

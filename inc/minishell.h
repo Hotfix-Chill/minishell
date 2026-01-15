@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 10:01:48 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:07:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void		ft_close(t_data *data);
 void		get_exit_status(t_data *data, int pid);
 void		print_exit_signals(int status);
 
-char		**get_path_list(t_data *data);
+char		**get_path_list(t_data *data, t_cmds *cmd);
 
 /* ************************************************************************** */
 /*                                    BUILTINS                                */

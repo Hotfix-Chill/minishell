@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:06:32 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 05:04:32 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 12:46:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static bool	digit_check(t_cmds *cmd)
 	int j;
 
 	j = 0;
+	if (!cmd->argv[1][0])
+		return (false);
 	if ((cmd->argv[1][0] == '-' || cmd->argv[1][0] == '+')
 	&& cmd ->argv[1][1] != '\0')
 		j++;
@@ -49,11 +51,12 @@ void	ft_exit(t_data *data, t_cmds *cmd)
 			printf("exit\n");
 		cleanup(data, OK_EXIT);
 	}
+	printf("exit\n");
 	if (!digit_check(cmd) || ll_overflow_check(cmd->argv[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
 		data->return_value = 2;
-		return ;
+		cleanup(data, 2);
 	}
 	if (cmd->argv[2])
 	{
