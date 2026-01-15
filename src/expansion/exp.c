@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/15 02:35:09 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:21:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int	expansion(t_stack *cmd_list, t_data *data)
 	t_redirs	*redirs;
 
 	cmd = cmd_list->head;
-	if (!cmd_list || !data || !cmd->argv)
+	if (!cmd_list || !data)
 		return (EXIT_FAILURE);
 	i = 0;
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->argv[i])
+		while (cmd->argv && cmd->argv[i])
 		{
 			// printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
 			expanded = expan_str(cmd->argv[i], data); // check if failure

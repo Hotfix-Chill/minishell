@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 03:08:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:40:28 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			data->list = parsing(tokens, data);
 			if (!data->list)
 			{
-				printf("minishell: parsing error\n");
+				printf("minishell: syntax error\n");
 				free_token_list(tokens);
 				free(line);
 				data->return_value = 2;

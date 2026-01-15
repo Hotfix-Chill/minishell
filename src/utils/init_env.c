@@ -19,26 +19,23 @@ static bool	add_env(t_data *data, int i)
 
 	if (!data->flag.shlvl)
 	{
-		i++;
-		data->env[i] = ft_strdup("SHLVL=1");
+		data->env[++i] = ft_strdup("SHLVL=1");
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}
 	if (!data->flag.pwd)
 	{
-		i++;
 		str = getcwd(NULL, 0);
 		if (!str)
 			return (false);
-		data->env[i] = ft_strjoin("PWD=", str);
+		data->env[++i] = ft_strjoin("PWD=", str);
 		free(str);
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}
 	if (!data->flag.last_cmd)
 	{
-		i++;
-		data->env[i] = ft_strdup("_=/usr/bin/env");
+		data->env[++i] = ft_strdup("_=/usr/bin/env");
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}

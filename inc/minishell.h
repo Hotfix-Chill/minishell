@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 03:35:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:39:31 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_token
 {
 	t_token_type		typ;       /* main token type */
 	char				*content;  /* allocated string; can be NULL */
+	int					redir;
 	int					len;       /* current length */
 	int					cap;       /* allocated capacity */
 	t_quote_type		quote;     /* quote context */
