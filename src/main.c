@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/11 15:21:12 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/15 02:08:00 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 
 			// expansions
 			expansion(data->list, data);
-		
+
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}
 		free(line);
 	}
+	rl_clear_history();
 }
 // main
 int	main(int ac, char **av, char **envp)
@@ -98,5 +99,6 @@ int	main(int ac, char **av, char **envp)
 		cleanup(&data, 1);
 	//// main looop version
 	main_loop(line, prompt, &data);
+	rl_clear_history();
 	return (0);
 }
