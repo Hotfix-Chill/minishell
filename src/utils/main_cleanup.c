@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 10:37:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 01:45:12 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ void	cleanup(t_data *data, int exit_code)
 	data->return_value = exit_code;
 	if (VERBOSE)
 		printf("CLEANUP EXIT CODE: %d\n", data->return_value);
+	rl_clear_history();
 	exit(exit_code);
 }
