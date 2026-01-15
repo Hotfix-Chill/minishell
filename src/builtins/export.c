@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:12:03 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 09:37:22 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:44:11 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static bool	valid_identifier_export(char *str)
 	i = 1;
 	while (str[i] && str[i] !=  '=')
 	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '$')
 			return (false);
 		i++;
 	}
