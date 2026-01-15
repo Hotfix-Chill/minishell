@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/15 16:49:42 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:26:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char 	*extract_env(t_data *data, char *new_var)
 	int	j;
 
 	j = 0;
+	if (args[i + 1] == '?')
+		return (ft_itoa(data->return_value));
 	while (data->env[j])
 	{
 		if (ft_strncmp(data->env[j], new_var, ft_strlen(new_var)) == 0
