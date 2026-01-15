@@ -6,38 +6,35 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 08:42:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:33:38 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
+static int	write_into_heredoc(t_redirs *redirs, int fd)
 {
 	char	*line;
 	char	*delimiter;
 	int		delimiter_len;
-	static size_t	line_count = 1;
+	static size_t	count = 0;
 
 	delimiter = redirs->filename;
 	delimiter_len = ft_strlen(delimiter);
 	init_signals_heredoc();
-	data->return_value = 0;
 	while (1)
 	{
 		write(1, "> ", 2);
 		line = readline(STDIN_FILENO);
-		line_count++;
+		count++;
 		if ((!line))
 		{
-			line_count--;
-			if (g_signal == 0)
-				printf("minishell: warning: here-document at line %li delimited by end-of-file (wanted `%s')\n",  \
-				line_count, redirs->filename);
+			printf("minishell: warning: here-document at line %li delimited" \
+				"by end-of-file (wanted `%s')\n", count, redirs->filename);
 			return (0);
 		}
-		if (!ft_strncmp(line, delimiter, delimiter_len) || g_signal == 1)
-			return (line_count--, free(line), 0);
+		if (!ft_memcmp(line, delimiter, delimiter_len + 1) || g_signal == 1)
+			return (free(line), 0);
 		write(fd, line, ft_strlen(line));
 		free(line);
 	}
@@ -96,14 +93,13 @@ static void	create_file(t_data *data, t_redirs *redir)
 	fd = -1;
 	if (!redir)
 		return ;
-
 	index = data->heredoc.index;
 	heredoc_name = get_filename(index);
 	data->heredoc.files[index] = ft_strdup(heredoc_name);
 	fd = open(heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1 || !heredoc_name || !data->heredoc.files[index])
 		cleanup(data, ERROR);
-	write_into_heredoc(data, redir, fd);
+	write_into_heredoc(redir, fd);
 	free(redir->filename);
 	redir->filename = NULL;
 	redir->typ = REDIR_IN;
@@ -111,8 +107,6 @@ static void	create_file(t_data *data, t_redirs *redir)
 	data->heredoc.index++;
 	if (fd >= 0)
 		close(fd);
-	if (VERBOSE)
-		fprintf(stderr, "Created heredoc file: %s\n", redir->filename);
 }
 
 // finds heredocs by heredoc flag if true!

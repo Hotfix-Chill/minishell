@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/15 01:57:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 02:35:09 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ int	expansion(t_stack *cmd_list, t_data *data)
 	t_cmds	*cmd;
 	t_redirs	*redirs;
 
-	if (!cmd_list || !data)
+	cmd = cmd_list->head;
+	if (!cmd_list || !data || !cmd->argv)
 		return (EXIT_FAILURE);
 	i = 0;
-	cmd = cmd_list->head;
 	while (cmd)
 	{
 		i = 0;

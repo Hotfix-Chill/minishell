@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-static char	*increment_shlvl(char *str)
-{
-	char	*level;
-	char	*shlvl;
-	int		num;
-
-	shlvl = NULL;
-	level = ft_extract_digits(str);
-	if (!level)
-		return (NULL);
-	num = ft_atoi(level);
-	free(level);
-	level = ft_itoa(num + 1);
-	if (!level)
-		return (NULL);
-	shlvl = ft_strjoin("SHLVL=", level);
-	if (!shlvl)
-		return (free(level), NULL);
-	free(level);
-	if (VERBOSE)
-		printf("SHLVL\n\n%s\n", shlvl);
-	return (shlvl);
-}
-
 // add SHLVL, PWD, _= to environment if they have been removed by command env -u SHLVL
 static bool	add_env(t_data *data, int i)
 {

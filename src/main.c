@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 02:08:00 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:08:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 		{
 			if (*line != SPACE)
 				add_history(line);
-
-
-			// TOKENIZING
 			tokens = tokenizer(line);
-			// handeling tokenizing error incase of allocation failure
 			if (!tokens)
 			{
 				printf("minishell: tokenization failed\n");
@@ -72,10 +68,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				data->return_value = 130;
 				continue ;
 			}
-
-			// expansions
 			expansion(data->list, data);
-
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}
