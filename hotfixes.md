@@ -21,7 +21,6 @@ Behavior is handled in builtin exit. The shell exits with status 2.
 
 
 ###
-############################
 
 
 $ cat Makefile >

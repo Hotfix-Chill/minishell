@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 03:39:31 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:31:04 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ char		**get_path_list(t_data *data);
 
 bool		exec_builtins(t_data *data, t_cmds *cmd);
 void		ft_pwd(t_data *data);
-void		ft_env(t_data *data);
+void		ft_env(t_data *data, t_cmds *cmd);
 void		ft_echo(t_data *data, t_cmds *cmd);
 void		ft_exit(t_data *data, t_cmds *cmd);
 void		ft_unset(t_data *data, t_cmds *cmd);
