@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/14 14:27:58 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/15 01:57:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*extract_var(const char *args, int start)
 
 	i = 0;
 	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_')
-	i++;
+		i++;
 	return (ft_substr(args, start + 1, i));
 }
 
@@ -52,7 +52,7 @@ char	*expan_str(const char *args, t_data *data)
 	char	*new_var;
 	char	*env_var;
 	char	*result;
-	
+
 	if (!args || !data)
 		return (ft_strdup(""));
 	i = 0;
@@ -65,10 +65,10 @@ char	*expan_str(const char *args, t_data *data)
 
 			new_var = extract_var(args, i);
 			// printf("new_var: %s\n", new_var);
-		
+
 			env_var = extract_env(data, new_var);
 			// printf("env_var: %s\n", env_var);
-		
+
 			if (env_var)
 				result = ft_strdup(env_var);
 			else
@@ -87,6 +87,7 @@ int	expansion(t_stack *cmd_list, t_data *data)
 	int		i;
 	char	*expanded;
 	t_cmds	*cmd;
+	t_redirs	*redirs;
 
 	if (!cmd_list || !data)
 		return (EXIT_FAILURE);
@@ -106,13 +107,14 @@ int	expansion(t_stack *cmd_list, t_data *data)
 			i++;
 		}
 		// here to expand redirections
-		while (cmd->redirs)
+		redirs = cmd->redirs;
+		while (redirs)
 		{
-			expanded = expan_str(cmd->redirs->filename, data);
+			expanded = expan_str(redirs->filename, data);
 			// check if failure
-			free(cmd->redirs->filename);
-			cmd->redirs->filename = expanded;
-			cmd->redirs = cmd->redirs->next;
+			free(redirs->filename);
+			redirs->filename = expanded;
+			redirs = redirs->next;
 		}
 		cmd = cmd->next;
 	}
