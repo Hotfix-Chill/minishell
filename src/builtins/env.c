@@ -6,18 +6,24 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:01:49 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/11 16:19:52 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:44:36 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_data *data)
+void	ft_env(t_data *data, t_cmds *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (data->env[i])
+	if (cmd->argv[1])
+	{
+		data->return_value = 127;
+		printf("env: '%s': No such file or directory\n", cmd->argv[1]);
+		return ;
+	}
+	while (data->env && data->env[i])
 	{
 		printf("%s\n", data->env[i++]);
 	}

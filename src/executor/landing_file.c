@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 22:12:31 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 20:41:47 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:52:23 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	exec_builtins(t_data *data, t_cmds *cmd)
 	else if (ft_memcmp("exit", cmd->argv[CMD], 5) == 0)
 		ft_exit(data, cmd);
 	else if (ft_memcmp("env", cmd->argv[CMD], 4) == 0)
-		ft_env(data);
+		ft_env(data, cmd);
 	else if (ft_memcmp("pwd", cmd->argv[CMD], 4) == 0)
 		ft_pwd(data);
 	else if (ft_memcmp("unset", cmd->argv[CMD], 6) == 0)

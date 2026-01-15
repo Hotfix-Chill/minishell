@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/11 15:21:12 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/15 10:13:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 		{
 			if (*line != SPACE)
 				add_history(line);
-
-
-			// TOKENIZING
 			tokens = tokenizer(line);
-			// handeling tokenizing error incase of allocation failure
 			if (!tokens)
 			{
-				printf("minishell: tokenization failed\n");
+				printf("minishell: syntax error\n");
 				free(line);
 				data->return_value = 1;
 				continue ;
@@ -52,7 +48,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			data->list = parsing(tokens, data);
 			if (!data->list)
 			{
-				printf("minishell: parsing error\n");
+				printf("minishell: syntax error\n");
 				free_token_list(tokens);
 				free(line);
 				data->return_value = 2;
@@ -72,15 +68,13 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				data->return_value = 130;
 				continue ;
 			}
-
-			// expansions
 			expansion(data->list, data);
-		
 			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}
 		free(line);
 	}
+	rl_clear_history();
 }
 // main
 int	main(int ac, char **av, char **envp)
@@ -98,5 +92,6 @@ int	main(int ac, char **av, char **envp)
 		cleanup(&data, 1);
 	//// main looop version
 	main_loop(line, prompt, &data);
+	rl_clear_history();
 	return (0);
 }

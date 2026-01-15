@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-static char	*increment_shlvl(char *str)
-{
-	char	*level;
-	char	*shlvl;
-	int		num;
-
-	shlvl = NULL;
-	level = ft_extract_digits(str);
-	if (!level)
-		return (NULL);
-	num = ft_atoi(level);
-	free(level);
-	level = ft_itoa(num + 1);
-	if (!level)
-		return (NULL);
-	shlvl = ft_strjoin("SHLVL=", level);
-	if (!shlvl)
-		return (free(level), NULL);
-	free(level);
-	if (VERBOSE)
-		printf("SHLVL\n\n%s\n", shlvl);
-	return (shlvl);
-}
-
 // add SHLVL, PWD, _= to environment if they have been removed by command env -u SHLVL
 static bool	add_env(t_data *data, int i)
 {
@@ -43,26 +19,23 @@ static bool	add_env(t_data *data, int i)
 
 	if (!data->flag.shlvl)
 	{
-		i++;
-		data->env[i] = ft_strdup("SHLVL=1");
+		data->env[++i] = ft_strdup("SHLVL=1");
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}
 	if (!data->flag.pwd)
 	{
-		i++;
 		str = getcwd(NULL, 0);
 		if (!str)
 			return (false);
-		data->env[i] = ft_strjoin("PWD=", str);
+		data->env[++i] = ft_strjoin("PWD=", str);
 		free(str);
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}
 	if (!data->flag.last_cmd)
 	{
-		i++;
-		data->env[i] = ft_strdup("_=/usr/bin/env");
+		data->env[++i] = ft_strdup("_=/usr/bin/env");
 		if (!data->env[i] || !split_into_key_and_value(data, data->env[i], i))
 			return (false);
 	}

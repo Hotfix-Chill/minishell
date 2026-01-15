@@ -6,13 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:06:32 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/13 21:56:33 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 05:04:32 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	digit_check(t_cmds *cmd, t_data *data)
+static bool	digit_check(t_cmds *cmd)
 {
 	int	i;
 	int j;
@@ -32,26 +32,28 @@ static void	digit_check(t_cmds *cmd, t_data *data)
 	{
 		if (!ft_isdigit(cmd->argv[1][i]))
 		{
-			printf("minishell: exit: ");
-			printf("%s: numeric argument required\n", cmd->argv[1]);
-			cleanup(data, 2);
+			return (false);
 		}
 		i++;
 	}
+	return (true);
 }
 
 void	ft_exit(t_data *data, t_cmds *cmd)
 {
 	long long nb;
 
-	printf("exit\n");
 	if (!cmd->argv[1])
-		cleanup(data, data->return_value);
-	digit_check(cmd, data);
-	if (ll_overflow_check(cmd->argv[1]))
+	{
+		if (data->list->size == 1)
+			printf("exit\n");
+		cleanup(data, OK_EXIT);
+	}
+	if (!digit_check(cmd) || ll_overflow_check(cmd->argv[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
-		cleanup(data, 2);
+		data->return_value = 2;
+		return ;
 	}
 	if (cmd->argv[2])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:43:50 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:20:40 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/15 10:13:03 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int token_check(const char *line, int *i, t_token *tok)
 {
 	if(decide_token_type((char *)line, i, tok) != EXIT_SUCCESS)
 	{
-		printf("syntax error\n");
 		return (EXIT_FAILURE);
 	}
 	if (tok->typ == TOKEN_WORD)
