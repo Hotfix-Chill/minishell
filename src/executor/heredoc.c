@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 03:45:09 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 10:00:44 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static int	write_into_heredoc(t_redirs *redirs, int fd)
 	init_signals_heredoc();
 	while (1)
 	{
-		write(1, "> ", 2);
-		line = readline(STDIN_FILENO);
+		line = readline(HEREDOC_PROMPT);
 		count++;
 		if ((!line))
 		{

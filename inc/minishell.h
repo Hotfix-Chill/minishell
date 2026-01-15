@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 04:31:04 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 10:01:48 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define OK_EXIT 0
 # define RESET 424242
 # define EQUAL_VS_NULL_TERM 61
+# define HEREDOC_PROMPT "> "
 
 /* redir status helpers */
 # define REDIR_NOT_FOUND 0

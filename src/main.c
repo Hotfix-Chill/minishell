@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 03:40:28 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 10:13:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			tokens = tokenizer(line);
 			if (!tokens)
 			{
-				printf("minishell: tokenization failed\n");
+				printf("minishell: syntax error\n");
 				free(line);
 				data->return_value = 1;
 				continue ;
