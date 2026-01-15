@@ -81,5 +81,7 @@ int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 	}
 	if (tok->quote != QUOTE_NORMAL)	// check for unclosed quotes
 		return (-1); // syntax error, unclosed quote
+	if (tok->content == NULL)
+		tok->content = ft_strdup("");
 	return (*i_ptr = i, EXIT_SUCCESS);
 }
