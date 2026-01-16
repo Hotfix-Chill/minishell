@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/16 08:51:09 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 11:02:13 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	expand_cmd(t_data  *data, t_cmds *cmd)
 			return (EXIT_FAILURE);
 		free(cmd->argv[i]);
 		cmd->argv[i] = expanded;
-		printf("EXPANDED CMD STRING: %s\n", expanded);
 		i++;
 	}
 	return (0);
@@ -83,13 +82,15 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 	return (0);
 }
 
-int	expansion(t_stack *cmd_list, t_data *data)
+void	expansion(t_stack *cmd_list, t_data *data)
 {
 	t_cmds	*cmd;
 
+
 	cmd = cmd_list->head;
+	//printf("ARGV[1]: %s\n", cmd->argv[1]);
 	if (!cmd_list || !data)
-		return (EXIT_FAILURE);
+		cleanup(data, ERROR);
 	while (cmd)
 	{
 		if (expand_cmd(data, cmd) == EXIT_FAILURE
@@ -97,5 +98,4 @@ int	expansion(t_stack *cmd_list, t_data *data)
 			cleanup(data, ERROR);
 		cmd = cmd->next;
 	}
-	return (EXIT_SUCCESS);
 }

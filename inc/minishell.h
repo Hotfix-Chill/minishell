@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 08:44:27 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:50:41 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,7 +383,7 @@ t_stack		*parsing(t_token_list *token, t_data *data);
 /*                                     EXPANDER                               */
 /* ************************************************************************** */
 
-int			expansion(t_stack *cmd_list, t_data *data);
+void		expansion(t_stack *cmd_list, t_data *data);
 char	 	*extract_var(t_data *data, char *extract_var);
 char		*split_dollar(t_data *data, char *str);
 

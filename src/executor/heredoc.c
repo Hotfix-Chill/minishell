@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 10:00:44 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:49:36 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ static void	create_file(t_data *data, t_redirs *redir)
 	data->heredoc.files[index] = ft_strdup(heredoc_name);
 	fd = open(heredoc_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1 || !heredoc_name || !data->heredoc.files[index])
+	{
+		if (fd >= 0)
+			close(fd);
 		cleanup(data, ERROR);
+	}
 	write_into_heredoc(redir, fd);
 	free(redir->filename);
 	redir->filename = NULL;
