@@ -6,28 +6,15 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 14:11:23 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 07:21:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_equal(char *str)
-{
-	int i = 0;
-
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return i;
-		i++;
-	}
-	return -1;
-}
-
 char	*get_key(char *str, t_data *data)
 {
-	int equal = find_equal(str);
+	int equal = find_char(str, '=');
 	if (equal == -1)
 		return (ft_strdup(str));
 	data->flag.equal_exists = true;
@@ -40,7 +27,7 @@ char	*get_value(t_data *data, char *str, char *key)
 	char	*tmp;
 	char	*value;
 
-	equal = find_equal(str);
+	equal = find_char(str, '=');
 	if (equal == -1)
 		return (NULL);
 	if (str[equal + 1] == '\0')

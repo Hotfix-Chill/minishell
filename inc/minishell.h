@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 13:07:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 08:44:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define RESET 424242
 # define EQUAL_VS_NULL_TERM 61
 # define HEREDOC_PROMPT "> "
+# define NOT_FOUND_DOLLAR -1
 
 /* redir status helpers */
 # define REDIR_NOT_FOUND 0
@@ -122,16 +123,16 @@ typedef struct s_token_list
 typedef struct s_redirections
 {
 	t_redir_type			typ;
-	char				*filename;
-	bool				heredoc; /* set true when typ == REDIR_HEREDOC */
+	char					*filename;
+	bool					heredoc; /* set true when typ == REDIR_HEREDOC */
 	struct s_redirections	*next;
 }	t_redirs;
 
 typedef struct s_cmds
 {
-	char		**argv;
-	t_redirs	*redirs;
-	bool		builtin;
+	char			**argv;
+	t_redirs		*redirs;
+	bool			builtin;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -204,16 +205,14 @@ typedef struct s_data
 	size_t			env_len;
 	size_t			export_len;
 
-	unsigned int		return_value; /* for $? */
+	unsigned int	return_value; /* for $? */
 
 	t_fds			fd;
 	t_exec			exec;
-
 	t_cmds			*cmd;
 	t_stack			*list;
-
 	t_flag			flag;
-	t_export			*export;
+	t_export		*export;
 	t_heredoc		heredoc;
 }	t_data;
 
@@ -287,7 +286,8 @@ t_export	*ft_realloc_export(
 	t_data *data, t_export *export, size_t size, int min
 );
 
-int			find_equal(char *str);
+int			find_char(char *str, char c);
+
 
 /* ************************************************************************** */
 /*                                     CLEANUP                                */
@@ -384,5 +384,7 @@ t_stack		*parsing(t_token_list *token, t_data *data);
 /* ************************************************************************** */
 
 int			expansion(t_stack *cmd_list, t_data *data);
+char	 	*extract_var(t_data *data, char *extract_var);
+char		*split_dollar(t_data *data, char *str);
 
 #endif

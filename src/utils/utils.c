@@ -6,11 +6,24 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:56:09 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 03:24:53 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 07:21:50 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	find_char(char *str, char c)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == c)
+			return i;
+		i++;
+	}
+	return -1;
+}
 
 char	*increment_shlvl(char *str)
 {

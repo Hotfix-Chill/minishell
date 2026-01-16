@@ -19,7 +19,6 @@ SRCS = \
 	utils/utils.c \
 	builtins/pwd.c \
 	builtins/env.c \
-	expansion/exp.c \
 	utils/signals.c \
 	utils/realloc.c \
 	utils/verbose.c \
@@ -33,6 +32,7 @@ SRCS = \
 	lexer/lexer_list.c \
 	parser/parser_cmd.c \
 	lexer/lexer_utils.c \
+	expansion/expander.c \
 	utils/main_cleanup.c \
 	lexer/lexer_quotes.c \
 	lexer/lexer_checks.c \
@@ -45,6 +45,7 @@ SRCS = \
 	parser/parser_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \
+	expansion/split_dollar.c \
 	builtins/update_export.c \
 	executor/child_cleanup.c \
 	executor/extract_path_list.c \
