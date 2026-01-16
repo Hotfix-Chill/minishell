@@ -1,0 +1,189 @@
+TESTED ON LAPTOP
+
+#### PASSES THE EXPECTED OUTPUT, BUT BASH JUST SAYS EXIT
+exit -9223372036854775805
+    Output: bash: exit: -9223372036854775805: numeric argument required
+    Behavior: The value exceeds the range of valid exit codes. Exits with status 2.
+--> exits
+
+
+#### SAME AS ABOVE
+exit -000...009223372036854775809
+    Output: bash: exit: -000...009223372036854775809: numeric argument required
+    Behavior: Same as case 9; the value is below the valid range of integers. Exits with status 2.
+-->exits
+
+
+
+#### NOT PASSED
+exit " -9223372036854775808"
+    Output: No output.
+    Behavior: Leading whitespace is ignored. The value -9223372036854775808 is valid. Exits with status 128.
+--> bash exits with 0; minishell exits with 2 and message ¨numerica argument required¨
+
+
+
+
+
+
+
+######################################################################################
+
+
+#### PASSED
+exit something somethingv2
+    Output: bash: exit: something: numeric argument required
+    Behavior: The first non-numeric argument (something) causes an error. exit code with status 2.
+	-->exits
+
+
+#### PASSED
+exit 0 0
+    Output: bash: exit: too many arguments
+    Behavior: Bash detects multiple arguments and prints an error. The shell does not terminate but returns status 1.
+ minishell not quitiing
+-->not exit
+
+
+#### PASSED
+exit
+    Output: No output.
+    Behavior: Exits the shell with the status of the last executed command ($?).
+-->exits
+
+#### PASSED
+exit ""
+    Output: bash: exit: : numeric argument required
+    Behavior: An empty string is treated as non-numeric. The shell exits with status 2.
+--> exits
+
+
+#### PASSED
+exit "+100"
+    Output: No output.
+    Behavior: The + sign is valid. Exits with status 100.
+--> exits
+
+#### PASSED
+exit "-100"
+    Output: No output.
+    Behavior: The status wraps around. -100 mod 256 = 156. Exits with status 156.
+--> exits
+
+#### PASSED
+exit 0
+    Output: exit
+    Behavior: Exits with status 0.
+--> exits
+
+
+#### PASSED
+exit 1 2
+    Output: bash: exit: too many arguments
+    Behavior: Multiple arguments are invalid. Bash returns status 1 and does not terminate the shell.
+--> not exit
+
+#### PASSED
+exit 1 2 3
+    Output: bash: exit: too many arguments
+    Behavior: Same as above. Multiple arguments are invalid.
+--> not exits
+
+##### PASSED
+exit A 2 3
+    Output: bash: exit: A: numeric argument required
+    Behavior: The first argument (A) is not numeric, so Bash exits with status 2.
+   --->exits
+-->exits
+
+#### PASSED
+exit cd ..
+    Output: bash: exit: cd: numeric argument required
+    Behavior: Non-numeric first argument causes an error. Bash exits with status 2.
+-->exits
+
+### PASSED
+exit 42 42 42 42 42
+    Output: bash: exit: too many arguments
+    Behavior: Multiple arguments are detected. The shell returns status 1 and does not terminate.
+-->not exits
+
+#### PASSED
+exit 000...0009 (with many leading zeroes)
+    Output: bash: exit: 000...0009: numeric argument required
+    Behavior: The value exceeds the range of valid integers. Bash exits with status inputet number.
+ -->exits
+
+#### PASSED
+exit 999...999 (large number beyond 64-bit integer range)
+    Output: bash: exit: 999...999: numeric argument required
+    Behavior: Numbers exceeding the range of a 64-bit integer are invalid. Exits with status 2.
+-->exits
+
+
+#### PASSED
+exit 9223372036854775808
+    Output: bash: exit: 9223372036854775808: numeric argument required
+    Behavior: This value exceeds the valid range for signed 64-bit integers. Exits with status 2.
+-->exits
+
+#### PASSED
+    Output: bash: exit: -9223372036854775809: numeric argument required
+    Behavior: This value is below the valid range for signed 64-bit integers. Exits with status 2.
+--> exits
+
+#### PASSED
+exit 000...009223372036854775808
+    Output: bash: exit: 000...009223372036854775808: numeric argument required
+    Behavior: Same as case 8; the value exceeds the range of valid integers. Exits with status 2.
+--> exits
+
+
+
+exit " -9223372036854775808 "
+    Output: No output.
+    Behavior: Leading and trailing whitespace is ignored. Exits with status 128.
+
+exit 10
+    Output: No output.
+    Behavior: Exits with status 10.
+
+exit 42
+    Output: No output.
+    Behavior: Exits with status 42.
+
+exit 1
+    Output: No output.
+    Behavior: Exits with status 1.
+
+exit +++++
+    Output: bash: exit: +++++: numeric argument required
+    Behavior: Multiple + signs are invalid. Exits with status 2.
+
+exit ++++++
+    Output: bash: exit: ++++++: numeric argument required
+    Behavior: Same as above. Exits with status 2.
+
+exit +1
+    Output: No output.
+    Behavior: The + sign is valid. Exits with status 1.
+
+exit ++1
+    Output: bash: exit: ++1: numeric argument required
+    Behavior: Multiple + signs are invalid. Exits with status 2.
+
+exit ++12560
+    Output: bash: exit: ++12560: numeric argument required
+    Behavior: Same as above. Exits with status 2.
+
+exit -----
+    Output: bash: exit: -----: numeric argument required
+    Behavior: Multiple - signs are invalid. Exits with status 2.
+
+exit ------
+    Output: bash: exit: ------: numeric argument required
+    Behavior: Same as above. Exits with status 2.
+
+exit -1
+    Output: No output.
+    Behavior: The - sign is valid. Exits with status 255 (-1 mod 256).
