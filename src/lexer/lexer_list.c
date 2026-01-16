@@ -26,7 +26,7 @@ t_token_list *init_token_list(void)
 	return (lst);
 }
 
-t_token *create_token(void)
+t_token *create_token()
 {
 	t_token *token;
 

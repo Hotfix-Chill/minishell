@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/14 14:27:58 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/16 14:48:48 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,23 @@ char	*extract_var(const char *args, int start)
 	int i;
 
 	i = 0;
-	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_')
-	i++;
+	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_' )
+		i++;
 	return (ft_substr(args, start + 1, i));
 }
 
-char	*expan_str(const char *args, t_data *data)
+char	*expan_str(const char *args, t_data *data, t_quote_type quote)
 {
 	int		i;
 	char	*new_var;
 	char	*env_var;
 	char	*result;
-	
+
 	if (!args || !data)
 		return (ft_strdup(""));
+	printf("Expanding str: %s with quote type: %d\n", args, quote);
+	if (quote == QUOTE_SINGLE)
+		return (ft_strdup(args));
 	i = 0;
 	while (args[i])
 	{
@@ -62,13 +65,13 @@ char	*expan_str(const char *args, t_data *data)
 		{
 			if (args[i + 1] == '?')
 				return (ft_itoa(data->return_value));
-
+			
 			new_var = extract_var(args, i);
 			printf("new_var: %s\n", new_var);
 		
 			env_var = extract_env(data, new_var);
 			printf("env_var: %s\n", env_var);
-		
+
 			if (env_var)
 				result = ft_strdup(env_var);
 			else
@@ -84,21 +87,23 @@ char	*expan_str(const char *args, t_data *data)
 
 int	expansion(t_stack *cmd_list, t_data *data)
 {
-	int		i;
-	char	*expanded;
-	t_cmds	*cmd;
+	int			i;
+	char		*expanded;
+	t_cmds		*cmd;
+	t_redirs	*redirs;
 
+	cmd = cmd_list->head;
 	if (!cmd_list || !data)
 		return (EXIT_FAILURE);
 	i = 0;
-	cmd = cmd_list->head;
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->argv[i])
+		while (cmd->argv && cmd->argv[i])
 		{
 			printf("Processing command with argv[%d] = %s\n", i, cmd->argv[i]);
-			expanded = expan_str(cmd->argv[i], data); // check if failure
+			printf("Processing command with argv_TOKEN[%d] = %d\n", i, cmd->argv_quote[i]);
+			expanded = expan_str(cmd->argv[i], data, cmd->argv_quote[i]); // check if failure
 			if (!expanded)
 				return (EXIT_FAILURE);
 			free(cmd->argv[i]);
@@ -106,13 +111,14 @@ int	expansion(t_stack *cmd_list, t_data *data)
 			i++;
 		}
 		// here to expand redirections
-		while (cmd->redirs)
+		redirs = cmd->redirs;
+		while (redirs)
 		{
-			expanded = expan_str(cmd->redirs->filename, data);
+			expanded = expan_str(redirs->filename, data, QUOTE_NORMAL);
 			// check if failure
-			free(cmd->redirs->filename);
-			cmd->redirs->filename = expanded;
-			cmd->redirs = cmd->redirs->next;
+			free(redirs->filename);
+			redirs->filename = expanded;
+			redirs = redirs->next;
 		}
 		cmd = cmd->next;
 	}

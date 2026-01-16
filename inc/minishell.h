@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 14:27:27 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/16 14:48:26 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include "libft/libft.h"
+
+typedef struct data		t_data;
 
 typedef enum e_redir_type
 {
@@ -121,6 +123,7 @@ typedef struct cmds
 {
 	char		**argv;
 	t_redirs	*redirs;
+	t_quote_type     *argv_quote;
 	bool		builtin;		//double check
 	struct cmds	*next;
 }	t_cmds;
@@ -169,6 +172,7 @@ typedef struct data
 	t_flag			flag;
 	t_export		*export;
 	t_heredoc		heredoc;
+	t_token 		*tok;
 }	t_data;
 
 
@@ -266,7 +270,7 @@ int pipe_check(char *line, int *i_ptr, t_token *tok);
 
 // creating adding list
 t_token_list *init_token_list(void);
-t_token *create_token(void);
+t_token *create_token();
 int add_token(t_token_list *lst, t_token *node);
 void free_token_list(t_token_list *lst);
 
@@ -296,7 +300,7 @@ void *cleanup_all(t_token_list *lst, t_token *tok);
 t_stack *init_cmd_list(void);
 t_cmds *create_cmds(void);
 int add_cmd_to_list(t_stack *lst, t_cmds *node);
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content);
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, t_quote_type quote_type);
 void free_cmds(t_cmds *cmd);
 void free_cmd_list(t_stack *lst);
 

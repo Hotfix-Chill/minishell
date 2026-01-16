@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:37:55 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:19:13 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/16 14:48:06 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ static int count(t_cmds *curr_cmd)
 	return (arg_count);
 }
 // Add the token content like words to command's argv array
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, t_quote_type quote_type)
 {
 	int arg_count;
 	int i;
 	char **new_argv;
+	t_quote_type *new_argv_quote;
 
 	if (!curr_cmd || !tok_content)
 		return (-1);
@@ -81,17 +82,25 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
 	if (!new_argv)
 		return (-1);
+	new_argv_quote = (t_quote_type *)ft_calloc(arg_count + 2, sizeof(t_quote_type));
+	if (!new_argv_quote)
+		return (free(new_argv), free(new_argv_quote), -1);
 	i = 0;
 	while (i < arg_count)
 	{
 		new_argv[i] = curr_cmd->argv[i];
+		new_argv_quote[i] = curr_cmd->argv_quote[i];
 		i++;
 	}
 	new_argv[i] = ft_strdup(tok_content);
+	new_argv_quote[arg_count] = quote_type;
+	new_argv_quote[arg_count + 1] = QUOTE_NORMAL; // JUST A DEFAULT VALUE FOR QUOTES ;)
 	if (!new_argv[i])
 		return (free(new_argv), -1);
 	i++;
 	new_argv[i] = NULL;
+	free(curr_cmd->argv_quote);
+	curr_cmd->argv_quote = new_argv_quote;
 	free(curr_cmd->argv);
 	curr_cmd->argv = new_argv;
 	return (EXIT_SUCCESS);

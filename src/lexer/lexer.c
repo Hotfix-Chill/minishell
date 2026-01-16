@@ -42,7 +42,7 @@ static int token_check(const char *line, int *i, t_token *tok)
 static int lexer_loop(const char *line, t_token_list *lst, t_token	*tok)
 {
 	int				i;
-
+	
 	i = 0;
 	while (line && line[i])
 	{
@@ -68,14 +68,14 @@ t_token_list	*tokenizer(const char *line)
 {
 	t_token_list	*lst;
 	t_token			*tok;
+	t_data 			*data;
 
 	tok = NULL;
+	data = NULL;
 	lst = init_token_list();
 	if (!lst)
 		return (NULL);
-	// toklist->quote = QUOTE_NORMAL;
 	if (lexer_loop(line, lst, tok) == EXIT_SUCCESS)
 		return (lst);
-	//cleanup_token(tok);
-	return NULL;
+	return (NULL);
 }

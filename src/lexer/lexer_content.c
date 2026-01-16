@@ -6,7 +6,7 @@
 /*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:50:58 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:20:33 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/16 14:47:30 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,38 @@ int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 {
 	int		i;
 	char	c;
+	t_quote_type current_quote;
+	t_quote_type final_quote;
 
 	i = *i_ptr;
+	current_quote = QUOTE_NORMAL;
+	final_quote = QUOTE_NORMAL;
 	while (line[i])
 	{
 		c = line[i];
-		if (should_break_word(c, tok->quote))// check if we hit a boundary (space, pipe, redir, eof)
+		if (should_break_word(c, current_quote))// check if we hit a boundary (space, pipe, redir, eof)
 			break ;
 		if (is_quote(c))// handle quote transitions
 		{
-			if (handle_quote_char(tok, c))
+			if (current_quote == QUOTE_NORMAL && c == '\'')
 			{
+				current_quote = QUOTE_SINGLE;
+				final_quote = QUOTE_SINGLE;
 				i++;
-				continue ;
+				continue;
+			}
+			if (current_quote == QUOTE_NORMAL && c == '\"')
+			{
+				current_quote = QUOTE_DOUBLE;
+				final_quote = QUOTE_DOUBLE;
+				i++;
+				continue;
+			}
+			if (is_closing_quote(c, current_quote))
+			{
+				current_quote = QUOTE_NORMAL;
+				i++;
+				continue;
 			}
 		}
 		if (append_char_to_content(tok, c) < 0)// then if it is a regular character add it to the content
@@ -83,5 +102,6 @@ int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 		return (-1); // syntax error, unclosed quote
 	if (tok->content == NULL)
 		tok->content = ft_strdup("");
+	tok->quote = final_quote;
 	return (*i_ptr = i, EXIT_SUCCESS);
 }
