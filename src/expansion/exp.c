@@ -41,7 +41,7 @@ char	*extract_var(const char *args, int start)
 	int i;
 
 	i = 0;
-	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_' )
+	while (ft_isalnum(args[start + i + 1]) || args[start + i + 1] == '_')
 		i++;
 	return (ft_substr(args, start + 1, i));
 }

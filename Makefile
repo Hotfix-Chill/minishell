@@ -2,7 +2,6 @@ NAME        = minishell
 CC          = cc
 CFLAGS      = -Wall -Werror -Wextra
 DEBUG_FLAGS = -g -DVERBOSE=1
-ALLOC_FLAG =  -g -DDEBUG_ALLOC
 
 LIBFT_DIR   = inc/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
@@ -62,9 +61,6 @@ all: $(LIBFT) $(NAME)
 # Debug-Build: CFLAGS erweitern und komplett neu bauen
 verbose: CFLAGS += $(DEBUG_FLAGS)
 verbose: re
-
-alloc: CFLAGS += $(ALLOC_FLAGS)
-alloc: re
 
 # Objektdateien
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c inc/minishell.h

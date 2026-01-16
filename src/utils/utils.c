@@ -6,11 +6,35 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:56:09 by netrunner         #+#    #+#             */
-/*   Updated: 2025/12/01 04:33:36 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:24:53 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*increment_shlvl(char *str)
+{
+	char	*level;
+	char	*shlvl;
+	int		num;
+
+	shlvl = NULL;
+	level = ft_extract_digits(str);
+	if (!level)
+		return (NULL);
+	num = ft_atoi(level);
+	free(level);
+	level = ft_itoa(num + 1);
+	if (!level)
+		return (NULL);
+	shlvl = ft_strjoin("SHLVL=", level);
+	if (!shlvl)
+		return (free(level), NULL);
+	free(level);
+	if (VERBOSE)
+		printf("SHLVL\n\n%s\n", shlvl);
+	return (shlvl);
+}
 
 static int	ft_check_set(char const *set, char const c)
 {
