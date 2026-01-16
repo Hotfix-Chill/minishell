@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/16 15:50:06 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:20:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,46 @@ int	validifier_var(t_data *data, char *str)
 	return (i);
 }
 
-/* char	*expand_and_join(t_data *data, char *str, int nb)
+char	*expand_and_join(t_data *data, char *str, size_t idx)
 {
+	char	*expand_str;
+	char	*sub_str;
+	char	*tmp;
+	int		i;
 
-	return ;
-} */
+	tmp = NULL;
+	sub_str = NULL;
+	expand_str = ft_calloc(idx + 1, sizeof(char));
+	if (!expand_str)
+		return (NULL);
+	if (idx + 1 < ft_strlen(str))
+	{
+		sub_str = ft_substr(str, idx, ft_strlen(&str[idx]));
+		if (!sub_str)
+			return (NULL);
+	}
+	i = 0;
+	while (i < data->export_len)
+	{
+		if (ft_strcmp(data->export[i].key, expand_str) == 0)
+			tmp = data->export[i].value;
+		i++;
+	}
+	if (!tmp)
+		return (NULL);
+	else if (!sub_str)
+		return (tmp);
+	else
+		return (ft_strcat(tmp, sub_str));
+}
 
 char 	*extract_var(t_data *data, char *extract_var)
 {
 	size_t	i;
 
-	/*size_t idx = validifier_var(data, extract_var);
+	size_t idx = validifier_var(data, extract_var);
 	if (!!data->flag.not_valid)
-		return (expand_and_join(data, extract_var, idx)); */
+		return (expand_and_join(data, extract_var, idx));
 
 	i = 0;
 	while (i < data->export_len)
