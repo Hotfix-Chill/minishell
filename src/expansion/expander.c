@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/16 11:02:13 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 15:50:06 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,41 @@
 
 #include "minishell.h"
 
+int	validifier_var(t_data *data, char *str)
+{
+	size_t	i;
+
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+	{
+		data->flag.not_valid = true;
+		return (1);
+	}
+	i = 1;
+	while (str[i] && str[i] !=  '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '$')
+		{
+			data->flag.not_valid = true;
+			return (i);
+		}
+		i++;
+	}
+	return (i);
+}
+
+/* char	*expand_and_join(t_data *data, char *str, int nb)
+{
+
+	return ;
+} */
+
 char 	*extract_var(t_data *data, char *extract_var)
 {
 	size_t	i;
 
+	/*size_t idx = validifier_var(data, extract_var);
+	if (!!data->flag.not_valid)
+		return (expand_and_join(data, extract_var, idx)); */
 
 	i = 0;
 	while (i < data->export_len)
@@ -44,16 +75,14 @@ static int	expand_cmd(t_data  *data, t_cmds *cmd)
 	i = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
-		if (find_char(cmd->argv[i], '$') == NOT_FOUND_DOLLAR)
+		if (find_char(cmd->argv[i], '$') != NOT_FOUND_DOLLAR)
 		{
-			i++;
-			continue;
+			expanded = split_dollar(data, cmd->argv[i]);
+			if (!expanded)
+				return (EXIT_FAILURE);
+			free(cmd->argv[i]);
+			cmd->argv[i] = expanded;
 		}
-		expanded = split_dollar(data, cmd->argv[i]);
-		if (!expanded)
-			return (EXIT_FAILURE);
-		free(cmd->argv[i]);
-		cmd->argv[i] = expanded;
 		i++;
 	}
 	return (0);
@@ -67,16 +96,14 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 	redirs = cmd->redirs;
 	while (redirs)
 	{
-		if (find_char(redirs->filename, '$') == NOT_FOUND_DOLLAR)
+		if (find_char(redirs->filename, '$') != NOT_FOUND_DOLLAR)
 		{
-			redirs = redirs->next;
-			continue;
+			expanded = split_dollar(data,redirs->filename);
+			if (!expanded)
+				return (EXIT_FAILURE);
+			free(redirs->filename);
+			redirs->filename = expanded;
 		}
-		expanded = split_dollar(data,redirs->filename);
-		if (!expanded)
-			return (EXIT_FAILURE);
-		free(redirs->filename);
-		redirs->filename = expanded;
 		redirs = redirs->next;
 	}
 	return (0);

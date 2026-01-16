@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 05:29:52 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 12:15:15 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:21:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,7 @@ bool	ll_overflow_check(const char *str)
 	ft_skip_whitespaces(&p);
 	negativ = ft_skip_signs(&p);
 	ft_skip_zeros(&p);
-
-
-
 	len = ft_strlen(p);
-
-
-
 	if (len < 19)
 		return (false);
 	else if (len > 19)

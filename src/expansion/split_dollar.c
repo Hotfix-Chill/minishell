@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 09:26:08 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:21:44 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	print_split(char **split)
 	int i;
 
 	i = 0;
-
 	while (split[i])
 	{
 		printf("%s\n",split[i]);

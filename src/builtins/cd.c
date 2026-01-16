@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 09:11:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 15:41:55 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 		path = cmd->argv[1];
 	if (chdir(path) == -1)
 	{
-		perror("minishell: cd: ");
+		write (2, "minishell: cd: ", 14);
+		perror(path);
 		data->return_value = 1;
 		return ;
 	}

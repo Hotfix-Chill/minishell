@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 10:50:41 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:06:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ typedef struct s_flag
 	bool	last_cmd;
 	bool	redirect_fail;
 	bool	equal_exists;
+	bool	not_valid;
 }	t_flag;
 
 /* ************************************************************************** */
