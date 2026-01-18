@@ -25,6 +25,7 @@ int handle_quote_char(t_token *tok, char c)
 		if (c == '\'')
 		{
 			tok->quote = QUOTE_SINGLE;
+			tok->no_expand = true;
 			return (1); // consume the quote. dont add to content
 		}
 		if (c == '\"')

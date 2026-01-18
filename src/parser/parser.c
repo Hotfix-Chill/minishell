@@ -74,7 +74,7 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_dat
 		}
 		else if (tok->typ == TOKEN_WORD) // WORD_TOKEN
 		{
-			if (add_arg_to_cmd(*curr_cmd, tok->content) != EXIT_SUCCESS)
+			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next;
 		}
