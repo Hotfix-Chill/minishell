@@ -104,6 +104,7 @@ typedef struct s_token
 	int					redir;
 	int					len;       /* current length */
 	int					cap;       /* allocated capacity */
+	bool			no_expand;
 	t_quote_type		quote;     /* quote context */
 	struct s_token		*next;
 	struct s_token		*prev;
@@ -124,6 +125,7 @@ typedef struct s_redirections
 {
 	t_redir_type			typ;
 	char					*filename;
+	bool 					no_expand;
 	bool					heredoc; /* set true when typ == REDIR_HEREDOC */
 	struct s_redirections	*next;
 }	t_redirs;
@@ -132,6 +134,7 @@ typedef struct s_cmds
 {
 	char			**argv;
 	t_redirs		*redirs;
+	bool			*no_expand;
 	bool			builtin;
 	struct s_cmds	*next;
 }	t_cmds;
@@ -368,7 +371,7 @@ void		*cleanup_all(t_token_list *lst, t_token *tok);
 t_stack		*init_cmd_list(void);
 t_cmds		*create_cmds(void);
 int			add_cmd_to_list(t_stack *lst, t_cmds *node);
-int			add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content);
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_flag);
 void		free_cmds(t_cmds *cmd);
 void		free_cmd_list(t_stack *lst);
 
