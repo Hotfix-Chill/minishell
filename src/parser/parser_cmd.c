@@ -69,30 +69,35 @@ static int count(t_cmds *curr_cmd)
 	return (arg_count);
 }
 // Add the token content like words to command's argv array
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content)
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_flag)
 {
 	int arg_count;
 	int i;
 	char **new_argv;
+	bool *flag_for_expansion;
 
 	if (!curr_cmd || !tok_content)
 		return (-1);
 	arg_count = count(curr_cmd);
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
-	if (!new_argv)
+	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool)); 
+	if (!new_argv || !flag_for_expansion)
 		return (-1);
 	i = 0;
 	while (i < arg_count)
 	{
 		new_argv[i] = curr_cmd->argv[i];
+		flag_for_expansion[i] = curr_cmd->no_expand[i];
 		i++;
 	}
 	new_argv[i] = ft_strdup(tok_content);
+	flag_for_expansion[i] = no_expand_flag;
 	if (!new_argv[i])
 		return (free(new_argv), -1);
-	i++;
-	new_argv[i] = NULL;
+	new_argv[i + 1] = NULL;
+	free(curr_cmd->no_expand);
 	free(curr_cmd->argv);
 	curr_cmd->argv = new_argv;
+	curr_cmd->no_expand = flag_for_expansion;
 	return (EXIT_SUCCESS);
 }
