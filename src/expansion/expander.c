@@ -122,7 +122,7 @@ static int	expand_cmd(t_data  *data, t_cmds *cmd)
 	i = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
-		if (find_char(cmd->argv[i], '$') != NOT_FOUND_DOLLAR)
+		if (!cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NOT_FOUND_DOLLAR)
 		{
 			expanded = split_dollar(data, cmd->argv[i]);
 			if (!expanded)
@@ -143,7 +143,7 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 	redirs = cmd->redirs;
 	while (redirs)
 	{
-		if (find_char(redirs->filename, '$') != NOT_FOUND_DOLLAR)
+		if (!redirs->no_expand && find_char(redirs->filename, '$') != NOT_FOUND_DOLLAR)
 		{
 			expanded = split_dollar(data,redirs->filename);
 			if (!expanded)
