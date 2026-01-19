@@ -53,3 +53,11 @@ if filename ist NULL
 
 REDIRS: Fix redirections, overall they dont work.
 HEREDOC: They lead to segfault and dont get removed.
+
+
+############################### ARSI / JAN 18 19:32
+
+❯ minishell ▸ $ $ export B=42
+
+should be an: ->>>   error : $: command not found
+FOR US it leaves the program, it goes out of it!!

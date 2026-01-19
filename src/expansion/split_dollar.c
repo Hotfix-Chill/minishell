@@ -121,6 +121,8 @@ char	*split_dollar(t_data *data, char *str)
 	if (str[0] != '$')
 		first_dollar = true;
 	dollar_split = ft_split(str, '$');
+	for (int i = 0; dollar_split[i]; i++)
+		printf("dollar_split_value: %s\n", dollar_split[i]);
 	if (!dollar_split)
 		return (NULL);
 	count = count_lines(dollar_split);

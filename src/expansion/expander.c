@@ -31,7 +31,7 @@ int	validifier_var(t_data *data, char *str)
 		return (1);
 	}
 	i = 1;
-	while (str[i] && str[i] !=  '=')
+	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '$')
 		{
@@ -61,7 +61,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	tmp = NULL;
 	sub_str = NULL;
 	expand_str = ft_calloc(idx + 1, sizeof(char));
-	tmp = ft_strncpy(expand_str, str, idx + 1);
+	tmp = ft_strncpy(expand_str, str, idx + 1);//segfault?!
 	if (!expand_str)
 		return (NULL);
 	printf("EXPAND_STR: %s\n", str);
