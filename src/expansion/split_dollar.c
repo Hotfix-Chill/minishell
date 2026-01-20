@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 15:11:44 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:31:10 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,12 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 	if (VERBOSE)
 		printf("INSIDE EXPAND\n");
 
-	if (!*dollar_split || dollar_split  )
+	if (!*dollar_split)
 		return (NULL);
 	while (dollar_split[i])
 	{
-		if (dollar_split[i][0] == '$' && dollar_split[i++][1] == '\0')
-			exp_word[j++] = ft_strdup("$");
-		else if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
+
+		if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_itoa(data->return_value);
 		else if (first_dollar)
 			exp_word[j++] = ft_strdup(dollar_split[i++]);
@@ -81,8 +80,9 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 			if (!value)
 				exp_word[j++] = ft_strdup("");
 			else
-				exp_word[j++] = ft_strdup(value);
+				exp_word[j++] = value;
 		}
+
 		first_dollar = false;
 		if (exp_word[j - 1] == NULL)
 			return (NULL);
@@ -150,10 +150,10 @@ char	*split_dollar(t_data *data, char *str)
 
 	exp_word = ft_calloc(count + 1, sizeof(char *));
 	if (!exp_word)
-		return (free_split(dollar_split), cleanup(data, ERROR), NULL);
+		return (free_split(dollar_split), NULL);
 	exp_word = expand(dollar_split, exp_word, data, first_dollar);
 	if (!exp_word)
-		return (free_split(dollar_split), free_split(exp_word), NULL);
+		return (free_split(dollar_split), free_split(exp_word), printf("22222\n"), NULL);
 	final_exp_str = join_expanded_strings(exp_word);
 	free_split(dollar_split);
 	free_split(exp_word);

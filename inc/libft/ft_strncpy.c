@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 17:47:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 13:11:36 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:54:33 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*ft_strncpy(char *dst, const char *src, size_t len)
 		i++;
 	}
 	dst[i] = '\0';
-	printf("dest:   %s\n", dst);
 	return (dst);
 }
 

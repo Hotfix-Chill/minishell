@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:48:09 by abita             #+#    #+#             */
-/*   Updated: 2025/12/09 17:03:54 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/20 20:08:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token *create_token(void)
 	token->cap = 0;
 	token->no_expand = false;
 	token->next = NULL;
-	token->prev = NULL; 
+	token->prev = NULL;
 	return (token);
 }
 int add_token(t_token_list *lst, t_token *node)
@@ -77,5 +77,5 @@ void free_token_list(t_token_list *lst)
 		free(cur);
 		cur = next;
 	}
-	free(lst); //here leak
+	free(lst); 
 }
