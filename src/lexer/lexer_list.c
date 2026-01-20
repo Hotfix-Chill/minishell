@@ -39,6 +39,8 @@ t_token *create_token(void)
 	token->len = 0;
 	token->cap = 0;
 	token->no_expand = false;
+	token->heredoc_expand = false;
+	token->quote = QUOTE_NORMAL;
 	token->next = NULL;
 	token->prev = NULL; 
 	return (token);
