@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 20:47:50 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:31:10 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 			if (!value)
 				exp_word[j++] = ft_strdup("");
 			else
-				exp_word[j++] = ft_strdup(value);
+				exp_word[j++] = value;
 		}
 
 		first_dollar = false;

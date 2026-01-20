@@ -6,11 +6,11 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 14:06:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 22:51:01 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
+#ifndef MINISHELL_H	
 # define MINISHELL_H
 
 /* ************************************************************************** */
@@ -180,7 +180,6 @@ typedef struct s_flag
 	bool	last_cmd;
 	bool	redirect_fail;
 	bool	equal_exists;
-	bool	not_valid;
 }	t_flag;
 
 /* ************************************************************************** */
