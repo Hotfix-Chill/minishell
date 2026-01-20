@@ -1,6 +1,6 @@
 NAME        = minishell
 CC          = cc
-CFLAGS      = -Wall -Werror -Wextra
+CFLAGS      = -Wall -Werror -Wextra -g
 DEBUG_FLAGS = -g -DVERBOSE=1
 
 LIBFT_DIR   = inc/libft
