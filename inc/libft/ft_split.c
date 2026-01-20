@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:25:29 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/08/29 13:44:35 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:19:24 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 	int		words;
 
 	if (!s)
-		return (NULL);
+		return (printf("NULL\n"), NULL);
 	words = ft_wordcount(s, c);
 	if (words == -1)
 		return (NULL);

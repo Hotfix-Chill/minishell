@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 09:31:55 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:08:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	get_exit_status(t_data *data, int pid)
 	int	status;
 	int exit_code;
 	pid_t	wpid;
+
+	if (VERBOSE)
+		printf("INSIDE PARENT\n");
 
 	exit_code = 0;
 	init_signals_parent();
@@ -41,7 +44,7 @@ void	get_exit_status(t_data *data, int pid)
 	if (data->return_value == 128 + SIGINT)
 		printf("\n");
 	if (VERBOSE)
-		printf("ExitCode Parent: %i\n", data->return_value);
+		printf("Exit Code Parent: %i\n", data->return_value);
 }
 void	ft_close(t_data *data)
 {
@@ -100,6 +103,9 @@ void	multi_cmds(t_data *data, t_cmds *cmd)
 {
 	int		i;
 	pid_t	pid;
+
+	if (VERBOSE)
+		printf("INSIDE MULTIPLE CMD\n");
 
 	pid = 0;
 	if (pipe(data->fd.prev) < 0)

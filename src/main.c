@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 10:13:05 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:13:44 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			}
 			free_token_list(tokens);
 
-			//HERDOCS
+			if (VERBOSE)
+				printf("INSIDE HEREDOC\n");
 			if (heredocs(data, data->list->head) == SIGINT)
 			{
 				free(line);
@@ -70,6 +71,8 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			}
 			expansion(data->list, data);
 			executor(data->list->head, data);
+			if (VERBOSE)
+				printf("INSIDE MAIN LOOP CLEANUP\n");
 			cleanup(data, RESET);
 		}
 		free(line);

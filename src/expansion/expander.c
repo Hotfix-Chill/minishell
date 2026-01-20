@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/16 18:41:48 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:37:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	size_t	i;
 
 	final = NULL;
+	data->flag.not_valid = false;
 	printf("EXTRACT VAR: %s\n", str);
 	printf("IDX: %zu\n", idx);
 
@@ -126,7 +127,7 @@ static int	expand_cmd(t_data  *data, t_cmds *cmd)
 		{
 			expanded = split_dollar(data, cmd->argv[i]);
 			if (!expanded)
-				return (EXIT_FAILURE);
+				return (printf("EXIT FAILURE SPLIT DOLLAR\n"), EXIT_FAILURE);
 			free(cmd->argv[i]);
 			cmd->argv[i] = expanded;
 		}
@@ -160,6 +161,8 @@ void	expansion(t_stack *cmd_list, t_data *data)
 {
 	t_cmds	*cmd;
 
+	if (VERBOSE)
+		printf("INSIDE EXPANSION CMD\n");
 
 	cmd = cmd_list->head;
 	//printf("ARGV[1]: %s\n", cmd->argv[1]);
@@ -169,7 +172,7 @@ void	expansion(t_stack *cmd_list, t_data *data)
 	{
 		if (expand_cmd(data, cmd) == EXIT_FAILURE
 			|| expand_redirs(data, cmd) == EXIT_FAILURE)
-			cleanup(data, ERROR);
+			break ;//cleanup(data, ERROR);
 		cmd = cmd->next;
 	}
 }

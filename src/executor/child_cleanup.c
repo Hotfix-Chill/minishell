@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 19:38:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 15:19:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:09:59 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	child_cleanup(int exit_code, char *message, t_data *data, t_cmds *cmd)
 		write(2, message, ft_strlen(message));
 	}
 	data->flag.redirect_fail= false;
+
+	if (VERBOSE)
+		printf("INSIDE CHILD CLEANUP\n");
 	cleanup(data, exit_code);
 }
 

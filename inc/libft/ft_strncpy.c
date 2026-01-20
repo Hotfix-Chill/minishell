@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 17:47:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 17:31:21 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:11:36 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t len)
 	size_t	i;
 
 	i = 0;
-	if (!dst || !src || len < 0)
+	if (!dst || !src || len <= 0)
 		return (NULL);
 	while (i + 1 < len && src[i])
 	{
