@@ -45,10 +45,11 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
 		if (*line) // not empty input
 		{
-			if (!*line)
+			if (*line != SPACE)
 				add_history(line);
 			if (is_only_whitespaces(line))
 			{
+				add_history(line);
 				free(line);
 				continue;
 			}
