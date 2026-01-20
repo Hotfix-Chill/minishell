@@ -14,6 +14,20 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
+bool is_only_whitespaces(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 int	init_data(t_data *data)
 {
 	ft_memset(data, 0, sizeof(t_data));
@@ -31,8 +45,13 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
 		if (*line) // not empty input
 		{
-			if (*line != SPACE)
+			if (!*line)
 				add_history(line);
+			if (is_only_whitespaces(line))
+			{
+				free(line);
+				continue;
+			}
 			tokens = tokenizer(line);
 			if (!tokens)
 			{
