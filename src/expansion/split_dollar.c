@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 14:59:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:11:44 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 	if (VERBOSE)
 		printf("INSIDE EXPAND\n");
 
-	if (!*dollar_split)
+	if (!*dollar_split || dollar_split  )
 		return (NULL);
 	while (dollar_split[i])
 	{
-		if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
+		if (dollar_split[i][0] == '$' && dollar_split[i++][1] == '\0')
+			exp_word[j++] = ft_strdup("$");
+		else if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_itoa(data->return_value);
 		else if (first_dollar)
 			exp_word[j++] = ft_strdup(dollar_split[i++]);
