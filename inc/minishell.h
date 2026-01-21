@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 18:02:44 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:40:02 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define EQUAL_VS_NULL_TERM 61
 # define HEREDOC_PROMPT "> "
 # define NO_DOLLAR -1
+# define WHITESPACES " \n\t\r\v\f"
 
 /* redir status helpers */
 # define REDIR_NOT_FOUND 0
@@ -389,6 +390,7 @@ t_stack		*parsing(t_token_list *token, t_data *data);
 /* ************************************************************************** */
 
 void		expansion(t_stack *cmd_list, t_data *data);
+char		**ft_split_dollar(char const *s, char c);
 char	 	*extract_var(t_data *data, char *extract_var);
 char		*split_dollar(t_data *data, char *str);
 

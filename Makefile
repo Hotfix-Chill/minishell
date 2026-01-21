@@ -45,9 +45,10 @@ SRCS = \
 	parser/parser_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \
-	expansion/split_dollar.c \
 	builtins/update_export.c \
 	executor/child_cleanup.c \
+	expansion/extract_expand.c \
+	expansion/ft_split_dollar.c \
 	executor/extract_path_list.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
