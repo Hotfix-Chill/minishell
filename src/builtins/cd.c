@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 15:41:55 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:05:16 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ void	change_pwd_path(t_data *data, char *path)
 
 char	*find_home_path(t_data *data)
 {
-	int i;
-	char *path = NULL;
+	int		i;
+	char	*path;
 
+	path = NULL;
 	i = 0;
 	while (data->env[i])
 	{

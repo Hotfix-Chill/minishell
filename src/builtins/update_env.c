@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/12/12 19:57:54 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:11:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	add_env_entry(t_data *data, char *str, char *key)
 
 bool	check_entry_env(t_data *data, char *key, char *str)
 {
-	size_t idx;
+	size_t	idx;
 
 	idx = 0;
 	while (data->env[idx])
 	{
-		if (ft_memcmp(data->env[idx], key, ft_strlen(key) + 1) == EQUAL_VS_NULL_TERM )
+		if (ft_memcmp(data->env[idx], key, ft_strlen(key) + 1) == 61)
 		{
 			free(data->env[idx]);
 			data->env[idx] = ft_strdup(str);
@@ -49,6 +49,3 @@ bool	check_entry_env(t_data *data, char *key, char *str)
 	}
 	return (false);
 }
-
-
-

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 07:21:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:12:11 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 char	*get_key(char *str, t_data *data)
 {
-	int equal = find_char(str, '=');
+	int	equal;
+
+	equal = find_char(str, '=');
 	if (equal == -1)
 		return (ft_strdup(str));
 	data->flag.equal_exists = true;
@@ -65,7 +67,7 @@ bool	add_export_entry(t_data *data, char *key, char *value)
 
 bool	check_entry_export(t_data *data, char *key, char *value)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < data->export_len)

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 15:28:17 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:50:15 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,13 +173,12 @@ static size_t	count_split_chars(char **split)
 	while (split[i])
 	{
 		count += ft_strlen(split[i++]);
-		printf("count[%zu]: %zu\n", i - 1, count);
-
 	}
 	return (count);
 }
 
-static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool first_dollar)
+static char	**expand(char **dollar_split, char **exp_word, t_data *data, \
+	bool first_dollar)
 {
 	int		i;
 	int		j;
@@ -187,7 +186,6 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 
 	i = 0;
 	j = 0;
-
 	if (VERBOSE)
 		printf("INSIDE EXPAND\n");
 	if (!*dollar_split)
@@ -212,7 +210,6 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 		if (exp_word[j - 1] == NULL)
 			return (NULL);
 	}
-	printf("INDEX in EXP_WORD: %i\n", j);
 	return (exp_word);
 }
 static char	*join_expanded_strings(char **expanded_words)
@@ -224,14 +221,9 @@ static char	*join_expanded_strings(char **expanded_words)
 	char	*full_string;
 
 	i = 0;
-
-	printf("PRINT EXPANDED STRINGS\n");
-	//print_split(expanded_words);
 	if (expanded_words[i + 1] == NULL)
 		return (ft_strdup(expanded_words[0]));
 	len = count_split_chars(expanded_words);
-	printf("len: count split chars in join_expanded_strings = %zu\n", len);
-
 	full_string = ft_calloc(len + 1, sizeof(char));
 	if (!full_string)
 		return (NULL);
@@ -259,29 +251,22 @@ char	*split_dollar(t_data *data, char *str)
 
 	if (VERBOSE)
 		printf("INSIDE EXPANSION - SPLIT DOLLAR\n");
-
 	first_dollar = false;
 	if (str[0] != '$')
 		first_dollar = true;
 	dollar_split = ft_split_dollar(str, '$');
-
-
 	if (!dollar_split)
 		return (printf("split cleanup\n"), NULL);
-
 	for	(int i = 0; dollar_split[i]; i++)
 		printf("dollar_split_value[%i]: %s\n", i, dollar_split[i]);
-
-
 	count = count_lines(dollar_split);
 	printf("ALLOCATION SIZE for exp_word: %zu\n", count + 1);
-
 	exp_word = ft_calloc(count + 1, sizeof(char *));
 	if (!exp_word)
 		return (free_split(dollar_split), NULL);
 	exp_word = expand(dollar_split, exp_word, data, first_dollar);
 	if (!exp_word)
-		return (free_split(dollar_split), free_split(exp_word), printf("22222\n"), NULL);
+		return (free_split(dollar_split), free_split(exp_word), NULL);
 	final_exp_str = join_expanded_strings(exp_word);
 	free_split(dollar_split);
 	free_split(exp_word);

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 15:11:48 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/21 18:22:31 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 {
-	char	*line;
-	char	*delimiter;
-	int		delimiter_len;
+	char			*line;
+	char			*delimiter;
+	int				delimiter_len;
 	static size_t	count = 0;
+	char			*new_line;
 
 	delimiter = redirs->filename;
 	delimiter_len = ft_strlen(delimiter);
@@ -28,18 +29,20 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 		count++;
 		if ((!line))
 		{
-			printf("minishell: warning: here-document at line %li delimited" \
+			printf("minishell: warning: here-document at line %li delimited " \
 				"by end-of-file (wanted `%s')\n", count, redirs->filename);
 			return (0);
 		}
 		if (!ft_memcmp(line, delimiter, delimiter_len + 1) || g_signal == 1)
 			return (free(line), 0);
-		char *new_line;
-		if (redirs->heredoc_expand) {
+		if (redirs->heredoc_expand && find_char(line, '$') != NO_DOLLAR)
+		{
 			new_line = split_dollar(data, line);
 			free(line);
 			write(fd, new_line, ft_strlen(new_line));
 			write(fd, "\n", 1);
+			free(new_line);
+
 		}
 		else {
 			write(fd, line, ft_strlen(line));
@@ -49,11 +52,10 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 	}
 }
 
-
 static char	*get_filename(int index)
 {
-	char *idx;
-	char *filename;
+	char	*idx;
+	char	*filename;
 
 	idx = ft_itoa(index);
 	if (!idx)
@@ -95,9 +97,9 @@ static char	*get_filename(int index)
 // creates a file with random name from name + pid + index
 static void	create_file(t_data *data, t_redirs *redir)
 {
-	int fd;
-	char *heredoc_name;
-	int index;
+	int		fd;
+	char	*heredoc_name;
+	int		index;
 
 	fd = -1;
 	if (!redir)

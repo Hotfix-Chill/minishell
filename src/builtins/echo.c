@@ -6,10 +6,9 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:03:35 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 18:13:42 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:05:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -44,7 +43,7 @@ void	ft_echo(t_data *data, t_cmds *cmd)
 	}
 	while (isflag_activ(cmd->argv[i]))
 	{
-		n_flag  = true;
+		n_flag = true;
 		i++;
 	}
 	while (cmd->argv[i])

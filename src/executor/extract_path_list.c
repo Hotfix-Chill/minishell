@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 10:10:38 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 14:45:14 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:13:11 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,3 @@ char	**get_path_list(t_data *data, t_cmds *cmd)
 	}
 	return (path_list);
 }
-
-

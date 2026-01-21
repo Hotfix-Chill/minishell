@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 19:38:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 13:09:59 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:12:54 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	child_cleanup(int exit_code, char *message, t_data *data, t_cmds *cmd)
 			write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
 		write(2, message, ft_strlen(message));
 	}
-	data->flag.redirect_fail= false;
-
+	data->flag.redirect_fail = false;
 	if (VERBOSE)
 		printf("INSIDE CHILD CLEANUP\n");
 	cleanup(data, exit_code);
@@ -46,8 +45,6 @@ void	handle_errno(t_data *data, t_cmds *cmd, int error_code)
 		|| error_code == ENAMETOOLONG || error_code == EINVAL)
 		child_cleanup(126, NULL, data, cmd);
 	else if (error_code == EMFILE || error_code == ENFILE
-		|| error_code == E2BIG	|| error_code == EFAULT)
+		|| error_code == E2BIG || error_code == EFAULT)
 		child_cleanup(1, NULL, data, cmd);
 }
-
-

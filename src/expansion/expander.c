@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 12:53:32 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/21 18:03:49 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	expand_str = ft_calloc(idx + 1, sizeof(char));
 	if (!expand_str)
 		return (NULL);
-	ft_strncpy(expand_str, str, idx + 1);//segfault?!
-	if (idx + 1 < ft_strlen(str))
+	ft_strncpy(expand_str, str, idx + 1);
+	if (idx + 1 <= ft_strlen(str))
 	{
 		sub_str = ft_substr(str, idx, ft_strlen(&str[idx]));
 		if (!sub_str)
@@ -73,21 +73,20 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	char *line = ft_strjoin(final, sub_str);
 	free(final);
 	free(sub_str);
-	return(line);
-
+	return (line);
 }
 
-char 	*extract_var(t_data *data, char *extract_var)
+char	*extract_var(t_data *data, char *extract_var)
 {
+	size_t	idx;
 
 	if (!extract_var)
 		return (NULL);
-	size_t idx = validifier_var(extract_var);
+	idx = validifier_var(extract_var);
 	return (expand_and_join(data, extract_var, idx));
-
 }
 
-static int	expand_cmd(t_data  *data, t_cmds *cmd)
+static int	expand_cmd(t_data *data, t_cmds *cmd)
 {
 	int		i;
 	char	*expanded;
@@ -95,11 +94,11 @@ static int	expand_cmd(t_data  *data, t_cmds *cmd)
 	i = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
-		if (!cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NOT_FOUND_DOLLAR)
+		if (!cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NO_DOLLAR)
 		{
 			expanded = split_dollar(data, cmd->argv[i]);
 			if (!expanded)
-				return (printf("EXIT FAILURE SPLIT DOLLAR\n"), EXIT_FAILURE);
+				return (EXIT_FAILURE);
 			free(cmd->argv[i]);
 			cmd->argv[i] = expanded;
 		}
@@ -116,9 +115,9 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 	redirs = cmd->redirs;
 	while (redirs)
 	{
-		if (!redirs->no_expand && find_char(redirs->filename, '$') != NOT_FOUND_DOLLAR)
+		if (!redirs->no_expand && find_char(redirs->filename, '$') != NO_DOLLAR)
 		{
-			expanded = split_dollar(data,redirs->filename);
+			expanded = split_dollar(data, redirs->filename);
 			if (!expanded)
 				return (EXIT_FAILURE);
 			free(redirs->filename);
@@ -135,9 +134,7 @@ void	expansion(t_stack *cmd_list, t_data *data)
 
 	if (VERBOSE)
 		printf("INSIDE EXPANSION CMD\n");
-
 	cmd = cmd_list->head;
-	//printf("ARGV[1]: %s\n", cmd->argv[1]);
 	if (!cmd_list || !data)
 		cleanup(data, ERROR);
 	while (cmd)

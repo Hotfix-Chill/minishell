@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:06:32 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 12:46:05 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:45:39 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,14 @@
 static bool	digit_check(t_cmds *cmd)
 {
 	int	i;
-	int j;
+	int	j;
 
 	j = 0;
 	if (!cmd->argv[1][0])
 		return (false);
 	if ((cmd->argv[1][0] == '-' || cmd->argv[1][0] == '+')
-	&& cmd ->argv[1][1] != '\0')
+		&& cmd ->argv[1][1] != '\0')
 		j++;
-	/* else if (!ft_isdigit(cmd->argv[1][0]))
-	{
-			printf("minishell: exit: ");
-			printf("%s: numeric argument required\n", cmd->argv[1]);
-			cleanup(data, 2);
-	} */
 	i = j;
 	while (cmd->argv[1][i])
 	{
@@ -43,7 +37,7 @@ static bool	digit_check(t_cmds *cmd)
 
 void	ft_exit(t_data *data, t_cmds *cmd)
 {
-	long long nb;
+	long long	nb;
 
 	if (!cmd->argv[1])
 	{
@@ -64,6 +58,7 @@ void	ft_exit(t_data *data, t_cmds *cmd)
 		data->return_value = 1;
 		return ;
 	}
+	// ADD STRTRIM
 	nb = ft_atoll(cmd->argv[1]);
 	data->return_value = (nb % 256 + 256) % 256;
 	cleanup(data, data->return_value);

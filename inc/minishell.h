@@ -6,11 +6,11 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 12:56:01 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/21 18:02:44 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H	
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 /* ************************************************************************** */
@@ -32,7 +32,7 @@
 # define RESET 424242
 # define EQUAL_VS_NULL_TERM 61
 # define HEREDOC_PROMPT "> "
-# define NOT_FOUND_DOLLAR -1
+# define NO_DOLLAR -1
 
 /* redir status helpers */
 # define REDIR_NOT_FOUND 0
