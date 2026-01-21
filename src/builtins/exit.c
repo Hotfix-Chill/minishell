@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:06:32 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 17:45:39 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:55:54 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 static bool	digit_check(t_cmds *cmd)
 {
-	int	i;
-	int	j;
+	const char *p = cmd->argv[1];
 
-	j = 0;
 	if (!cmd->argv[1][0])
 		return (false);
-	if ((cmd->argv[1][0] == '-' || cmd->argv[1][0] == '+')
-		&& cmd ->argv[1][1] != '\0')
-		j++;
-	i = j;
-	while (cmd->argv[1][i])
+	ft_skip_whitespaces(&p);
+	if ((*p == '-' || *p == '+')
+		&& *p + 1 != '\0')
+		p++;
+	while (*p)
 	{
-		if (!ft_isdigit(cmd->argv[1][i]))
+		if (!ft_isdigit(*p) && !ft_isspace(*p))
 		{
 			return (false);
 		}
-		i++;
+		p++;
 	}
 	return (true);
 }
@@ -58,7 +56,6 @@ void	ft_exit(t_data *data, t_cmds *cmd)
 		data->return_value = 1;
 		return ;
 	}
-	// ADD STRTRIM
 	nb = ft_atoll(cmd->argv[1]);
 	data->return_value = (nb % 256 + 256) % 256;
 	cleanup(data, data->return_value);
