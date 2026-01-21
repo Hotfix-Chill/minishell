@@ -105,7 +105,7 @@ typedef struct s_token
 	int					len;       /* current length */
 	int					cap;       /* allocated capacity */
 	bool			no_expand;
-	bool 			heredoc_expand;
+	bool 			quoted;
 	t_quote_type		quote;     /* quote context */
 	struct s_token		*next;
 	struct s_token		*prev;

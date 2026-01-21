@@ -39,14 +39,13 @@ int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
 	new_redirs->typ = redir_token->redir;
 	new_redirs->filename = ft_strdup(filename_token->content);
 	new_redirs->no_expand = filename_token->no_expand;
-	new_redirs->heredoc_expand = filename_token->heredoc_expand;
 	if (!new_redirs->filename)
 		return (free(new_redirs), -1);
 	if (new_redirs->typ == REDIR_HEREDOC)
 	{
 		new_redirs->heredoc = true;
 		data->heredoc.count++;
-		if (filename_token->quote == QUOTE_NORMAL)
+		if (filename_token->quoted)
 			new_redirs->heredoc_expand = false;
 		else
 			new_redirs->heredoc_expand = true;
