@@ -26,6 +26,7 @@ int handle_quote_char(t_token *tok, char c)
 		{
 			tok->quote = QUOTE_SINGLE;
 			tok->no_expand = true;
+			tok->heredoc_expand = true;
 			return (1); // consume the quote. dont add to content
 		}
 		if (c == '\"')
@@ -38,6 +39,7 @@ int handle_quote_char(t_token *tok, char c)
 	else if (is_closing_quote(c, tok->quote))
 	{
 		tok->quote = QUOTE_NORMAL;
+		tok->heredoc_expand = true;
 		return (1); // consume closing quote
 	}
 	// inside quotes but not the closing quote, its a literal content

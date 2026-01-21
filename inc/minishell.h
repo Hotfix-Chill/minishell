@@ -105,6 +105,7 @@ typedef struct s_token
 	int					len;       /* current length */
 	int					cap;       /* allocated capacity */
 	bool			no_expand;
+	bool 			heredoc_expand;
 	t_quote_type		quote;     /* quote context */
 	struct s_token		*next;
 	struct s_token		*prev;
@@ -126,6 +127,7 @@ typedef struct s_redirections
 	t_redir_type			typ;
 	char					*filename;
 	bool 					no_expand;
+	bool 					heredoc_expand;
 	bool					heredoc; /* set true when typ == REDIR_HEREDOC */
 	struct s_redirections	*next;
 }	t_redirs;
