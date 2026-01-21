@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 14:15:33 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:49:01 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,14 +190,13 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 
 	if (VERBOSE)
 		printf("INSIDE EXPAND\n");
-
 	if (!*dollar_split)
 		return (NULL);
 	while (dollar_split[i])
 	{
 		if (dollar_split[i][0] == '$' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_strdup("$");
-		if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
+		else if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_itoa(data->return_value);
 		else if (first_dollar)
 			exp_word[j++] = ft_strdup(dollar_split[i++]);
@@ -209,13 +208,11 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool fi
 			else
 				exp_word[j++] = value;
 		}
-
 		first_dollar = false;
 		if (exp_word[j - 1] == NULL)
 			return (NULL);
 	}
-	printf("J: %i\n", j);
-
+	printf("INDEX in EXP_WORD: %i\n", j);
 	return (exp_word);
 }
 static char	*join_expanded_strings(char **expanded_words)
@@ -229,7 +226,7 @@ static char	*join_expanded_strings(char **expanded_words)
 	i = 0;
 
 	printf("PRINT EXPANDED STRINGS\n");
-	print_split(expanded_words);
+	//print_split(expanded_words);
 	if (expanded_words[i + 1] == NULL)
 		return (ft_strdup(expanded_words[0]));
 	len = count_split_chars(expanded_words);
@@ -273,14 +270,11 @@ char	*split_dollar(t_data *data, char *str)
 		return (printf("split cleanup\n"), NULL);
 
 	for	(int i = 0; dollar_split[i]; i++)
-		printf("dollar_split_value: %s\n", dollar_split[i]);
+		printf("dollar_split_value[%i]: %s\n", i, dollar_split[i]);
 
 
-	printf("COUNT LINES\n");
 	count = count_lines(dollar_split);
-
-
-	printf("count: %zu\n", count);
+	printf("ALLOCATION SIZE for exp_word: %zu\n", count + 1);
 
 	exp_word = ft_calloc(count + 1, sizeof(char *));
 	if (!exp_word)
