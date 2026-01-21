@@ -42,7 +42,6 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 			write(fd, new_line, ft_strlen(new_line));
 			write(fd, "\n", 1);
 			free(new_line);
-
 		}
 		else {
 			write(fd, line, ft_strlen(line));

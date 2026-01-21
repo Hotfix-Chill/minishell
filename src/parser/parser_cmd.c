@@ -83,10 +83,9 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_fla
 	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
 	if (!new_argv || !flag_for_expansion) {
 		if (!new_argv)
-			return (free (new_argv), -1);
+			return (-1);
 		if (!flag_for_expansion)
-			return (free (flag_for_expansion), -1);
-		// return (free(new_argv), free(flag_for_expansion), -1);
+			return (free (new_argv), -1);
 	}
 	i = 0;
 	while (i < arg_count)

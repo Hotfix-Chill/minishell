@@ -42,6 +42,11 @@ void free_cmds(t_cmds *cmd)
 		return ;
 	free_arg(cmd->argv);
 	free_redirs(cmd->redirs);
+	if (cmd->no_expand != NULL)
+	{
+		free(cmd->no_expand);
+		cmd->no_expand = NULL;
+	}
 	if (cmd)
 		free(cmd);
 }
