@@ -6,13 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 10:49:36 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:11:48 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	write_into_heredoc(t_redirs *redirs, int fd)
+static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 {
 	char	*line;
 	char	*delimiter;
@@ -34,9 +34,18 @@ static int	write_into_heredoc(t_redirs *redirs, int fd)
 		}
 		if (!ft_memcmp(line, delimiter, delimiter_len + 1) || g_signal == 1)
 			return (free(line), 0);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		char *new_line;
+		if (redirs->heredoc_expand) {
+			new_line = split_dollar(data, line);
+			free(line);
+			write(fd, new_line, ft_strlen(new_line));
+			write(fd, "\n", 1);
+		}
+		else {
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
 	}
 }
 
@@ -103,7 +112,7 @@ static void	create_file(t_data *data, t_redirs *redir)
 			close(fd);
 		cleanup(data, ERROR);
 	}
-	write_into_heredoc(redir, fd);
+	write_into_heredoc(data, redir, fd);
 	free(redir->filename);
 	redir->filename = NULL;
 	redir->typ = REDIR_IN;
