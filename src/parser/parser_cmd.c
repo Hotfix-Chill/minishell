@@ -6,7 +6,11 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:37:55 by abita             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/01/21 12:54:12 by abita            ###   ########.fr       */
+=======
+/*   Updated: 2026/01/21 14:52:05 by pjelinek         ###   ########.fr       */
+>>>>>>> Patrick
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +84,7 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_fla
 		return (-1);
 	arg_count = count(curr_cmd);
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
-	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool)); 
+	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
 	if (!new_argv || !flag_for_expansion) {
 		if (!new_argv)
 			return (free (new_argv), -1);
