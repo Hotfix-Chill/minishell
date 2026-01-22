@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/22 20:09:14 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/22 20:19:55 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ typedef enum e_quote_type
 
 typedef struct s_token
 {
-	t_token_type		typ;       /* main token type */
 	char				*content;  /* allocated string; can be NULL */
 	int					redir;
 	int					len;       /* current length */
 	int					cap;       /* allocated capacity */
-	bool			no_expand;
-	bool 			quoted;
+	bool				no_expand;
+	bool 				quoted;
+	t_token_type		typ;       /* main token type */
 	t_quote_type		quote;     /* quote context */
 	struct s_token		*next;
 	struct s_token		*prev;
@@ -125,8 +125,8 @@ typedef struct s_token_list
 
 typedef struct s_redirections
 {
-	t_redir_type			typ;
 	char					*filename;
+	t_redir_type			typ;
 	bool 					no_expand;
 	bool 					heredoc_expand;
 	bool					heredoc; /* set true when typ == REDIR_HEREDOC */
@@ -136,9 +136,9 @@ typedef struct s_redirections
 typedef struct s_cmds
 {
 	char			**argv;
-	t_redirs		*redirs;
 	bool			*no_expand;
 	bool			builtin;
+	t_redirs		*redirs;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -202,21 +202,17 @@ typedef struct s_heredoc
 
 typedef struct s_data
 {
-	char			*tmp;
-
 	char			**path_list;
 	char			**env;
+	char			*tmp;
 	char			*pwd;
-
 	size_t			env_len;
 	size_t			export_len;
-
-	unsigned int	return_value; /* for $? */
-
 	t_fds			fd;
 	t_exec			exec;
 	t_cmds			*cmd;
 	t_stack			*list;
+	unsigned int	return_value; /* for $? */
 	t_flag			flag;
 	t_export		*export;
 	t_heredoc		heredoc;
