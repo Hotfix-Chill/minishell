@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 18:12:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/22 17:52:46 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*get_key(char *str, t_data *data)
 char	*get_value(t_data *data, char *str, char *key)
 {
 	int		equal;
-	char	*tmp;
 	char	*value;
 
 	equal = find_char(str, '=');
@@ -34,11 +33,7 @@ char	*get_value(t_data *data, char *str, char *key)
 		return (NULL);
 	if (str[equal + 1] == '\0')
 		return (ft_calloc(1, sizeof(char)));
-	tmp = ft_substr(str, equal + 1, ft_strlen(str));
-	if (!tmp)
-		return (free(key), cleanup(data, ERROR), NULL);
-	value = ft_strtrim(tmp, "\"");
-	free(tmp);
+	value = ft_substr(str, equal + 1, ft_strlen(str));
 	if (!value)
 		return (free(key), cleanup(data, ERROR), NULL);
 	return (value);
