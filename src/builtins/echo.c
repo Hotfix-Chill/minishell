@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:03:35 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 18:05:27 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:49:50 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	isflag_activ(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || str[0] != '-')
 		return (false);

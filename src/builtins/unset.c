@@ -6,43 +6,11 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:05:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 18:10:03 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:50:13 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	delete_export_entry(t_data *data, size_t idx)
-{
-	while (idx < data->export_len)
-	{
-		free(data->export[idx].key);
-		data->export[idx].key = NULL;
-		if (data->export[idx].value)
-		{
-			free(data->export[idx].value);
-			data->export[idx].value = NULL;
-		}
-		if (idx + 1 != data->export_len)
-		{
-			data->export[idx].key = ft_strdup(data->export[idx + 1].key);
-			if (!data->export[idx].key)
-				cleanup(data, ERROR);
-			if (data->export[idx].value == NULL)
-				data->export[idx].value = NULL;
-			else
-			{
-				data->export[idx].value = ft_strdup(data->export[idx + 1].value);
-				if (!data->export[idx].value)
-					cleanup(data, ERROR);
-			}
-		}
-		idx++;
-	}
-	if (data->export_len > 0)
-		data->export_len -= 1;
-	data->export = ft_realloc_export(data, data->export, data->export_len, 0);
-}
 
 static void	delete_env_entry(t_data *data, size_t idx)
 {
@@ -92,7 +60,6 @@ void	delete_entries(t_data *data, t_cmds *cmd, size_t idx)
 	}
 }
 
-// first letter only LETTERS or _ --> after only letters, digits or _
 static bool	valid_identifier(char *str)
 {
 	int	i;
