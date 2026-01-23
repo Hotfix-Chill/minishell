@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:56:44 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 19:20:19 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:26:59 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static char	**ft_split_loop(char **split, char const *s, char c)
 			j++;
 			while (s[i] != c && s[i + 1] != '\0')
 				i++;
-
 		}
 		i++;
 	}

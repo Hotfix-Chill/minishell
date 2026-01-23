@@ -42,6 +42,7 @@ SRCS = \
 	lexer/lexer_content.c \
 	lexer/lexer_cleanup.c \
 	executor/single_exec.c \
+	expansion/word_split.c \
 	parser/parser_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \

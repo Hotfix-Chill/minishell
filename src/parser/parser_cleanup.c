@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 15:39:26 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 12:54:26 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/23 12:19:43 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void free_cmds(t_cmds *cmd)
 	{
 		free(cmd->no_expand);
 		cmd->no_expand = NULL;
+	}
+	if (cmd->no_split != NULL)
+	{
+		free(cmd->no_split);
+		cmd->no_split = NULL;
 	}
 	if (cmd)
 		free(cmd);

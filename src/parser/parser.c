@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 15:41:52 by abita             #+#    #+#             */
-/*   Updated: 2026/01/11 15:18:59 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/23 12:23:53 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_dat
 		}
 		else if (tok->typ == TOKEN_WORD) // WORD_TOKEN
 		{
-			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand) != EXIT_SUCCESS)
+				if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand,
+					tok->quoted) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next;
 		}
@@ -83,7 +84,7 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_dat
 	}
 	return (EXIT_SUCCESS);
 }
-static void check_builtins(t_stack *lst)
+void update_builtins(t_stack *lst)
 {
 	t_cmds *cmd;
 
@@ -136,6 +137,6 @@ t_stack *parsing(t_token_list *token, t_data *data)
 			return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
 		return (free_cmd_list(cmd_list), NULL);
-	check_builtins(cmd_list);
+	update_builtins(cmd_list);
 	return (cmd_list);
 }
