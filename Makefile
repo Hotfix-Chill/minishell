@@ -40,15 +40,17 @@ SRCS = \
 	builtins/update_env.c \
 	executor/multi_exec.c \
 	lexer/lexer_content.c \
-	lexer/lexer_cleanup.c \
+	cleanup/lexer_cleanup.c \
 	executor/single_exec.c \
 	expansion/word_split.c \
-	parser/parser_cleanup.c \
+	cleanup/parser_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \
 	builtins/update_export.c \
-	executor/child_cleanup.c \
+	cleanup/child_cleanup.c \
+	cleanup/heredoc_cleanup.c \
 	expansion/extract_expand.c \
+	expansion/expander_utils.c \
 	expansion/ft_split_dollar.c \
 	executor/extract_path_list.c \
 

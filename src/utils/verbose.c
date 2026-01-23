@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 19:34:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/12 22:43:47 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:26:32 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,23 @@ void print_cmd_list(t_stack *list)
 } */
 
 
-
-void	print_token_list(t_token_list *tokens)
+/* void	print_token_list(t_token_list *tokens)
 {
-    t_token_list *curr = tokens;
-    t_token *cur = curr->head;
-    while (cur)
-    {
-        printf("Tokentyp: %d, Content: %s\n", cur->typ, cur->content);
-        cur = cur->next;
-    }
-    return ;
-}
+	t_token_list	*curr;
+	t_token			*cur;
+
+	curr = tokens;
+	cur = curr->head;
+	while (cur)
+	{
+		printf("Tokentyp: %d, Content: %s\n", cur->typ, cur->content);
+		cur = cur->next;
+	}
+	return ;
+} */
 
 
-static const char *redir_type_to_str(int type)
+static const	char *redir_type_to_str(int type)
 {
     if (type == REDIR_IN)
         return "REDIR_IN";
@@ -142,8 +144,8 @@ void	print_env(t_data *data)
 			printf("%s\n", data->path_list[i++]);
 	}
 }
-
-void	print_exit_signals(int status)
+/*
+void	print_exit_signals(int status, t_data *data)
 {
 	if (WTERMSIG(status) == SIGSEGV)
 		printf("\033[31m[SIGSEGV]\033[0m\n");
@@ -157,4 +159,7 @@ void	print_exit_signals(int status)
 		printf("\033[31m[SIGPIPE]\033[0m\n");
 	else if (WTERMSIG(status) == SIGILL)
 		printf("\033[31m[SIGILL]\033[0m\n");
+
+	printf("Exit Code Parent: %i\n", data->return_value);
 }
+ */

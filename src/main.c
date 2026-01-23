@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/23 12:18:19 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:39:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 				continue ;
 			}
 			expansion(data->list, data);
-			word_splitting(data->list);
+			word_splitting(data->list, data);
 			update_builtins(data->list);
 			executor(data->list->head, data);
 			if (VERBOSE)

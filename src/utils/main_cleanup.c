@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/15 05:08:16 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:26:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void	clean_export(t_export *export, size_t size)
 
 void	cleanup(t_data *data, int exit_code)
 {
-	t_cmds *cmd = data->cmd;
+	t_cmds *cmd;
+
+	cmd = data->cmd;
 	if (data->env && exit_code != RESET)
 	{
 		free_split(data->env);
@@ -116,17 +118,7 @@ void	cleanup(t_data *data, int exit_code)
 		data->list = NULL;
 	}
 	if (data->heredoc.files)
-	{
-		int i = 0;
-		while (i < data->heredoc.count)
-		{
-			unlink(data->heredoc.files[i++]);
-			if (VERBOSE)
-				printf("HEREDOC FILE %s DELETED\n", data->heredoc.files[i - 1]);
-		}
-		free_split(data->heredoc.files);
-		ft_memset(&data->heredoc, 0, sizeof(t_heredoc));
-	}
+		ft_heredoc_cleanup(data);
 	ft_memset(&data->fd, -1, sizeof(t_fds));
 	ft_memset(&data->list, 0, sizeof(t_list));
 	g_signal = 0;

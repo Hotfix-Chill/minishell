@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/20 13:08:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:23:39 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	get_exit_status(t_data *data, int pid)
 {
-	int	status;
-	int exit_code;
+	int		status;
+	int		exit_code;
 	pid_t	wpid;
-
-	if (VERBOSE)
-		printf("INSIDE PARENT\n");
 
 	exit_code = 0;
 	init_signals_parent();
@@ -32,20 +29,17 @@ void	get_exit_status(t_data *data, int pid)
 				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				exit_code = 128 + WTERMSIG(status);
-			if (VERBOSE)
-				print_exit_signals(status);
 		}
 		wpid = wait(&status);
 	}
 	init_signals_prompt();
-	data->return_value = exit_code;				// use for $? in expander
+	data->return_value = exit_code;
 	if (data->return_value == 128 + SIGQUIT)
 		printf("Quit (core dumped)\n");
 	if (data->return_value == 128 + SIGINT)
 		printf("\n");
-	if (VERBOSE)
-		printf("Exit Code Parent: %i\n", data->return_value);
 }
+
 void	ft_close(t_data *data)
 {
 	if (data->fd.prev[0] >= 0)
@@ -63,24 +57,25 @@ void	ft_close(t_data *data)
 static void	child_process(t_data *data, t_cmds *cmd, int loop)
 {
 	init_signals_child();
-	if (loop == 0) // 1ST Loop, redir pipe to stdout
+	if (loop == 0)
 	{
 		if (dup2(data->fd.curr[1], STDOUT_FILENO) < 0)
 		{
 			child_cleanup(1, "child[1] - dup2 fd.curr failed\n", data, cmd);
 		}
 	}
-	else if (loop > 0 && loop < data->list->size - 1)  // IN BETWEEN cmd 2 - (n-1)
+	else if (loop > 0 && loop < data->list->size - 1)
 	{
 		if (dup2(data->fd.prev[0], STDIN_FILENO) < 0)
 			child_cleanup(1, "child - dup2 fd.prev[0] failed\n", data, cmd);
 		if (dup2(data->fd.curr[1], STDOUT_FILENO) < 0)
 			child_cleanup(1, "child - dup2 fd.curr[1]] failed\n", data, cmd);
 	}
-	else if (loop == data->list->size - 1) // Last COMMAND
+	else if (loop == data->list->size - 1)
 	{
 		if (dup2(data->fd.prev[0], STDIN_FILENO) < 0)
-			child_cleanup(1, "child[last] - dup2 fd.prev[0] failed\n", data, cmd);
+			child_cleanup(1, "child[last] - dup2 fd.prev[0] failed\n", \
+				data, cmd);
 	}
 	ft_close(data);
 	exec_cmd(data, cmd);
@@ -103,9 +98,6 @@ void	multi_cmds(t_data *data, t_cmds *cmd)
 {
 	int		i;
 	pid_t	pid;
-
-	if (VERBOSE)
-		printf("INSIDE MULTIPLE CMD\n");
 
 	pid = 0;
 	if (pipe(data->fd.prev) < 0)
