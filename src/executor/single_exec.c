@@ -6,13 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/20 13:06:12 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:12:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_relative_path(t_data *data, t_cmds *cmd)
+static void	execute_relative_path(t_data *data, t_cmds *cmd)
 {
 	int	error_code;
 
@@ -31,7 +31,7 @@ void	execute_relative_path(t_data *data, t_cmds *cmd)
 	}
 }
 
-void	apply_execve(t_data *data, t_cmds *cmd)
+static void	apply_execve(t_data *data, t_cmds *cmd)
 {
 	int	error_code;
 
@@ -45,7 +45,7 @@ void	apply_execve(t_data *data, t_cmds *cmd)
 	}
 }
 
-static char	*create_path(char *dir, char *cmd_line, t_data *data, t_cmds *cmd)
+static char	*ft_path(char *dir, char *cmd_line, t_data *data, t_cmds *cmd)
 {
 	char	*tmp;
 	char	*full_path;
@@ -68,7 +68,7 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 
 	i = 0;
 	init_signals_child();
-	if (!!cmd->redirs) // if redirs type is not NULL
+	if (!!cmd->redirs)
 		handle_redirections(data, cmd);
 	if (exec_builtins(data, cmd))
 		cleanup(data, data->return_value);
@@ -77,17 +77,17 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 		execute_relative_path(data, cmd);
 	data->path_list = get_path_list(data, cmd);
 	if (!data->path_list)
-		child_cleanup(127, ": command not found\n", data, cmd);/////
+		child_cleanup(127, ": command not found\n", data, cmd);
 	while (data->path_list[i])
 	{
-		data->exec.path = create_path(data->path_list[i], cmd->argv[0], data, cmd);
+		data->exec.path = ft_path(data->path_list[i], cmd->argv[0], data, cmd);
 		if (!data->exec.path)
 			child_cleanup(1, " : malloc error single_exec.c \n", data, cmd);
 		apply_execve(data, cmd);
 		free(data->exec.path);
 		i++;
 	}
-	child_cleanup(127, ": command not found\n", data, cmd);/////
+	child_cleanup(127, ": command not found\n", data, cmd);
 }
 
 void	single_cmd(t_data *data, t_cmds *cmd)
@@ -95,7 +95,7 @@ void	single_cmd(t_data *data, t_cmds *cmd)
 	int	pid;
 	if (VERBOSE)
 		printf("INSIDE SINGLE CMD\n");
-		
+
 
 	pid = fork();
 	if (pid < 0)

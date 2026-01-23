@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 18:22:31 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 15:23:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 			write(fd, "\n", 1);
 			free(new_line);
 		}
-		else {
+		else
+		{
 			write(fd, line, ft_strlen(line));
 			write(fd, "\n", 1);
 			free(line);

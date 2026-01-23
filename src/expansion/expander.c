@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 19:33:17 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:28:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,6 @@ void	expansion(t_stack *cmd_list, t_data *data)
 		if (expand_cmd(data, cmd) == EXIT_FAILURE
 			|| expand_redirs(data, cmd) == EXIT_FAILURE)
 			break ;
-		cmd = cmd->next;
-	}
-	cmd = cmd_list->head;
-	while (cmd)
-	{
-		field_split(cmd);
 		cmd = cmd->next;
 	}
 }

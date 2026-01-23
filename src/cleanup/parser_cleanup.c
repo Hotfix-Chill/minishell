@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 15:39:26 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 12:54:26 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/23 16:22:41 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void free_arg(char **argv)
 	free(argv);
 }
 
-static void free_redirs(t_redirs *r)
+static void	free_redirs(t_redirs *r)
 {
-	t_redirs *next;
+	t_redirs	*next;
 
 	while (r)
 	{
@@ -36,7 +36,7 @@ static void free_redirs(t_redirs *r)
 		r = next;
 	}
 }
-void free_cmds(t_cmds *cmd)
+void	free_cmds(t_cmds *cmd)
 {
 	if (!cmd)
 		return ;
@@ -47,14 +47,19 @@ void free_cmds(t_cmds *cmd)
 		free(cmd->no_expand);
 		cmd->no_expand = NULL;
 	}
+	if (cmd->no_split != NULL)
+	{
+		free(cmd->no_split);
+		cmd->no_split = NULL;
+	}
 	if (cmd)
 		free(cmd);
 }
 
-void free_cmd_list(t_stack *lst)
+void	free_cmd_list(t_stack *lst)
 {
-	t_cmds *cur;
-	t_cmds *next;
+	t_cmds	*cur;
+	t_cmds	*next;
 
 	if (!lst)
 		return ;

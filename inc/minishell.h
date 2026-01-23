@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/22 20:19:55 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:30:10 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,18 @@ typedef struct s_cmds
 {
 	char			**argv;
 	bool			*no_expand;
+	bool			*no_split;
 	bool			builtin;
 	t_redirs		*redirs;
 	struct s_cmds	*next;
 }	t_cmds;
+
+typedef struct s_buffer
+{
+	char			**argv;
+	bool			*no_expand;
+	bool			*no_split;
+}	t_buffer;
 
 typedef struct s_stack
 {
@@ -369,7 +377,8 @@ void		*cleanup_all(t_token_list *lst, t_token *tok);
 t_stack		*init_cmd_list(void);
 t_cmds		*create_cmds(void);
 int			add_cmd_to_list(t_stack *lst, t_cmds *node);
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_flag);
+int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
+	bool no_expand_flag, bool no_split_flag);
 void		free_cmds(t_cmds *cmd);
 void		free_cmd_list(t_stack *lst);
 
@@ -387,7 +396,17 @@ t_stack		*parsing(t_token_list *token, t_data *data);
 
 void		expansion(t_stack *cmd_list, t_data *data);
 char		**ft_split_dollar(char const *s, char c);
+void		word_splitting(t_stack *cmd_list, t_data *data);
+void		update_builtins(t_stack *lst);
 char	 	*extract_var(t_data *data, char *extract_var);
 char		*split_dollar(t_data *data, char *str);
+size_t		count_total_words(t_cmds *cmd);
+int			alloc_arrays(size_t total, char ***argv, bool **no_expand,
+		bool **no_split);
+bool		is_ifs_char(char c);
+int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
+
+
+void	ft_heredoc_cleanup(t_data *data);
 
 #endif
