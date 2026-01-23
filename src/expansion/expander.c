@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 18:03:49 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:33:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,15 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 char	*extract_var(t_data *data, char *extract_var)
 {
 	size_t	idx;
+	char	*value;
 
 	if (!extract_var)
 		return (NULL);
 	idx = validifier_var(extract_var);
-	return (expand_and_join(data, extract_var, idx));
+	value = expand_and_join(data, extract_var, idx);
+	if (!value)
+		return(ft_strdup(""));
+	return (value);
 }
 
 static int	expand_cmd(t_data *data, t_cmds *cmd)

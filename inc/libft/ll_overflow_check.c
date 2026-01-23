@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 05:29:52 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 13:21:25 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/22 17:32:37 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	ll_overflow_check(const char *str)
 	else if (len == 19 && !negativ && ft_strncmp(p, "9223372036854775807", 19) <= 0)
 		return (false);
 	else if (len == 19 && negativ && ft_strncmp(p, "9223372036854775808", 19) <= 0)
-		return (true);
+		return (false);
 	return (true);
 }
 
