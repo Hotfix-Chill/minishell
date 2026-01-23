@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-t_redirs *init_redir(void)
+t_redirs	*init_redir(void)
 {
-	t_redirs *redirs;
+	t_redirs	*redirs;
 
 	redirs = (t_redirs *)ft_calloc(1, sizeof(*redirs));
 	if (!redirs)
@@ -25,14 +25,14 @@ t_redirs *init_redir(void)
 	return (redirs);
 }
 
-int add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
+int	add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
 	t_token *filename_token, t_data *data)
 {
-	t_redirs *new_redirs;
-	t_redirs *last;
+	t_redirs	*new_redirs;
+	t_redirs	*last;
 
 	if (!cmd || !redir_token || !filename_token)
-	return (-1);
+		return (-1);
 	new_redirs = init_redir();
 	if (!new_redirs)
 		return (-1);

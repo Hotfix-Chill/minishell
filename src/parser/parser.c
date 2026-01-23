@@ -12,37 +12,14 @@
 
 #include "minishell.h"
 
-/*
-	P​arser that processes the tokens according to a grammar
-	and build the command table.
-
-	Parser's Job:
-
-	1. Group tokens into commands (split by pipes)
-	2. Separate arguments from redirections
-	3. Build t_cmds nodes
-	4. Link them in a list
-
-
-	Implement init_cmd_list(), create_cmd(), free_cmd_list()
-*/
-
-		/*
-		Example:
-		Token: "echo"
-		Before: current_cmd->argv = NULL
-		After:  current_cmd->argv = ["echo", NULL]
-
-		Token: "hello"
-		Before: current_cmd->argv = ["echo", NULL]
-		After:  current_cmd->argv = ["echo", "<<", "file name", NULL]
-*/
-
-static int handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, t_stack *cmd_list)
+static int	handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, \
+	t_stack *cmd_list)
 {
-	t_token *tok = *tok_ptr;
-	t_cmds *curr_cmd = *curr_cmd_ptr;
+	t_token		*tok;
+	t_cmds		*curr_cmd;
 
+	*tok = *tok_ptr;
+	*curr_cmd = *curr_cmd_ptr;
 	if (tok->typ == TOKEN_PIPE)
 	{
 		if (!curr_cmd->argv && !curr_cmd->redirs)
@@ -58,23 +35,26 @@ static int handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, t_stack *cmd_li
 	return (EXIT_SUCCESS);
 }
 
-static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_data *data)
+static int	parser_loop(t_token *tok, t_cmds **curr_cmd, \
+	t_stack *cmd_list, t_data *data)
 {
-	while (tok)		//loops through all tokens and processes them based on their type
+	while (tok)
 	{
-		if (handle_pipe(&tok, curr_cmd, cmd_list) != EXIT_SUCCESS) // PIPE TOKE
+		if (handle_pipe(&tok, curr_cmd, cmd_list) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
-		else if(tok->typ == TOKEN_REDIR) // REDIR_TOKEN
+		else if (tok->typ == TOKEN_REDIR)
 		{
 			if (!tok->next || tok->next->typ != TOKEN_WORD)
 				return (EXIT_FAILURE);
-			if (add_redir_to_cmd(*curr_cmd, tok, tok->next, data) != EXIT_SUCCESS)
+			if (add_redir_to_cmd(*curr_cmd, tok, tok->next, data) \
+				!= EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next->next;
 		}
-		else if (tok->typ == TOKEN_WORD) // WORD_TOKEN
+		else if (tok->typ == TOKEN_WORD)
 		{
-			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand) != EXIT_SUCCESS)
+			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand) \
+				!= EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next;
 		}
@@ -83,9 +63,10 @@ static int parser_loop(t_token *tok, t_cmds **curr_cmd, t_stack *cmd_list, t_dat
 	}
 	return (EXIT_SUCCESS);
 }
-static void check_builtins(t_stack *lst)
+
+static void	check_builtins(t_stack *lst)
 {
-	t_cmds *cmd;
+	t_cmds	*cmd;
 
 	if (!lst)
 		return ;
@@ -96,7 +77,7 @@ static void check_builtins(t_stack *lst)
 		{
 			cmd->builtin = false;
 			cmd = cmd->next;
-			continue;
+			continue ;
 		}
 		if (ft_strcmp(cmd->argv[0], "echo") == 0)
 			cmd->builtin = true;
@@ -118,22 +99,21 @@ static void check_builtins(t_stack *lst)
 	}
 }
 
-// taking the tooken list from the header
-t_stack *parsing(t_token_list *token, t_data *data)
+t_stack	*parsing(t_token_list *token, t_data *data)
 {
-	t_cmds			*curr_cmd;
-	t_stack			*cmd_list;
+	t_cmds	*curr_cmd;
+	t_stack	*cmd_list;
 
-	cmd_list = init_cmd_list(); // allocates t_stack
+	cmd_list = init_cmd_list();
 	if (!cmd_list)
 		return (NULL);
-	curr_cmd = create_cmds();		// allocates t_cmds
+	curr_cmd = create_cmds();
 	if (!curr_cmd)
 		return (free(cmd_list), NULL);
 	if (parser_loop(token->head, &curr_cmd, cmd_list, data) != EXIT_SUCCESS)
 		return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if ((!curr_cmd->argv && !curr_cmd->redirs))
-			return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
+		return (free_cmds(curr_cmd), free_cmd_list(cmd_list), NULL);
 	if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
 		return (free_cmd_list(cmd_list), NULL);
 	check_builtins(cmd_list);

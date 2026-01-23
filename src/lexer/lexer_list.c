@@ -12,10 +12,9 @@
 
 #include "minishell.h"
 
-
-t_token_list *init_token_list(void)
+t_token_list	*init_token_list(void)
 {
-	t_token_list *lst;
+	t_token_list	*lst;
 
 	lst = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	if (!lst)
@@ -26,9 +25,9 @@ t_token_list *init_token_list(void)
 	return (lst);
 }
 
-t_token *create_token(void)
+t_token	*create_token(void)
 {
-	t_token *token;
+	t_token		*token;
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!token)
@@ -45,7 +44,8 @@ t_token *create_token(void)
 	token->prev = NULL;
 	return (token);
 }
-int add_token(t_token_list *lst, t_token *node)
+
+int	add_token(t_token_list *lst, t_token *node)
 {
 	if (!lst || !node)
 		return (-1);
@@ -64,10 +64,10 @@ int add_token(t_token_list *lst, t_token *node)
 	return (EXIT_SUCCESS);
 }
 
-void free_token_list(t_token_list *lst)
+void	free_token_list(t_token_list *lst)
 {
-	t_token *cur;
-	t_token *next;
+	t_token		*cur;
+	t_token		*next;
 
 	if (!lst)
 		return ;
@@ -79,5 +79,5 @@ void free_token_list(t_token_list *lst)
 		free(cur);
 		cur = next;
 	}
-	free(lst); 
+	free(lst);
 }

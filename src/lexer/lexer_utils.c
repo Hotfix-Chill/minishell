@@ -15,12 +15,13 @@
 int	skip_whitespace(char *line, int i)
 {
 	while ((line[i] && line[i] == ' ') || (line[i] >= 9 && line[i] <= 13))
-			i++;
+		i++;
 	return (i);
 }
-int pipe_check(char *line, int *i_ptr, t_token *tok)
+
+int	pipe_check(char *line, int *i_ptr, t_token *tok)
 {
-	int		i;
+	int	i;
 
 	i = *i_ptr;
 	if (line[i] == '|')
@@ -33,9 +34,10 @@ int pipe_check(char *line, int *i_ptr, t_token *tok)
 	}
 	return (REDIR_NONE);
 }
-int redir_check(char *line, int *i_ptr, t_token *tok)
+
+int	redir_check(char *line, int *i_ptr, t_token *tok)
 {
-	int		i;
+	int	i;
 
 	i = *i_ptr;
 	if (line[i] == '>' && line[i + 1] == '>')
@@ -58,11 +60,12 @@ int redir_check(char *line, int *i_ptr, t_token *tok)
 	}
 	return (REDIR_NONE);
 }
+
 int	decide_token_type(char *line, int *i_ptr, t_token *tok)
 {
-	int		i;
-	int		res;
-	int res_pipe;
+	int	i;
+	int	res;
+	int	res_pipe;
 
 	i = *i_ptr;
 	res = redir_check(line, i_ptr, tok);
@@ -76,19 +79,17 @@ int	decide_token_type(char *line, int *i_ptr, t_token *tok)
 	else if (res_pipe == REDIR_FOUND)
 		return (EXIT_SUCCESS);
 	else if (line[i] == '>')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT, *i_ptr = i + 1,
-			EXIT_SUCCESS);
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT, \
+			*i_ptr = i + 1, EXIT_SUCCESS);
 	else if (line[i] == '<')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN, *i_ptr = i + 1,
-			EXIT_SUCCESS);
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN, \
+			*i_ptr = i + 1, EXIT_SUCCESS);
 	tok->typ = TOKEN_WORD;
 	tok->quote = QUOTE_NORMAL;
 	return (EXIT_SUCCESS);
 }
-/*
-	tokens contetnt setup this for non word tokens
-*/
-int set_operator_content(t_token *tok)
+
+int	set_operator_content(t_token *tok)
 {
 	if (tok->typ == TOKEN_PIPE)
 		return (append_str_to_content(tok, "|"));

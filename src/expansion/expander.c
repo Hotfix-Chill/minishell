@@ -10,15 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	Shell Parameter Expansion
-		The ‘$’ character introduces parameter expansion, command substitution,
-	or arithmetic expansion. The parameter name or symbol to be expanded may be
-	enclosed in braces, which are optional but serve to protect the variable
-	to be expanded from characters immediately following it which could be
-	interpreted as part of the name.
-*/
-
 #include "minishell.h"
 
 int	validifier_var(char *str)
@@ -42,6 +33,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	char	*expand_str;
 	char	*sub_str;
 	char	*final;
+	char	*line;
 	size_t	i;
 
 	final = NULL;
@@ -70,7 +62,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 		return (NULL);
 	else if (final && !sub_str)
 		return (final);
-	char *line = ft_strjoin(final, sub_str);
+	line = ft_strjoin(final, sub_str);
 	free(final);
 	free(sub_str);
 	return (line);
@@ -141,7 +133,13 @@ void	expansion(t_stack *cmd_list, t_data *data)
 	{
 		if (expand_cmd(data, cmd) == EXIT_FAILURE
 			|| expand_redirs(data, cmd) == EXIT_FAILURE)
-			break ;//cleanup(data, ERROR);
+			break ;
+		cmd = cmd->next;
+	}
+	cmd = cmd_list->head;
+	while (cmd)
+	{
+		field_split(cmd);
 		cmd = cmd->next;
 	}
 }

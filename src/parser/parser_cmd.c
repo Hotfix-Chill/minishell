@@ -6,15 +6,15 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/21 15:32:43 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:08:05 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_stack *init_cmd_list(void)
+t_stack	*init_cmd_list(void)
 {
-	t_stack *lst;
+	t_stack	*lst;
 
 	lst = (t_stack *)ft_calloc(1, sizeof(t_stack));
 	if (!lst)
@@ -25,9 +25,9 @@ t_stack *init_cmd_list(void)
 	return (lst);
 }
 
-t_cmds *create_cmds(void)
+t_cmds	*create_cmds(void)
 {
-	t_cmds *cmd;
+	t_cmds	*cmd;
 
 	cmd = (t_cmds *)ft_calloc(1, sizeof(t_cmds));
 	if (!cmd)
@@ -39,7 +39,7 @@ t_cmds *create_cmds(void)
 	return (cmd);
 }
 
-int add_cmd_to_list(t_stack *lst, t_cmds *cmd)
+int	add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 {
 	if (!lst || !cmd)
 		return (-1);
@@ -56,9 +56,10 @@ int add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 	lst->size++;
 	return (EXIT_SUCCESS);
 }
-static int count(t_cmds *curr_cmd)
+
+static int	count(t_cmds *curr_cmd)
 {
-	int arg_count;
+	int	arg_count;
 
 	arg_count = 0;
 	if (curr_cmd->argv != NULL)
@@ -68,20 +69,22 @@ static int count(t_cmds *curr_cmd)
 	}
 	return (arg_count);
 }
-// Add the token content like words to command's argv array
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, bool no_expand_flag)
+
+int	add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content, \
+	bool no_expand_flag)
 {
-	int arg_count;
-	int i;
-	char **new_argv;
-	bool *flag_for_expansion;
+	int		arg_count;
+	int		i;
+	char	**new_argv;
+	bool	*flag_for_expansion;
 
 	if (!curr_cmd || !tok_content)
 		return (-1);
 	arg_count = count(curr_cmd);
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
 	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
-	if (!new_argv || !flag_for_expansion) {
+	if (!new_argv || !flag_for_expansion)
+	{
 		if (!new_argv)
 			return (-1);
 		if (!flag_for_expansion)
