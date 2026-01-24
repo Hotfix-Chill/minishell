@@ -32,20 +32,11 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 		if (!sub_str)
 			return (free(expand_str), NULL);
 	}
-	i = 0;
-	while (i < data->export_len)
-	{
-		if (ft_strcmp(data->export[i].key, expand_str) == 0)
-			final = ft_strdup(data->export[i].value);
-		i++;
-	}
+	help_expand_lookup(data, expand_str, str, &final);
 	free(expand_str);
-	if (!final && sub_str)
-		return (sub_str);
-	else if (!final && !sub_str)
-		return (NULL);
-	else if (final && !sub_str)
-		return (final);
+	line = partial_expansion(final, sub_str);
+	if (line)
+		return (line);
 	line = ft_strjoin(final, sub_str);
 	free(final);
 	free(sub_str);

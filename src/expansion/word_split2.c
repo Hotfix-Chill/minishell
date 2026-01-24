@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-/* 9) Split an unquoted string into words and append them to the new argv. */
 int	fill_split_words(const char *str, char **argv, bool *no_expand,
 		bool *no_split, size_t *idx)
 {
@@ -41,8 +40,6 @@ int	fill_split_words(const char *str, char **argv, bool *no_expand,
 	return (EXIT_SUCCESS);
 }
 
-
-// 8)Copy a quoted word as-is into the rebuilt argv and mark it no_split. */
 int	append_quoted_word(t_cmds *cmd, size_t i, char **argv,
 		bool *no_expand, bool *no_split, size_t *idx)
 {
@@ -54,4 +51,3 @@ int	append_quoted_word(t_cmds *cmd, size_t i, char **argv,
 	(*idx)++;
 	return (EXIT_SUCCESS);
 }
-

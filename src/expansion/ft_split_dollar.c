@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 static char	*ft_cpy(char const *str, char c)
 {
 	size_t	count;

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_utils_pt2.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/24 15:26:04 by abita             #+#    #+#             */
+/*   Updated: 2026/01/24 15:26:16 by abita            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -15,4 +26,31 @@ int	validifier_var(char *str)
 		i++;
 	}
 	return (i);
+}
+
+int	help_expand_lookup(t_data *data, char *expand_str, char *str, char **final)
+{
+	size_t	i;
+
+	i = 0;
+	*final = NULL;
+	while (i < data->export_len)
+	{
+		if (ft_strcmp(data->export[i].key, expand_str) == 0)
+		{
+			*final = ft_strdup(data->export[i].value);
+			return ;
+		}
+		i++;
+	}
+}
+char *partial_expansion(char *final, char *sub_str)
+{
+	if (!*final && *sub_str)
+		return (*sub_str);
+	else if (!*final && !*sub_str)
+		return (NULL);
+	else if (*final && !*sub_str)
+		return (*final);
+	return (NULL);
 }

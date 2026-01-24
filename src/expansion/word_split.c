@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// 7) Populate the new argv by splitting unquoted entries and copying quoted. */
 static int	build_from_args(t_cmds *cmd, char **argv, bool *no_expand,
 		bool *no_split)
 {
@@ -37,8 +36,6 @@ static int	build_from_args(t_cmds *cmd, char **argv, bool *no_expand,
 	return (EXIT_SUCCESS);
 }
 
-
-// 2) rebuild command argv by splitting unquoted expanssions
 static int	rebuild_argv(t_cmds *cmd)
 {
 	char	**new_argv;
@@ -62,7 +59,6 @@ static int	rebuild_argv(t_cmds *cmd)
 	return (EXIT_SUCCESS);
 }
 
-// 1) start; iterate through cmd and rebuild argv after expansion.
 void	word_splitting(t_stack *cmd_list, t_data *data)
 {
 	t_cmds	*cmd;
