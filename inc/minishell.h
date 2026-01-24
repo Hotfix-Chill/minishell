@@ -157,6 +157,12 @@ typedef struct s_stack
 	t_cmds	*tail;
 }	t_stack;
 
+typedef struct s_argbuff
+{
+	char **new_argv;
+	bool *flag_for_expansion;
+	bool *flag_for_split;
+} t_argbuff;
 /* ************************************************************************** */
 /*                                 EXECUTION / IO                             */
 /* ************************************************************************** */
