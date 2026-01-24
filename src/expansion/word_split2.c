@@ -6,13 +6,14 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 15:10:13 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:24:01 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fill_split_words(const char *str, t_split *buf)
+/* 9) Split an unquoted string into words and append them to the new argv. */
+int	fill_split_words(const char *str, t_buffer *buf)
 {
 	size_t	i;
 	size_t	start;
@@ -31,21 +32,23 @@ int	fill_split_words(const char *str, t_split *buf)
 		word = ft_substr(str, start, i - start);
 		if (!word)
 			return (EXIT_FAILURE);
-		buf->argv[*buf->idx] = word;
-		buf->no_expand[*buf->idx] = false;
-		buf->no_split[*buf->idx] = false;
-		(*buf->idx)++;
+		buf->argv[buf->idx] = word;
+		buf->no_expand[buf->idx] = false;
+		buf->no_split[buf->idx] = false;
+		(buf->idx)++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	append_quoted_word(t_cmds *cmd, size_t i, t_split *buf)
+
+// 8)Copy a quoted word as-is into the rebuilt argv and mark it no_split. */
+int	append_quoted_word(t_cmds *cmd, size_t i, t_buffer *buf)
 {
-	buf->argv[*buf->idx] = ft_strdup(cmd->argv[i]);
-	if (!buf->argv[*buf->idx])
+	buf->argv[buf->idx] = ft_strdup(cmd->argv[i]);
+	if (!buf->argv[buf->idx])
 		return (EXIT_FAILURE);
-	buf->no_expand[*buf->idx] = false;
-	buf->no_split[*buf->idx] = true;
-	(*buf->idx)++;
+	buf->no_expand[buf->idx] = false;
+	buf->no_split[buf->idx] = true;
+	(buf->idx)++;
 	return (EXIT_SUCCESS);
 }

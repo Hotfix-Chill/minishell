@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 13:48:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 14:31:34 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:16:03 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static size_t	count_words(const char *str)
 	return (count);
 }
 
-int	free_split_arrays(char **argv, bool *no_expand, bool *no_split)
+int	free_split_arrays(t_buffer *buffer)
 {
-	free_split(argv);
-	free(no_expand);
-	free(no_split);
+	free_split(buffer->argv);
+	free(buffer->no_expand);
+	free(buffer->no_split);
 	return (EXIT_FAILURE);
 }
 
@@ -65,17 +65,16 @@ size_t	count_total_words(t_cmds *cmd)
 	return (total);
 }
 
-int	alloc_arrays(size_t total, char ***argv, bool **no_expand,
-		bool **no_split)
+int	alloc_arrays(size_t total, t_buffer *buf)
 {
-	*argv = ft_calloc(total + 1, sizeof(char *));
-	if (!*argv)
+	buf->argv = ft_calloc(total + 1, sizeof(char *));
+	if (!buf->argv)
 		return (EXIT_FAILURE);
-	*no_expand = ft_calloc(total + 1, sizeof(bool));
-	if (!*no_expand)
-		return (free(argv), EXIT_FAILURE);
-	*no_split = ft_calloc(total + 1, sizeof(bool));
-	if (!*no_split)
-		return (free(*argv), free(*no_expand), EXIT_FAILURE);
+	buf->no_expand = ft_calloc(total + 1, sizeof(bool));
+	if (!buf->no_expand)
+		return (free(buf->argv), EXIT_FAILURE);
+	buf->no_split = ft_calloc(total + 1, sizeof(bool));
+	if (!buf->no_split)
+		return (free(buf->argv), free(buf->no_expand), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

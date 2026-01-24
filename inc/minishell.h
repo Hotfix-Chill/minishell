@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 17:19:21 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:25:12 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_buffer
 	char						**argv;
 	bool						*no_expand;
 	bool						*no_split;
+	size_t						idx;
 }								t_buffer;
 
 typedef struct s_stack
@@ -166,13 +167,6 @@ typedef struct s_argbuff
 	bool						*flag_for_split;
 }								t_argbuff;
 
-typedef struct s_split
-{
-	char **argv;
-	bool *no_expand;
-	bool *no_split;
-	size_t *idx;
-} t_split;
 /* ************************************************************************** */
 /*                                 EXECUTION / IO                             */
 /* ************************************************************************** */
@@ -337,7 +331,7 @@ void	executor_cleanup(t_data *data);
 /*                                     SIGNALS                                */
 /* ************************************************************************** */
 
-void							prompt_handler(int sig);
+// void							prompt_handler(int sig);
 void							*init_signals_prompt(void);
 void							heredoc_handler(int sig);
 void							init_signals_heredoc(void);
@@ -432,12 +426,11 @@ void		update_builtins(t_stack *lst);
 char	 	*extract_var(t_data *data, char *extract_var);
 char		*split_dollar(t_data *data, char *str);
 size_t		count_total_words(t_cmds *cmd);
-int			alloc_arrays(size_t total, char ***argv, bool **no_expand,
-		bool **no_split);
+int			alloc_arrays(size_t total, t_buffer *buffer);
 bool		is_ifs_char(char c);
-int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
-int			fill_split_words(const char *str, t_split *buf);
-int			append_quoted_word(t_cmds *cmd, size_t i, t_split *buf);
+int			free_split_arrays(t_buffer *buffer);
+int			append_quoted_word(t_cmds *cmd, size_t i, t_buffer *buffer);
+int			fill_split_words(const char *str, t_buffer *buf);
 int			validifier_var(char *str);
 
 #endif

@@ -27,13 +27,13 @@ SRCS = \
 	utils/init_env.c \
 	builtins/unset.c \
 	builtins/export.c \
-	signals/heredoc.c \
-	signals/default.c \
+	signals/sig_heredoc.c \
+	signals/sig_default.c \
 	lexer/lexer_list.c \
 	parser/parser_cmd.c \
 	executor/heredoc.c \
 	lexer/lexer_utils.c \
-	signals/execution.c \
+	signals/sig_execution.c \
 	expansion/expander.c \
 	lexer/lexer_quotes.c \
 	lexer/lexer_checks.c \

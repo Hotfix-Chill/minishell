@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/24 16:33:30 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:14:36 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ bool	parser(t_data *data, char *line)
 	if (!tokens)
 	{
 		printf("minishell: syntax error\n");
-		free(line);
 		data->return_value = 1;
 		return (false);
 	}
@@ -38,7 +37,6 @@ bool	parser(t_data *data, char *line)
 	{
 		printf("minishell: syntax error\n");
 		free_token_list(tokens);
-		free(line);
 		data->return_value = 2;
 		return (false);
 	}
@@ -46,11 +44,10 @@ bool	parser(t_data *data, char *line)
 	return (true);
 }
 
-bool	execution(t_data *data, char *line)
+bool	execution(t_data *data)
 {
 	if (heredocs(data, data->list->head) == SIGINT)
 	{
-		free(line);
 		data->return_value = 130;
 		return (false);
 	}
@@ -61,24 +58,33 @@ bool	execution(t_data *data, char *line)
 	return (true);
 }
 
+
 int	main_loop(char *line, t_data	*data)
 {
 	while (1)
 	{
 		line = readline(PROMPT);
+		if (g_signal == SIGINT)
+		{
+			data->return_value = 130;
+			g_signal = 0;
+			if (line)
+				free(line);
+			continue ;
+		}
 		if (!line)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
 		if (*line)
 		{
 			if (*line != SPACE)
 				add_history(line);
-			if (is_only_whitespaces(line))
+			if (is_only_whitespaces(line) || !parser(data, line)
+				|| execution(data))
 			{
 				free(line);
+				line = NULL;
 				continue ;
 			}
-			if (!parser(data, line) || execution(data, line))
-				continue ;
 			cleanup(data, RESET);
 		}
 		free(line);
