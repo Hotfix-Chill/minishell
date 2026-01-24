@@ -17,6 +17,7 @@ SRCS = \
 	lexer/lexer.c \
 	builtins/cd.c \
 	utils/utils.c \
+	utils/utils2.c \
 	builtins/pwd.c \
 	builtins/env.c \
 	utils/realloc.c \

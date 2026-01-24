@@ -6,27 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/24 15:08:31 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 16:33:30 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
-
-bool	is_only_whitespaces(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i] != '\t')
-			return (false);
-		i++;
-	}
-	return (true);
-}
 
 int	init_data(t_data *data)
 {
@@ -35,67 +21,65 @@ int	init_data(t_data *data)
 	return (1);
 }
 
+bool	parser(t_data *data, char *line)
+{
+	t_token_list	*tokens;
+
+	tokens = tokenizer(line);
+	if (!tokens)
+	{
+		printf("minishell: syntax error\n");
+		free(line);
+		data->return_value = 1;
+		return (false);
+	}
+	data->list = parsing(tokens, data);
+	if (!data->list)
+	{
+		printf("minishell: syntax error\n");
+		free_token_list(tokens);
+		free(line);
+		data->return_value = 2;
+		return (false);
+	}
+	free_token_list(tokens);
+	return (true);
+}
+
+bool	execution(t_data *data, char *line)
+{
+	if (heredocs(data, data->list->head) == SIGINT)
+	{
+		free(line);
+		data->return_value = 130;
+		return (false);
+	}
+	expansion(data->list, data);
+	word_splitting(data->list, data);
+	update_builtins(data->list);
+	executor(data->list->head, data);
+	return (true);
+}
+
 int	main_loop(char *line, t_data	*data)
 {
-	t_token_list *tokens;
-
 	while (1)
 	{
 		line = readline(PROMPT);
-		if (!line) // NULL → Ctrl+D pressed (EOF)
+		if (!line)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
-		if (*line) // not empty input
+		if (*line)
 		{
 			if (*line != SPACE)
 				add_history(line);
 			if (is_only_whitespaces(line))
 			{
-				add_history(line);
+				add_history(line); ////// WHATS THAT?
 				free(line);
-				continue;
-			}
-			tokens = tokenizer(line);
-			if (!tokens)
-			{
-				printf("minishell: syntax error\n");
-				free(line);
-				data->return_value = 1;
 				continue ;
 			}
-			if (VERBOSE)
-				print_token_list(tokens);
-
-			// PARSING
-			data->list = parsing(tokens, data);
-			if (!data->list)
-			{
-				printf("minishell: syntax error\n");
-				free_token_list(tokens);
-				free(line);
-				data->return_value = 2;
+			if (!parser(data, line) || execution(data, line))
 				continue ;
-			}
- 			if (VERBOSE)
-			{
-				print_cmd_list(data->list->head);
-				printf("data_list_size: %i\n", data->list->size);
-			}
-			free_token_list(tokens);
-
-			if (VERBOSE)
-				printf("INSIDE HEREDOC\n");
-			if (heredocs(data, data->list->head) == SIGINT)
-			{
-				free(line);
-				data->return_value = 130;
-				continue ;
-			}
-			expansion(data->list, data);
-			word_splitting(data->list, data);
-			update_builtins(data->list);
-			executor(data->list->head, data);
-			if (VERBOSE)
-				printf("INSIDE MAIN LOOP CLEANUP\n");
 			cleanup(data, RESET);
 		}
 		free(line);
