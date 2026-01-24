@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 15:41:52 by abita             #+#    #+#             */
-/*   Updated: 2026/01/23 17:28:54 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:04:47 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,27 @@ static int	parser_loop(t_token *tok, t_cmds **curr_cmd, \
 	return (EXIT_SUCCESS);
 }
 
-void update_builtins(t_stack *lst)
+void	check_builtins(t_cmds *cmd)
+{
+	if (ft_strcmp(cmd->argv[0], "echo") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "export") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "env") == 0)
+		cmd->builtin = true;
+	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
+		cmd->builtin = true;
+	else
+		cmd->builtin = false;
+}
+
+void	update_builtins(t_stack *lst)
 {
 	t_cmds	*cmd;
 
@@ -79,22 +99,7 @@ void update_builtins(t_stack *lst)
 			cmd = cmd->next;
 			continue ;
 		}
-		if (ft_strcmp(cmd->argv[0], "echo") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "cd") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "export") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "env") == 0)
-			cmd->builtin = true;
-		else if (ft_strcmp(cmd->argv[0], "exit") == 0)
-			cmd->builtin = true;
-		else
-			cmd->builtin = false;
+		check_builtins(cmd);
 		cmd = cmd->next;
 	}
 }

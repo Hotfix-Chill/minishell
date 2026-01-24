@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:44:31 by abita             #+#    #+#             */
-/*   Updated: 2026/01/21 12:54:19 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/24 15:05:10 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ t_redirs	*init_redir(void)
 	return (redirs);
 }
 
+static void	check_heredoc_quotes(t_redirs *new_redirs, \
+	t_token *filename_token, t_data *data)
+{
+	if (new_redirs->typ == REDIR_HEREDOC)
+	{
+		new_redirs->heredoc = true;
+		data->heredoc.count++;
+		if (filename_token->quoted)
+			new_redirs->heredoc_expand = false;
+		else
+			new_redirs->heredoc_expand = true;
+	}
+}
+
 int	add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
 	t_token *filename_token, t_data *data)
 {
@@ -41,15 +55,7 @@ int	add_redir_to_cmd(t_cmds *cmd, t_token *redir_token, \
 	new_redirs->no_expand = filename_token->no_expand;
 	if (!new_redirs->filename)
 		return (free(new_redirs), -1);
-	if (new_redirs->typ == REDIR_HEREDOC)
-	{
-		new_redirs->heredoc = true;
-		data->heredoc.count++;
-		if (filename_token->quoted)
-			new_redirs->heredoc_expand = false;
-		else
-			new_redirs->heredoc_expand = true;
-	}
+	check_heredoc_quotes(new_redirs, filename_token, data);
 	if (!cmd->redirs)
 		cmd->redirs = new_redirs;
 	else

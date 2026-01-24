@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_cmd_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/24 14:54:26 by abita             #+#    #+#             */
+/*   Updated: 2026/01/24 15:05:01 by abita            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -45,17 +56,4 @@ int	add_cmd_to_list(t_stack *lst, t_cmds *cmd)
 	}
 	lst->size++;
 	return (EXIT_SUCCESS);
-}
-
-int	count(t_cmds *curr_cmd)
-{
-	int	arg_count;
-
-	arg_count = 0;
-	if (curr_cmd->argv != NULL)
-	{
-		while (curr_cmd->argv[arg_count])
-			arg_count++;
-	}
-	return (arg_count);
 }

@@ -65,7 +65,6 @@ size_t	count_total_words(t_cmds *cmd)
 	return (total);
 }
 
-//Allocate fresh argv  based on total_words
 int	alloc_arrays(size_t total, char ***argv, bool **no_expand,
 		bool **no_split)
 {

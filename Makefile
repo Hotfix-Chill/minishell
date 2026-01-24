@@ -49,12 +49,14 @@ SRCS = \
 	builtins/update_export.c \
 	cleanup/child_cleanup.c \
 	cleanup/heredoc_cleanup.c \
+	parser/parser_cmd_utils.c \
 	cleanup/executor_cleanup.c \
 	cleanup/env_cleanup.c \
 	expansion/extract_expand.c \
 	expansion/expander_utils.c \
 	expansion/ft_split_dollar.c \
 	executor/extract_path_list.c \
+	expansion/expander_utils_pt2.c \
 
 # baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

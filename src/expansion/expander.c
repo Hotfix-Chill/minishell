@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-int	validifier_var(char *str)
-{
-	size_t	i;
-
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (1);
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '$')
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
 char	*expand_and_join(t_data *data, char *str, size_t idx)
 {
 	char	*expand_str;
@@ -78,7 +62,7 @@ char	*extract_var(t_data *data, char *extract_var)
 	idx = validifier_var(extract_var);
 	value = expand_and_join(data, extract_var, idx);
 	if (!value)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	return (value);
 }
 

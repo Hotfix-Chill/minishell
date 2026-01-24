@@ -6,15 +6,28 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 00:06:33 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:04:52 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
+static int	count(t_cmds *curr_cmd)
 {
-	int i;
+	int	arg_count;
+
+	arg_count = 0;
+	if (curr_cmd->argv != NULL)
+	{
+		while (curr_cmd->argv[arg_count])
+			arg_count++;
+	}
+	return (arg_count);
+}
+
+static void	copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
+{
+	int	i;
 
 	i = 0;
 	while (i < arg_count)
@@ -32,9 +45,9 @@ static void copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
 	}
 }
 
-static int alloc_argbuff(t_cmds *curr_cmd, t_argbuff *buf)
+static int	alloc_argbuff(t_cmds *curr_cmd, t_argbuff *buf)
 {
-	int arg_count;
+	int	arg_count;
 
 	arg_count = count(curr_cmd);
 	buf->new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
@@ -45,15 +58,15 @@ static int alloc_argbuff(t_cmds *curr_cmd, t_argbuff *buf)
 		return (free (buf->new_argv), -1);
 	buf->flag_for_split = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
 	if (!buf->flag_for_split)
-			return (free(buf->new_argv), free(buf->flag_for_expansion), -1);
+		return (free(buf->new_argv), free(buf->flag_for_expansion), -1);
 	return (arg_count);
 }
 
-int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
+int	add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
 	bool no_expand_flag, bool no_split_flag)
 {
-	int 	arg_count;
-	t_argbuff buf;
+	int			arg_count;
+	t_argbuff	buf;
 
 	if (!curr_cmd || !tok_content)
 		return (-1);
@@ -63,7 +76,8 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
 	copy_old_args(curr_cmd, &buf, arg_count);
 	buf.new_argv[arg_count] = ft_strdup(tok_content);
 	if (!buf.new_argv[arg_count])
-		return (free(buf.new_argv), free(buf.flag_for_expansion), free(buf.flag_for_split), -1);
+		return (free(buf.new_argv), free(buf.flag_for_expansion), \
+			free(buf.flag_for_split), -1);
 	buf.flag_for_expansion[arg_count] = no_expand_flag;
 	buf.flag_for_split[arg_count] = no_split_flag;
 	buf.new_argv[arg_count + 1] = NULL;
