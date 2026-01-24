@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 19:24:01 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:32:29 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	fill_split_words(const char *str, t_buffer *buf)
 	}
 	return (EXIT_SUCCESS);
 }
-
 
 // 8)Copy a quoted word as-is into the rebuilt argv and mark it no_split. */
 int	append_quoted_word(t_cmds *cmd, size_t i, t_buffer *buf)

@@ -6,20 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/24 19:14:36 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:55:04 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
-
-int	init_data(t_data *data)
-{
-	ft_memset(data, 0, sizeof(t_data));
-	ft_memset(&data->fd, -1, sizeof(t_fds));
-	return (1);
-}
 
 bool	parser(t_data *data, char *line)
 {
@@ -58,6 +51,14 @@ bool	execution(t_data *data)
 	return (true);
 }
 
+void	ft_sig_int(t_data *data, char **line)
+{
+	data->return_value = 130;
+	g_signal = 0;
+	if (*line)
+		free(*line);
+	return ;
+}
 
 int	main_loop(char *line, t_data	*data)
 {
@@ -66,10 +67,7 @@ int	main_loop(char *line, t_data	*data)
 		line = readline(PROMPT);
 		if (g_signal == SIGINT)
 		{
-			data->return_value = 130;
-			g_signal = 0;
-			if (line)
-				free(line);
+			ft_sig_int(data, &line);
 			continue ;
 		}
 		if (!line)
@@ -78,8 +76,7 @@ int	main_loop(char *line, t_data	*data)
 		{
 			if (*line != SPACE)
 				add_history(line);
-			if (is_only_whitespaces(line) || !parser(data, line)
-				|| execution(data))
+			if (whitespaces(line) || !parser(data, line) || execution(data))
 			{
 				free(line);
 				line = NULL;

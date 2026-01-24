@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 20:16:38 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:31:09 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
 		buf->new_argv[i] = ft_strdup(curr_cmd->argv[i]);
 		if (!buf->new_argv[i])
 			return (free_split(buf->new_argv), 0);
-
 		if (curr_cmd->no_expand)
 			buf->flag_for_expansion[i] = curr_cmd->no_expand[i];
 		else
