@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 16:10:45 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 16:10:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+bool	is_only_whitespaces(char *line)
 {
-	bool	flag;
+	int	i;
 
-	flag = false;
-	if (**p == '-' || **p == '+')
+	i = 0;
+	while (line[i])
 	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
+		if (line[i] != ' ' && line[i] != '\t')
+			return (false);
+		i++;
 	}
-	return (flag);
+	return (true);
 }

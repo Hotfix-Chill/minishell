@@ -6,18 +6,16 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 14:55:01 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 15:23:17 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 17:20:08 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+//rl_event_hook(ioctl(STDIN_FILENO, TIOCSTI, "\n"));
 void	heredoc_handler(int sig)
 {
 	(void) sig;
-	//ioctl(STDIN_FILENO, TIOCSTI, "\n");
-
-	rl_event_hook(ioctl(STDIN_FILENO, TIOCSTI, "\n"));
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

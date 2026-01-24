@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 15:20:05 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 17:19:21 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,88 +244,86 @@ extern volatile sig_atomic_t	g_signal;
 /*                                 START / CORE                               */
 /* ************************************************************************** */
 
-bool							init_env(char **envp, t_data *data);
-char							*increment_shlvl(char *str);
-void							cleanup(t_data *data, int exit_code);
-char							*ft_extract_digits(char const *str);
-bool							split_into_key_and_value(t_data *data,
-									char *str, int idx);
+bool			init_env(char **envp, t_data *data);
+char			*increment_shlvl(char *str);
+void			cleanup(t_data *data, int exit_code);
+char			*ft_extract_digits(char const *str);
+bool			is_only_whitespaces(char *line);
+bool split_into_key_and_value(t_data *data, char *str, int idx);
 
 /* ************************************************************************** */
 /*                                   EXECUTION                                */
 /* ************************************************************************** */
 
-void							single_cmd(t_data *data, t_cmds *cmd);
-void							multi_cmds(t_data *data, t_cmds *cmd);
-void							executor(t_cmds *cmd, t_data *data);
+void			single_cmd(t_data *data, t_cmds *cmd);
+void			multi_cmds(t_data *data, t_cmds *cmd);
+void			executor(t_cmds *cmd, t_data *data);
 
-void							exec_cmd(t_data *data, t_cmds *cmd);
-void							handle_errno(t_data *data, t_cmds *cmd,
+void			exec_cmd(t_data *data, t_cmds *cmd);
+void			handle_errno(t_data *data, t_cmds *cmd,
 									int error_code);
-void							child_cleanup(int exit_code, char *message,
+void			child_cleanup(int exit_code, char *message,
 									t_data *data, t_cmds *cmd);
 
-void		handle_redirections(t_data *data, t_cmds *cmd);
-int			heredocs(t_data *data, t_cmds *cmd);
-void		heredoc_expand(t_data *data, char *line, int fd);
+void			handle_redirections(t_data *data, t_cmds *cmd);
+int				heredocs(t_data *data, t_cmds *cmd);
+void			heredoc_expand(t_data *data, char *line, int fd);
 
 
-void							ft_close(t_data *data);
-void							get_exit_status(t_data *data, int pid);
-void							print_exit_signals(int status);
+void			ft_close(t_data *data);
+void			get_exit_status(t_data *data, int pid);
+void			print_exit_signals(int status);
 
-char							**get_path_list(t_data *data, t_cmds *cmd);
+char			**get_path_list(t_data *data, t_cmds *cmd);
 
 /* ************************************************************************** */
 /*                                    BUILTINS                                */
 /* ************************************************************************** */
 
-bool							exec_builtins(t_data *data, t_cmds *cmd);
-void							ft_pwd(t_data *data);
-void							ft_env(t_data *data, t_cmds *cmd);
-void							ft_echo(t_data *data, t_cmds *cmd);
-void							ft_exit(t_data *data, t_cmds *cmd);
-void							ft_unset(t_data *data, t_cmds *cmd);
-void							ft_cd(t_data *data, t_cmds *cmd);
-void							ft_export(t_data *data, t_cmds *cmd);
+bool			exec_builtins(t_data *data, t_cmds *cmd);
+void			ft_pwd(t_data *data);
+void			ft_env(t_data *data, t_cmds *cmd);
+void			ft_echo(t_data *data, t_cmds *cmd);
+void			ft_exit(t_data *data, t_cmds *cmd);
+void			ft_unset(t_data *data, t_cmds *cmd);
+void			ft_cd(t_data *data, t_cmds *cmd);
+void			ft_export(t_data *data, t_cmds *cmd);
 
 /* ************************************************************************** */
 /*                                ENV & EXPORT LISTS                          */
 /* ************************************************************************** */
 
-void							add_env_entry(t_data *data, char *str,
-									char *key);
-bool							add_export_entry(t_data *data, char *key,
-									char *value);
+void	add_env_entry(t_data *data, char *str, char *key);
+bool	add_export_entry(t_data *data, char *key, char *value);
 
-char							*get_key(char *str, t_data *data);
-char							*get_value(t_data *data, char *str, char *key);
+char	*get_key(char *str, t_data *data);
+char	*get_value(t_data *data, char *str, char *key);
 
-bool							check_entry_export(t_data *data, char *key,
+bool	check_entry_export(t_data *data, char *key,
 									char *value);
-bool							check_entry_env(t_data *data, char *key,
+bool	check_entry_env(t_data *data, char *key,
 									char *str);
 
-char		**ft_realloc_env(t_data *data, char **env, size_t len, int min);
+char	**ft_realloc_env(t_data *data, char **env, size_t len, int min);
 t_export	*ft_realloc_export(
 	t_data *data, t_export *export, size_t size, int min
 );
-void		delete_export_entry(t_data *data, size_t idx);
-int			find_char(char *str, char c);
-bool		create_export_list(t_data *data);
+void	delete_export_entry(t_data *data, size_t idx);
+int		find_char(char *str, char c);
+bool	create_export_list(t_data *data);
 
 
 /* ************************************************************************** */
 /*                                     CLEANUP                                */
 /* ************************************************************************** */
 
-void							free_split(char **split);
-void							redirs_lstclear(t_redirs **lst);
-void							cmd_lstclear(t_cmds **lst);
-void							clean_export(t_export *export, size_t size);
-void							ft_heredoc_cleanup(t_data *data);
-void							env_cleanup(t_data *data, int exit_code);
-void							executor_cleanup(t_data *data);
+void	free_split(char **split);
+void	redirs_lstclear(t_redirs **lst);
+void	cmd_lstclear(t_cmds **lst);
+void	clean_export(t_export *export, size_t size);
+void	ft_heredoc_cleanup(t_data *data);
+void	env_cleanup(t_data *data, int exit_code);
+void	executor_cleanup(t_data *data);
 
 /* ************************************************************************** */
 /*                                     SIGNALS                                */
