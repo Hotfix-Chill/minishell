@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 17:26:19 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:06:33 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,14 @@ int add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
 		return (-1);
 	arg_count = count(curr_cmd);
 	new_argv = (char **)ft_calloc(arg_count + 2, sizeof(char *));
+	if (!new_argv)
+		return (-1);
 	flag_for_expansion = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
+	if (!flag_for_expansion)
+		return (free (new_argv), -1);
 	flag_for_split = (bool *)ft_calloc(arg_count + 2, sizeof(bool));
-	if (!new_argv || !flag_for_expansion || !flag_for_split)
-	{
-		if (!new_argv)
-			return (-1);
-		if (!flag_for_expansion)
-			return (free (new_argv), -1);
-		if (!flag_for_split)
+	if (!flag_for_split)
 			return (free(new_argv), free(flag_for_expansion), -1);
-	}
 	i = 0;
 	while (i < arg_count)
 	{

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 16:26:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:29:56 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,35 +88,8 @@ void	clean_export(t_export *export, size_t size)
 
 void	cleanup(t_data *data, int exit_code)
 {
-	t_cmds *cmd;
-
-	cmd = data->cmd;
-	if (data->env && exit_code != RESET)
-	{
-		free_split(data->env);
-		data->env = NULL;
-	}
-	if (data->path_list)
-	{
-		free_split(data->path_list);
-		data->path_list = NULL;
-	}
-	if (data->export && exit_code != RESET)
-	{
-		clean_export(data->export, data->export_len);
-		free(data->export);
-		data->export = NULL;
-	}
-	if (cmd)
-	{
-		cmd_lstclear(&cmd);
-		ft_memset(&data->cmd, 0, sizeof(t_cmds));
-	}
-	if (data->list)
-	{
-		free_cmd_list(data->list);
-		data->list = NULL;
-	}
+	env_cleanup(data, exit_code);
+	executor_cleanup(data);
 	if (data->heredoc.files)
 		ft_heredoc_cleanup(data);
 	ft_memset(&data->fd, -1, sizeof(t_fds));
@@ -125,8 +98,6 @@ void	cleanup(t_data *data, int exit_code)
 	if (exit_code == RESET)
 		return ;
 	data->return_value = exit_code;
-	if (VERBOSE)
-		printf("CLEANUP EXIT CODE: %d\n", data->return_value);
 	rl_clear_history();
 	exit(exit_code);
 }

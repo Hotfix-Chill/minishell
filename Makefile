@@ -33,7 +33,7 @@ SRCS = \
 	parser/parser_cmd.c \
 	lexer/lexer_utils.c \
 	expansion/expander.c \
-	utils/main_cleanup.c \
+	cleanup/main_cleanup.c \
 	lexer/lexer_quotes.c \
 	lexer/lexer_checks.c \
 	parser/parser_redir.c \
@@ -49,6 +49,8 @@ SRCS = \
 	builtins/update_export.c \
 	cleanup/child_cleanup.c \
 	cleanup/heredoc_cleanup.c \
+	cleanup/executor_cleanup.c \
+	cleanup/env_cleanup.c \
 	expansion/extract_expand.c \
 	expansion/expander_utils.c \
 	expansion/ft_split_dollar.c \

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 17:49:34 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:28:37 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	strdup_export_value(t_data *data, int idx)
 	return ;
 }
 
-static void	delete_export_entry(t_data *data, size_t idx)
+void	delete_export_entry(t_data *data, size_t idx)
 {
 	while (idx < data->export_len)
 	{

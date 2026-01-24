@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 16:30:10 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:30:07 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,7 @@ char		**ft_realloc_env(t_data *data, char **env, size_t len, int min);
 t_export	*ft_realloc_export(
 	t_data *data, t_export *export, size_t size, int min
 );
-
+void		delete_export_entry(t_data *data, size_t idx);
 int			find_char(char *str, char c);
 
 
@@ -307,6 +307,12 @@ void		free_split(char **split);
 void		redirs_lstclear(t_redirs **lst);
 void		cmd_lstclear(t_cmds **lst);
 void		clean_export(t_export *export, size_t size);
+void		ft_heredoc_cleanup(t_data *data);
+void		env_cleanup(t_data *data, int exit_code);
+void		executor_cleanup(t_data *data);
+
+
+
 
 /* ************************************************************************** */
 /*                                     SIGNALS                                */
@@ -407,6 +413,5 @@ bool		is_ifs_char(char c);
 int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
 
 
-void	ft_heredoc_cleanup(t_data *data);
 
 #endif
