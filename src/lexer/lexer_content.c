@@ -56,23 +56,21 @@ int	append_str_to_content(t_token *tok, char *str)
 int	collect_word_content(char *line, int *i_ptr, t_token *tok)
 {
 	int		i;
-	char	c;
 
 	i = *i_ptr;
 	while (line[i])
 	{
-		c = line[i];
-		if (should_break_word(c, tok->quote))
+		if (should_break_word(line[i], tok->quote))
 			break ;
-		if (is_quote(c))
+		if (is_quote(line[i]))
 		{
-			if (handle_quote_char(tok, c))
+			if (handle_quote_char(tok, line[i]))
 			{
 				i++;
 				continue ;
 			}
 		}
-		if (append_char_to_content(tok, c) < 0)
+		if (append_char_to_content(tok, line[i]) < 0)
 			return (-1);
 		i++;
 	}
