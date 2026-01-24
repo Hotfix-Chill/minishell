@@ -6,15 +6,15 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/07 15:39:26 by abita             #+#    #+#             */
-/*   Updated: 2026/01/23 16:22:41 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:47:03 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void free_arg(char **argv)
+static void	free_arg(char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!argv)
@@ -36,6 +36,7 @@ static void	free_redirs(t_redirs *r)
 		r = next;
 	}
 }
+
 void	free_cmds(t_cmds *cmd)
 {
 	if (!cmd)

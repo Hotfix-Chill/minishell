@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 00:30:07 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:11:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 # define OK_EXIT 0
 # define RESET 424242
 # define EQUAL_VS_NULL_TERM 61
+
+# define PROMPT "\001\033[1;32m\002❯ \
+\001\033[1;37m\002minishell\001\033[0m\002 ▸ $ "
+
 # define HEREDOC_PROMPT "> "
 # define NO_DOLLAR -1
 # define WHITESPACES " \n\t\r\v\f"
@@ -258,6 +262,8 @@ void		child_cleanup(
 
 void		handle_redirections(t_data *data, t_cmds *cmd);
 int			heredocs(t_data *data, t_cmds *cmd);
+void		heredoc_expand(t_data *data, char *line, int fd);
+
 
 void		ft_close(t_data *data);
 void		get_exit_status(t_data *data, int pid);
@@ -297,6 +303,7 @@ t_export	*ft_realloc_export(
 );
 void		delete_export_entry(t_data *data, size_t idx);
 int			find_char(char *str, char c);
+bool		create_export_list(t_data *data);
 
 
 /* ************************************************************************** */
@@ -411,6 +418,10 @@ int			alloc_arrays(size_t total, char ***argv, bool **no_expand,
 		bool **no_split);
 bool		is_ifs_char(char c);
 int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
+int			append_quoted_word(t_cmds *cmd, size_t i, char **argv,
+		bool *no_expand, bool *no_split, size_t *idx);
+int		fill_split_words(const char *str, char **argv, bool *no_expand,
+		bool *no_split, size_t *idx);
 
 
 

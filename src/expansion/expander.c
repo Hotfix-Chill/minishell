@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/23 17:28:17 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:28:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*extract_var(t_data *data, char *extract_var)
 	idx = validifier_var(extract_var);
 	value = expand_and_join(data, extract_var, idx);
 	if (!value)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	return (value);
 }
 

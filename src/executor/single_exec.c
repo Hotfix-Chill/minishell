@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/23 17:12:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:48:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,12 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 void	single_cmd(t_data *data, t_cmds *cmd)
 {
 	int	pid;
+
 	if (VERBOSE)
 		printf("INSIDE SINGLE CMD\n");
-
-
 	pid = fork();
 	if (pid < 0)
-		return ; // error message, exit code
+		return ;
 	if (pid == 0)
 		exec_cmd(data, cmd);
 	else

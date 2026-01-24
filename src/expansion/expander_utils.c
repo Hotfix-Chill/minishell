@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 13:48:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 13:57:13 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:31:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ size_t	count_total_words(t_cmds *cmd)
 	return (total);
 }
 
-//Allocate fresh argv  based on total_words
 int	alloc_arrays(size_t total, char ***argv, bool **no_expand,
 		bool **no_split)
 {
@@ -80,5 +79,3 @@ int	alloc_arrays(size_t total, char ***argv, bool **no_expand,
 		return (free(*argv), free(*no_expand), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
-

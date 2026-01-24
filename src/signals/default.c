@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_cleanup.c                                 :+:      :+:    :+:   */
+/*   signals_default.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 00:21:36 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 13:47:21 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 14:55:01 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 14:55:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	executor_cleanup(t_data *data)
+void	prompt_handler(int sig)
 {
-	t_cmds	*cmd;
+	(void) sig;
+	if (VERBOSE)
+		write(1, "\n(CTRL + C) Prompt Code: 130\n", 30);
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_signal = 0;
+}
 
-	cmd = data->cmd;
-	if (cmd)
-	{
-		cmd_lstclear(&cmd);
-		ft_memset(&data->cmd, 0, sizeof(t_cmds));
-	}
-	if (data->list)
-	{
-		free_cmd_list(data->list);
-		data->list = NULL;
-	}
-	return ;
+void	*init_signals_prompt(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = prompt_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	return (NULL);
 }

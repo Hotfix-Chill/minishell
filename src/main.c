@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/23 13:39:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:08:31 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-bool is_only_whitespaces(char *line)
+bool	is_only_whitespaces(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -34,13 +34,14 @@ int	init_data(t_data *data)
 	ft_memset(&data->fd, -1, sizeof(t_fds));
 	return (1);
 }
-int	main_loop(char *line, char	*prompt, t_data	*data)
+
+int	main_loop(char *line, t_data	*data)
 {
 	t_token_list *tokens;
 
 	while (1)
 	{
-		line = readline(prompt);
+		line = readline(PROMPT);
 		if (!line) // NULL → Ctrl+D pressed (EOF)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
 		if (*line) // not empty input
@@ -101,10 +102,9 @@ int	main_loop(char *line, char	*prompt, t_data	*data)
 	}
 	rl_clear_history();
 }
-// main
+
 int	main(int ac, char **av, char **envp)
 {
-	char	*prompt;
 	char	*line;
 	t_data	data;
 
@@ -112,11 +112,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (0);
-	prompt = "\001\033[1;32m\002❯ \001\033[1;37m\002minishell\001\033[0m\002 ▸ $ ";
 	if (!!init_signals_prompt() || !init_data(&data) || !init_env(envp, &data))
 		cleanup(&data, 1);
-	//// main looop version
-	main_loop(line, prompt, &data);
+	main_loop(line, &data);
 	rl_clear_history();
 	return (0);
 }

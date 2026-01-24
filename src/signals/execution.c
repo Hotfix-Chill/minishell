@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_cleanup.c                                 :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 00:21:36 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 13:47:21 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 14:55:47 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 14:58:06 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	executor_cleanup(t_data *data)
+void	init_signals_child(void)
 {
-	t_cmds	*cmd;
+	struct sigaction	sa;
 
-	cmd = data->cmd;
-	if (cmd)
-	{
-		cmd_lstclear(&cmd);
-		ft_memset(&data->cmd, 0, sizeof(t_cmds));
-	}
-	if (data->list)
-	{
-		free_cmd_list(data->list);
-		data->list = NULL;
-	}
-	return ;
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	init_signals_parent(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
