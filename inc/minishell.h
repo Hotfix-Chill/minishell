@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 15:18:02 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:20:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,8 +432,9 @@ bool		is_ifs_char(char c);
 int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
 int			append_quoted_word(t_cmds *cmd, size_t i, char **argv,
 		bool *no_expand, bool *no_split, size_t *idx);
-int		fill_split_words(const char *str, char **argv, bool *no_expand,
+int			fill_split_words(const char *str, char **argv, bool *no_expand,
 		bool *no_split, size_t *idx);
+int			validifier_var(char *str);
 
 
 

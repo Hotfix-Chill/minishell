@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/24 15:08:31 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:28:09 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	main_loop(char *line, t_data	*data)
 	while (1)
 	{
 		line = readline(PROMPT);
-		if (!line) // NULL → Ctrl+D pressed (EOF)
+		if (!line)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
-		if (*line) // not empty input
+		if (*line)
 		{
 			if (*line != SPACE)
 				add_history(line);
@@ -52,7 +52,7 @@ int	main_loop(char *line, t_data	*data)
 			{
 				add_history(line);
 				free(line);
-				continue;
+				continue ;
 			}
 			tokens = tokenizer(line);
 			if (!tokens)
@@ -75,27 +75,25 @@ int	main_loop(char *line, t_data	*data)
 				data->return_value = 2;
 				continue ;
 			}
- 			if (VERBOSE)
-			{
-				print_cmd_list(data->list->head);
-				printf("data_list_size: %i\n", data->list->size);
-			}
-			free_token_list(tokens);
+ 			free_token_list(tokens);
 
-			if (VERBOSE)
-				printf("INSIDE HEREDOC\n");
+
 			if (heredocs(data, data->list->head) == SIGINT)
 			{
 				free(line);
 				data->return_value = 130;
 				continue ;
 			}
+
+
 			expansion(data->list, data);
 			word_splitting(data->list, data);
 			update_builtins(data->list);
 			executor(data->list->head, data);
-			if (VERBOSE)
-				printf("INSIDE MAIN LOOP CLEANUP\n");
+
+
+
+			
 			cleanup(data, RESET);
 		}
 		free(line);

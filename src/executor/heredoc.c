@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 14:23:12 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:26:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
 		line = readline(HEREDOC_PROMPT);
 		count++;
 		if ((!line))
-		{
-			print_heredoc_sigquit(redirs->filename, count);
-			return (0);
-		}
+			return (print_heredoc_sigquit(redirs->filename, count), 0);
+		rl_hook_func_t();
 		if (!ft_memcmp(line, delimiter, delimiter_len + 1) || g_signal == 1)
 			return (free(line), 0);
 		if (redirs->heredoc_expand && find_char(line, '$') != NO_DOLLAR)
