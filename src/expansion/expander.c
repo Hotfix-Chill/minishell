@@ -18,7 +18,6 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	char	*sub_str;
 	char	*final;
 	char	*line;
-	size_t	i;
 
 	final = NULL;
 	sub_str = NULL;
@@ -38,9 +37,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 	if (line)
 		return (line);
 	line = ft_strjoin(final, sub_str);
-	free(final);
-	free(sub_str);
-	return (line);
+	return (free(final), free(sub_str), line);
 }
 
 char	*extract_var(t_data *data, char *extract_var)
