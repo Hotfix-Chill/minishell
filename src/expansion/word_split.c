@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 20:02:25 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:32:22 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	rebuild_argv(t_cmds *cmd)
 {
 	t_buffer	buf;
 
-	buf.idx	= 0;
+	buf.idx = 0;
 	if (alloc_arrays(count_total_words(cmd), &buf) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	if (build_from_args(cmd, &buf) != EXIT_SUCCESS)
