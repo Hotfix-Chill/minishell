@@ -6,11 +6,34 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/22 17:52:46 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:53:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	create_export_list(t_data *data)
+{
+	data->export[PWD].key = ft_strdup("PWD");
+	if (!data->export[PWD].key)
+		return (false);
+	data->export[PWD].value = getcwd(NULL, 0);
+	if (!data->export[PWD].value)
+		return (false);
+	data->export[SHLVL].key = ft_strdup("SHLVL");
+	if (!data->export[SHLVL].key)
+		return (false);
+	data->export[SHLVL].value = ft_strdup("1");
+	if (!data->export[SHLVL].value)
+		return (false);
+	data->export[LAST_CMD].key = ft_strdup("_");
+	if (!data->export[LAST_CMD].key)
+		return (false);
+	data->export[LAST_CMD].value = ft_strdup("/usr/bin/env");
+	if (!data->export[LAST_CMD].value)
+		return (false);
+	return (true);
+}
 
 char	*get_key(char *str, t_data *data)
 {

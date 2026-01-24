@@ -6,13 +6,22 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 11:22:49 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/14 09:39:14 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:15:26 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min)
+void	fail_check(t_data *data, t_export *tmp, int size)
+{
+	clean_export(tmp, size);
+	free(tmp);
+	cleanup(data, ERROR);
+	return ;
+}
+
+t_export	*ft_realloc_export(t_data *data, t_export *export,
+	size_t size, int min)
 {
 	size_t		i;
 	t_export	*tmp;
@@ -25,14 +34,13 @@ t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min
 	{
 		tmp[i].key = ft_strdup(export[i].key);
 		if (!export[i].value)
-		{i++; continue;}
+		{
+			i++;
+			continue ;
+		}
 		tmp[i].value = ft_strdup(export[i].value);
 		if (!tmp[i].key || !tmp[i].value)
-		{
-			clean_export(tmp, size);
-			free(tmp);
-			cleanup(data, ERROR);
-		}
+			fail_check(data, tmp, size);
 		i++;
 	}
 	clean_export(export, size + min);
@@ -43,7 +51,7 @@ t_export	*ft_realloc_export(t_data *data, t_export *export, size_t size, int min
 char	**ft_realloc_env(t_data *data, char **env, size_t len, int min)
 {
 	size_t		i;
-	char	**tmp;
+	char		**tmp;
 
 	tmp = ft_calloc(len + 1, sizeof(char *));
 	if (!tmp)

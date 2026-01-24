@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:13:33 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 16:23:39 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:48:08 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	child_process(t_data *data, t_cmds *cmd, int loop)
 	ft_close(data);
 	exec_cmd(data, cmd);
 }
-
 
 static void	parent_process(t_data *data, t_cmds *cmd, int loop)
 {

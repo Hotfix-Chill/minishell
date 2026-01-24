@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:49:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 00:29:56 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:47:29 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	cmd_lstclear(t_cmds **lst)
 	t_cmds	*next;
 
 	if (!lst || !*lst)
-		return;
+		return ;
 	cmd = *lst;
 	while (cmd)
 	{

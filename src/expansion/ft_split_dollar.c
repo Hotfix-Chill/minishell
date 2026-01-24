@@ -6,12 +6,11 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:56:44 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 12:26:59 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:31:54 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 
 static char	*ft_cpy(char const *str, char c)
@@ -73,6 +72,7 @@ static char	**ft_split_loop(char **split, char const *s, char c)
 		split[j] = ft_strdup("$");
 	return (split);
 }
+
 static ssize_t	wordcount(char const *str, char c)
 {
 	size_t	i;

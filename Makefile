@@ -19,39 +19,42 @@ SRCS = \
 	utils/utils.c \
 	builtins/pwd.c \
 	builtins/env.c \
-	utils/signals.c \
 	utils/realloc.c \
-	utils/verbose.c \
 	parser/parser.c \
 	builtins/echo.c \
 	builtins/exit.c \
 	utils/init_env.c \
 	builtins/unset.c \
 	builtins/export.c \
-	executor/heredoc.c \
+	signals/heredoc.c \
+	signals/default.c \
 	lexer/lexer_list.c \
 	parser/parser_cmd.c \
+	executor/heredoc.c \
 	lexer/lexer_utils.c \
+	signals/execution.c \
 	expansion/expander.c \
-	cleanup/main_cleanup.c \
 	lexer/lexer_quotes.c \
 	lexer/lexer_checks.c \
 	parser/parser_redir.c \
+	cleanup/env_cleanup.c \
 	builtins/update_env.c \
 	executor/multi_exec.c \
 	lexer/lexer_content.c \
-	cleanup/lexer_cleanup.c \
 	executor/single_exec.c \
 	expansion/word_split.c \
-	cleanup/parser_cleanup.c \
+	expansion/word_split2.c \
+	cleanup/main_cleanup.c \
+	cleanup/lexer_cleanup.c \
 	executor/redirections.c \
 	executor/landing_file.c \
-	builtins/update_export.c \
 	cleanup/child_cleanup.c \
+	cleanup/parser_cleanup.c \
+	builtins/update_export.c \
 	cleanup/heredoc_cleanup.c \
 	parser/parser_cmd_utils.c \
+	executor/heredoc_expand.c \
 	cleanup/executor_cleanup.c \
-	cleanup/env_cleanup.c \
 	expansion/extract_expand.c \
 	expansion/expander_utils.c \
 	expansion/ft_split_dollar.c \

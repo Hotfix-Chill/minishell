@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 12:33:46 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:27:20 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, \
 	}
 	return (exp_word);
 }
+
 static char	*join_expanded_strings(char **expanded_words)
 {
 	int		i;

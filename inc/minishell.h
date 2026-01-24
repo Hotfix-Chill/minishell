@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 00:30:07 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:18:02 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 # define OK_EXIT 0
 # define RESET 424242
 # define EQUAL_VS_NULL_TERM 61
+
+# define PROMPT "\001\033[1;32m\002❯ \
+\001\033[1;37m\002minishell\001\033[0m\002 ▸ $ "
+
 # define HEREDOC_PROMPT "> "
 # define NO_DOLLAR -1
 # define WHITESPACES " \n\t\r\v\f"
@@ -261,8 +265,10 @@ void							handle_errno(t_data *data, t_cmds *cmd,
 void							child_cleanup(int exit_code, char *message,
 									t_data *data, t_cmds *cmd);
 
-void							handle_redirections(t_data *data, t_cmds *cmd);
-int								heredocs(t_data *data, t_cmds *cmd);
+void		handle_redirections(t_data *data, t_cmds *cmd);
+int			heredocs(t_data *data, t_cmds *cmd);
+void		heredoc_expand(t_data *data, char *line, int fd);
+
 
 void							ft_close(t_data *data);
 void							get_exit_status(t_data *data, int pid);
@@ -300,12 +306,14 @@ bool							check_entry_export(t_data *data, char *key,
 bool							check_entry_env(t_data *data, char *key,
 									char *str);
 
-char							**ft_realloc_env(t_data *data, char **env,
-									size_t len, int min);
-t_export						*ft_realloc_export(t_data *data,
-									t_export *export, size_t size, int min);
-void							delete_export_entry(t_data *data, size_t idx);
-int								find_char(char *str, char c);
+char		**ft_realloc_env(t_data *data, char **env, size_t len, int min);
+t_export	*ft_realloc_export(
+	t_data *data, t_export *export, size_t size, int min
+);
+void		delete_export_entry(t_data *data, size_t idx);
+int			find_char(char *str, char c);
+bool		create_export_list(t_data *data);
+
 
 /* ************************************************************************** */
 /*                                     CLEANUP                                */
@@ -411,18 +419,22 @@ t_stack							*parsing(t_token_list *token, t_data *data);
 /*                                     EXPANDER                               */
 /* ************************************************************************** */
 
-void							expansion(t_stack *cmd_list, t_data *data);
-char							**ft_split_dollar(char const *s, char c);
-void							word_splitting(t_stack *cmd_list, t_data *data);
-void							update_builtins(t_stack *lst);
-char							*extract_var(t_data *data, char *extract_var);
-char							*split_dollar(t_data *data, char *str);
-size_t							count_total_words(t_cmds *cmd);
-int								alloc_arrays(size_t total, char ***argv,
-									bool **no_expand, bool **no_split);
-bool							is_ifs_char(char c);
-int								free_split_arrays(char **argv, bool *no_expand,
-									bool *no_split);
-int								validifier_var(char *str);
+void		expansion(t_stack *cmd_list, t_data *data);
+char		**ft_split_dollar(char const *s, char c);
+void		word_splitting(t_stack *cmd_list, t_data *data);
+void		update_builtins(t_stack *lst);
+char	 	*extract_var(t_data *data, char *extract_var);
+char		*split_dollar(t_data *data, char *str);
+size_t		count_total_words(t_cmds *cmd);
+int			alloc_arrays(size_t total, char ***argv, bool **no_expand,
+		bool **no_split);
+bool		is_ifs_char(char c);
+int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
+int			append_quoted_word(t_cmds *cmd, size_t i, char **argv,
+		bool *no_expand, bool *no_split, size_t *idx);
+int		fill_split_words(const char *str, char **argv, bool *no_expand,
+		bool *no_split, size_t *idx);
+
+
 
 #endif
