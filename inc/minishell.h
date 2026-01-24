@@ -165,6 +165,14 @@ typedef struct s_argbuff
 	bool						*flag_for_expansion;
 	bool						*flag_for_split;
 }								t_argbuff;
+
+typedef struct s_split
+{
+	char **argv;
+	bool *no_expand;
+	bool *no_split;
+	size_t *idx;
+} t_split;
 /* ************************************************************************** */
 /*                                 EXECUTION / IO                             */
 /* ************************************************************************** */

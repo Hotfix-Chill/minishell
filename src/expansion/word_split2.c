@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-int	fill_split_words(const char *str, char **argv, bool *no_expand,
-		bool *no_split, size_t *idx)
+int	fill_split_words(const char *str, t_split *buf)
 {
 	size_t	i;
 	size_t	start;
@@ -32,22 +31,21 @@ int	fill_split_words(const char *str, char **argv, bool *no_expand,
 		word = ft_substr(str, start, i - start);
 		if (!word)
 			return (EXIT_FAILURE);
-		argv[*idx] = word;
-		no_expand[*idx] = false;
-		no_split[*idx] = false;
-		(*idx)++;
+		buf->argv[*buf->idx] = word;
+		buf->no_expand[*buf->idx] = false;
+		buf->no_split[*buf->idx] = false;
+		(*buf->idx)++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	append_quoted_word(t_cmds *cmd, size_t i, char **argv,
-		bool *no_expand, bool *no_split, size_t *idx)
+int	append_quoted_word(t_cmds *cmd, size_t i, t_split *buf)
 {
-	argv[*idx] = ft_strdup(cmd->argv[i]);
-	if (!argv[*idx])
+	buf->argv[*buf->idx] = ft_strdup(cmd->argv[i]);
+	if (!buf->argv[*buf->idx])
 		return (EXIT_FAILURE);
-	no_expand[*idx] = false;
-	no_split[*idx] = true;
-	(*idx)++;
+	buf->no_expand[*buf->idx] = false;
+	buf->no_split[*buf->idx] = true;
+	(*buf->idx)++;
 	return (EXIT_SUCCESS);
 }
