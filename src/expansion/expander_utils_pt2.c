@@ -28,7 +28,7 @@ int	validifier_var(char *str)
 	return (i);
 }
 
-int	help_expand_lookup(t_data *data, char *expand_str, char *str, char **final)
+void	help_expand_lookup(t_data *data, char *expand_str, char **final)
 {
 	size_t	i;
 
@@ -47,11 +47,11 @@ int	help_expand_lookup(t_data *data, char *expand_str, char *str, char **final)
 
 char	*partial_expansion(char *final, char *sub_str)
 {
-	if (!*final && *sub_str)
-		return (*sub_str);
-	else if (!*final && !*sub_str)
+	if (!final && sub_str)
+		return (sub_str);
+	else if (!final && !sub_str)
 		return (NULL);
-	else if (*final && !*sub_str)
-		return (*final);
+	else if (final && !sub_str)
+		return (final);
 	return (NULL);
 }

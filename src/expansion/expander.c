@@ -31,7 +31,7 @@ char	*expand_and_join(t_data *data, char *str, size_t idx)
 		if (!sub_str)
 			return (free(expand_str), NULL);
 	}
-	help_expand_lookup(data, expand_str, str, &final);
+	help_expand_lookup(data, expand_str, &final);
 	free(expand_str);
 	line = partial_expansion(final, sub_str);
 	if (line)

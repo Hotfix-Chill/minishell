@@ -432,5 +432,8 @@ int			free_split_arrays(t_buffer *buffer);
 int			append_quoted_word(t_cmds *cmd, size_t i, t_buffer *buffer);
 int			fill_split_words(const char *str, t_buffer *buf);
 int			validifier_var(char *str);
+void	help_expand_lookup(t_data *data, char *expand_str, char **final);
+char	*partial_expansion(char *final, char *sub_str);
+
 
 #endif
