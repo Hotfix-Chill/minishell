@@ -62,7 +62,7 @@ static int	expand_cmd(t_data *data, t_cmds *cmd)
 	i = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
-		if (!cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NO_DOLLAR)
+		if (cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NO_DOLLAR)
 		{
 			expanded = split_dollar(data, cmd->argv[i]);
 			if (!expanded)
