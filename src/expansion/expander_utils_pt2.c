@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils_pt2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:26:04 by abita             #+#    #+#             */
-/*   Updated: 2026/01/24 15:26:16 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/24 20:04:18 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	help_expand_lookup(t_data *data, char *expand_str, char **final)
 	size_t	i;
 
 	i = 0;
-	*final = NULL;
 	while (i < data->export_len)
 	{
 		if (ft_strcmp(data->export[i].key, expand_str) == 0)

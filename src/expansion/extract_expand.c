@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 14:27:20 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:55:12 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*split_dollar(t_data *data, char *str)
 		first_dollar = true;
 	dollar_split = ft_split_dollar(str, '$');
 	if (!dollar_split)
-		return (printf("split cleanup\n"), NULL);
+		return (NULL);
 	count = count_lines(dollar_split);
 	exp_word = ft_calloc(count + 1, sizeof(char *));
 	if (!exp_word)

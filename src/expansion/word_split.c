@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 19:24:38 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:02:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ static int	rebuild_argv(t_cmds *cmd)
 		return (EXIT_FAILURE);
 	if (build_from_args(cmd, &buf) != EXIT_SUCCESS)
 		return (free_split_arrays(&buf));
+	free(cmd->no_expand);
+	free_split(cmd->argv);
+	free(cmd->no_split);
 	cmd->argv = buf.argv;
 	cmd->no_expand = buf.no_expand;
 	cmd->no_split = buf.no_split;

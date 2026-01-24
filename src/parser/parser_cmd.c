@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 15:04:52 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/24 20:16:38 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ static int	count(t_cmds *curr_cmd)
 	return (arg_count);
 }
 
-static void	copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
+static int	copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
 {
 	int	i;
 
 	i = 0;
 	while (i < arg_count)
 	{
-		buf->new_argv[i] = curr_cmd->argv[i];
+		buf->new_argv[i] = ft_strdup(curr_cmd->argv[i]);
+		if (!buf->new_argv[i])
+			return (free_split(buf->new_argv), 0);
+
 		if (curr_cmd->no_expand)
 			buf->flag_for_expansion[i] = curr_cmd->no_expand[i];
 		else
@@ -43,6 +46,7 @@ static void	copy_old_args(t_cmds *curr_cmd, t_argbuff *buf, int arg_count)
 			buf->flag_for_split[i] = false;
 		i++;
 	}
+	return (1);
 }
 
 static int	alloc_argbuff(t_cmds *curr_cmd, t_argbuff *buf)
@@ -73,16 +77,18 @@ int	add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
 	arg_count = alloc_argbuff(curr_cmd, &buf);
 	if (arg_count < 0)
 		return (-1);
-	copy_old_args(curr_cmd, &buf, arg_count);
+	if (!copy_old_args(curr_cmd, &buf, arg_count))
+		return (free_split(buf.new_argv), free(buf.flag_for_expansion), \
+			free(buf.flag_for_split), -1);
 	buf.new_argv[arg_count] = ft_strdup(tok_content);
 	if (!buf.new_argv[arg_count])
-		return (free(buf.new_argv), free(buf.flag_for_expansion), \
+		return (free_split(buf.new_argv), free(buf.flag_for_expansion), \
 			free(buf.flag_for_split), -1);
 	buf.flag_for_expansion[arg_count] = no_expand_flag;
 	buf.flag_for_split[arg_count] = no_split_flag;
 	buf.new_argv[arg_count + 1] = NULL;
 	free(curr_cmd->no_expand);
-	free(curr_cmd->argv);
+	free_split(curr_cmd->argv);
 	free(curr_cmd->no_split);
 	curr_cmd->argv = buf.new_argv;
 	curr_cmd->no_expand = buf.flag_for_expansion;
