@@ -44,7 +44,8 @@ int	help_expand_lookup(t_data *data, char *expand_str, char *str, char **final)
 		i++;
 	}
 }
-char *partial_expansion(char *final, char *sub_str)
+
+char	*partial_expansion(char *final, char *sub_str)
 {
 	if (!*final && *sub_str)
 		return (*sub_str);

@@ -74,7 +74,6 @@ int	main_loop(char *line, t_data	*data)
 				add_history(line);
 			if (is_only_whitespaces(line))
 			{
-				add_history(line); ////// WHATS THAT?
 				free(line);
 				continue ;
 			}
