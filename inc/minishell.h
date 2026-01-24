@@ -436,12 +436,8 @@ int			alloc_arrays(size_t total, char ***argv, bool **no_expand,
 		bool **no_split);
 bool		is_ifs_char(char c);
 int			free_split_arrays(char **argv, bool *no_expand, bool *no_split);
-int			append_quoted_word(t_cmds *cmd, size_t i, char **argv,
-		bool *no_expand, bool *no_split, size_t *idx);
-int			fill_split_words(const char *str, char **argv, bool *no_expand,
-		bool *no_split, size_t *idx);
+int			fill_split_words(const char *str, t_split *buf);
+int			append_quoted_word(t_cmds *cmd, size_t i, t_split *buf);
 int			validifier_var(char *str);
-
-
 
 #endif
