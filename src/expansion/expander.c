@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 14:21:56 by abita             #+#    #+#             */
-/*   Updated: 2026/01/24 20:04:09 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:35:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	expand_cmd(t_data *data, t_cmds *cmd)
 	i = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
-		if (!cmd->no_expand[i] && find_char(cmd->argv[i], '$') != NO_DOLLAR)
+		if (find_char(cmd->argv[i], '$') != NO_DOLLAR)
 		{
 			expanded = split_dollar(data, cmd->argv[i]);
 			if (!expanded)
@@ -70,6 +70,7 @@ static int	expand_cmd(t_data *data, t_cmds *cmd)
 			free(cmd->argv[i]);
 			cmd->argv[i] = expanded;
 		}
+		restore_single_quote_dollar(cmd->argv[i]);
 		i++;
 	}
 	return (0);
@@ -83,7 +84,7 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 	redirs = cmd->redirs;
 	while (redirs)
 	{
-		if (!redirs->no_expand && find_char(redirs->filename, '$') != NO_DOLLAR)
+		if (find_char(redirs->filename, '$') != NO_DOLLAR)
 		{
 			expanded = split_dollar(data, redirs->filename);
 			if (!expanded)
@@ -91,6 +92,7 @@ static int	expand_redirs(t_data *data, t_cmds *cmd)
 			free(redirs->filename);
 			redirs->filename = expanded;
 		}
+		restore_single_quote_dollar(redirs->filename);
 		redirs = redirs->next;
 	}
 	return (0);

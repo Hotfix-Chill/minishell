@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:50:58 by abita             #+#    #+#             */
-/*   Updated: 2026/01/24 15:05:39 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/25 14:27:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	append_char_to_content(t_token *tok, char c)
 	char	*old_content;
 	char	char_str[2];
 
-	char_str[0] = c;
+	if (tok->quote == QUOTE_SINGLE && c == '$')
+		char_str[0] = SQ_DOLLAR;
+	else
+		char_str[0] = c;
 	char_str[1] = '\0';
 	if (tok->content == NULL)
 		new_content = ft_strdup(char_str);

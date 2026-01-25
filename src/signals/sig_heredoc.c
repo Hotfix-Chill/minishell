@@ -6,14 +6,12 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 14:55:01 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/25 14:01:38 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:40:45 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-//rl_event_hook(ioctl(STDIN_FILENO, TIOCSTI, "\n"));
 void	heredoc_handler(int sig)
 {
 	(void) sig;
