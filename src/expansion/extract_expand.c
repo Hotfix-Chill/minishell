@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 19:55:12 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 16:58:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,14 @@ static char	**expand(char **dollar_split, char **exp_word, t_data *data, \
 	{
 		if (dollar_split[i][0] == '$' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_strdup("$");
-		else if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
-			exp_word[j++] = ft_itoa(data->return_value);
+		else if (dollar_split[i][0] == '?')
+		{
+			if (dollar_split[i][1] == '\0')
+				exp_word[j++] = ft_itoa(data->return_value);
+			else
+				exp_word[j++] = ft_strjoin(ft_itoa(data->return_value), ft_substr(dollar_split[i], 1, ft_strlen(dollar_split[i])));
+			i++;
+		}
 		else if (first_dollar)
 			exp_word[j++] = ft_strdup(dollar_split[i++]);
 		else
