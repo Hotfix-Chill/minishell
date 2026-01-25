@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   sig_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 14:55:01 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 17:20:08 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:01:38 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 //rl_event_hook(ioctl(STDIN_FILENO, TIOCSTI, "\n"));
 void	heredoc_handler(int sig)
 {
 	(void) sig;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	g_signal = 1;
+	g_signal = SIGINT;
+}
+
+static int	prompt_event_hook_heredoc(void)
+{
+	if (g_signal == SIGINT)
+	{
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		rl_done = 1;
+	}
+	return (0);
 }
 
 void	init_signals_heredoc(void)
@@ -27,6 +38,7 @@ void	init_signals_heredoc(void)
 	struct sigaction	sa;
 	struct sigaction	sa_quit;
 
+	rl_event_hook = prompt_event_hook_heredoc;
 	sa.sa_handler = heredoc_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
