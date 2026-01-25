@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 14:55:01 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 18:04:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:02:06 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	prompt_event_hook(void)
 {
 	if (g_signal == SIGINT)
 	{
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

@@ -6,11 +6,26 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:26:04 by abita             #+#    #+#             */
-/*   Updated: 2026/01/24 20:04:18 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:26:37 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	restore_single_quote_dollar(char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return ;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == SQ_DOLLAR)
+			str[i] = '$';
+		i++;
+	}
+}
 
 int	validifier_var(char *str)
 {

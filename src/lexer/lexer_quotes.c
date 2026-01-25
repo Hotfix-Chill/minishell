@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 21:43:33 by abita             #+#    #+#             */
-/*   Updated: 2026/01/24 15:06:02 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/25 14:29:35 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	handle_quote_char(t_token *tok, char c)
 		if (c == '\'')
 		{
 			tok->quote = QUOTE_SINGLE;
-			tok->no_expand = true;
 			tok->quoted = true;
 			return (1);
 		}

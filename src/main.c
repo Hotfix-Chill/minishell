@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/24 22:03:08 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 13:46:04 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ int	main_loop(char *line, t_data	*data)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
 		if (*line)
 		{
-			if (*line != SPACE)
-				add_history(line);
+			add_history(line);
 			if (whitespaces(line) || !parser(data, line) || !execution(data))
 			{
 				free(line);

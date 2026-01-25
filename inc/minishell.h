@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 20:53:33 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 14:39:32 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define ERROR 1
 # define OK_EXIT 0
 # define RESET 424242
+# define SQ_DOLLAR 31
 # define EQUAL_VS_NULL_TERM 61
 
 # define PROMPT "\001\033[1;32m\002❯ \
@@ -419,5 +420,6 @@ int				validifier_var(char *str);
 void			help_expand_lookup(t_data *data, char *expand_str,
 					char **final);
 char			*partial_expansion(char *final, char *sub_str);
+void			restore_single_quote_dollar(char *str);
 
 #endif
