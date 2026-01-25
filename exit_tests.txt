@@ -15,7 +15,7 @@ exit -000...009223372036854775809
 
 
 
-#### NOT PASSED
+#### PASSED
 exit " -9223372036854775808"
     Output: No output.
     Behavior: Leading whitespace is ignored. The value -9223372036854775808 is valid. Exits with status 128.

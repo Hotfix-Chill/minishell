@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/25 14:39:32 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:30:46 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,5 +421,6 @@ void			help_expand_lookup(t_data *data, char *expand_str,
 					char **final);
 char			*partial_expansion(char *final, char *sub_str);
 void			restore_single_quote_dollar(char *str);
+char			*ft_return_value(t_data *data, char *str);
 
 #endif

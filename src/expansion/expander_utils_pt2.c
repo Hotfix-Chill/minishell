@@ -6,11 +6,36 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:26:04 by abita             #+#    #+#             */
-/*   Updated: 2026/01/25 14:26:37 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:28:50 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_return_value(t_data *data, char *str)
+{
+	char	*return_value;
+	char	*sub_str;
+	char	*final;
+
+	if (str[1] == '\0')
+		return (ft_itoa(data->return_value));
+	else
+	{
+		return_value = ft_itoa(data->return_value);
+		if (!return_value)
+			return (NULL);
+		sub_str = ft_substr(str, 1, ft_strlen(str));
+		if (!sub_str)
+			return (free(return_value), NULL);
+		final = ft_strjoin(return_value, sub_str);
+		free(return_value);
+		free(sub_str);
+		if (!final)
+			return (NULL);
+	}
+	return (final);
+}
 
 void	restore_single_quote_dollar(char *str)
 {

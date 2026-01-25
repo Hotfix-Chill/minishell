@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 00:22:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/25 17:47:40 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:31:14 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	handle_redirections(t_data *data, t_cmds *cmd)
 	t_redirs	*curr;
 
 	curr = cmd->redirs;
-	if (!cmd->redirs)
-		return ;
 	while (curr != NULL)
 	{
 		if (!*curr->filename)

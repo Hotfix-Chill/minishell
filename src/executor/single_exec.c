@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/25 17:54:34 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:30:53 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	exec_cmd(t_data *data, t_cmds *cmd)
 	init_signals_child();
 	if (!!cmd->redirs)
 		handle_redirections(data, cmd);
-	if (exec_builtins(data, cmd))
+	if (!*cmd->argv || exec_builtins(data, cmd))
 		cleanup(data, data->return_value);
 	if (ft_strchr(cmd->argv[0], '/') || (cmd->argv[0][0] == '.'
 		&& cmd->argv[0][1] == '/' ))
