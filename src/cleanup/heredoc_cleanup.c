@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:28:27 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 22:04:11 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/25 17:19:19 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_heredoc_cleanup(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->heredoc.count)
+	while (i < data->heredoc.index)
 	{
 		unlink(data->heredoc.files[i++]);
 		if (VERBOSE)
