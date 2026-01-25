@@ -6,15 +6,40 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:30:30 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 07:21:45 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:53:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	create_export_list(t_data *data)
+{
+	data->export[PWD].key = ft_strdup("PWD");
+	if (!data->export[PWD].key)
+		return (false);
+	data->export[PWD].value = getcwd(NULL, 0);
+	if (!data->export[PWD].value)
+		return (false);
+	data->export[SHLVL].key = ft_strdup("SHLVL");
+	if (!data->export[SHLVL].key)
+		return (false);
+	data->export[SHLVL].value = ft_strdup("1");
+	if (!data->export[SHLVL].value)
+		return (false);
+	data->export[LAST_CMD].key = ft_strdup("_");
+	if (!data->export[LAST_CMD].key)
+		return (false);
+	data->export[LAST_CMD].value = ft_strdup("/usr/bin/env");
+	if (!data->export[LAST_CMD].value)
+		return (false);
+	return (true);
+}
+
 char	*get_key(char *str, t_data *data)
 {
-	int equal = find_char(str, '=');
+	int	equal;
+
+	equal = find_char(str, '=');
 	if (equal == -1)
 		return (ft_strdup(str));
 	data->flag.equal_exists = true;
@@ -24,7 +49,6 @@ char	*get_key(char *str, t_data *data)
 char	*get_value(t_data *data, char *str, char *key)
 {
 	int		equal;
-	char	*tmp;
 	char	*value;
 
 	equal = find_char(str, '=');
@@ -32,11 +56,7 @@ char	*get_value(t_data *data, char *str, char *key)
 		return (NULL);
 	if (str[equal + 1] == '\0')
 		return (ft_calloc(1, sizeof(char)));
-	tmp = ft_substr(str, equal + 1, ft_strlen(str));
-	if (!tmp)
-		return (free(key), cleanup(data, ERROR), NULL);
-	value = ft_strtrim(tmp, "\"");
-	free(tmp);
+	value = ft_substr(str, equal + 1, ft_strlen(str));
 	if (!value)
 		return (free(key), cleanup(data, ERROR), NULL);
 	return (value);
@@ -65,7 +85,7 @@ bool	add_export_entry(t_data *data, char *key, char *value)
 
 bool	check_entry_export(t_data *data, char *key, char *value)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < data->export_len)

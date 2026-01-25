@@ -6,16 +6,15 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:03:35 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 18:13:42 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:49:50 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
 bool	isflag_activ(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || str[0] != '-')
 		return (false);
@@ -44,7 +43,7 @@ void	ft_echo(t_data *data, t_cmds *cmd)
 	}
 	while (isflag_activ(cmd->argv[i]))
 	{
-		n_flag  = true;
+		n_flag = true;
 		i++;
 	}
 	while (cmd->argv[i])

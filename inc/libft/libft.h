@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:23:20 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 17:20:03 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 16:44:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ long long	ft_atoll(const char *str);
 void		ft_skip_whitespaces(const char **p);
 bool		ft_skip_signs(const char **p);
 bool		ll_overflow_check(const char *str);
-bool    	int_overflow_check(const char *str);
+bool		int_overflow_check(const char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strcat(char *dest, char *src);
 char		*ft_strcpy(char *dest, char *src);

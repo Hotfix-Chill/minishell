@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_dollar.c                                     :+:      :+:    :+:   */
+/*   extract_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:53:00 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 13:21:44 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:55:12 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_split(char **split)
-{
-	int i;
-
-	i = 0;
-	while (split[i])
-	{
-		printf("%s\n",split[i]);
-		i++;
-	}
-	printf("\n");
-	return ;
-}
 
 static size_t	count_lines(char **split)
 {
@@ -52,34 +38,33 @@ static size_t	count_split_chars(char **split)
 	return (count);
 }
 
-static char	**expand(char **dollar_split, char **exp_word, t_data *data, bool first_dollar)
+static char	**expand(char **dollar_split, char **exp_word, t_data *data, \
+	bool first_dollar)
 {
 	int		i;
 	int		j;
-	char	*value;
 
 	i = 0;
 	j = 0;
+	if (!*dollar_split)
+		return (NULL);
 	while (dollar_split[i])
 	{
-		if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
+		if (dollar_split[i][0] == '$' && dollar_split[i++][1] == '\0')
+			exp_word[j++] = ft_strdup("$");
+		else if (dollar_split[i][0] == '?' && dollar_split[i++][1] == '\0')
 			exp_word[j++] = ft_itoa(data->return_value);
 		else if (first_dollar)
 			exp_word[j++] = ft_strdup(dollar_split[i++]);
 		else
-		{
-			value = extract_var(data, dollar_split[i++]);
-			if (!value)
-				exp_word[j++] = ft_strdup("");
-			else
-				exp_word[j++] = ft_strdup(value);
-		}
+			exp_word[j++] = extract_var(data, dollar_split[i++]);
 		first_dollar = false;
 		if (exp_word[j - 1] == NULL)
 			return (NULL);
 	}
 	return (exp_word);
 }
+
 static char	*join_expanded_strings(char **expanded_words)
 {
 	int		i;
@@ -120,7 +105,7 @@ char	*split_dollar(t_data *data, char *str)
 	first_dollar = false;
 	if (str[0] != '$')
 		first_dollar = true;
-	dollar_split = ft_split(str, '$');
+	dollar_split = ft_split_dollar(str, '$');
 	if (!dollar_split)
 		return (NULL);
 	count = count_lines(dollar_split);

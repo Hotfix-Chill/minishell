@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 00:22:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 15:21:54 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:24:52 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	apply_redir(t_data *data, char *file, int token)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-			data->flag.redirect_fail= true;
+			data->flag.redirect_fail = true;
 	}
 	else if (token == REDIR_OUT)
 	{
 		if (!file || !*file)
-			return ;// ARSELA has to parse redir->filename for empty filename "" -> exitcode: 1
+			return ;
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-			data->flag.redirect_fail= true;
+			data->flag.redirect_fail = true;
 	}
 	else if (token == REDIR_IN)
 	{
 		fd = open(file, O_RDONLY);
 		if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
-			data->flag.redirect_fail= true;
+			data->flag.redirect_fail = true;
 	}
 	if (fd >= 0)
 		close(fd);
@@ -46,28 +46,26 @@ void	handle_redirections(t_data *data, t_cmds *cmd)
 	t_redirs	*curr;
 
 	curr = cmd->redirs;
-	if (!curr->filename[0])
-	{
-		data->flag.redirect_fail = true;
-		child_cleanup(1, ": No such file or directory\n", data, cmd);/////
-	}
 	while (curr != NULL)
 	{
-		if (curr->typ == REDIR_APPEND)
+		if (!*curr->filename)
+		{
+			data->flag.redirect_fail = true;
+			child_cleanup(1, ": No such file or directory\n", data, cmd);
+		}
+		else if (curr->typ == REDIR_APPEND)
 			apply_redir(data, curr->filename, REDIR_APPEND);
-		else if (curr->typ == REDIR_IN)	// < Makefile
+		else if (curr->typ == REDIR_IN)
 		{
 			apply_redir(data, curr->filename, REDIR_IN);
 		}
-		else if (curr->typ == REDIR_OUT) // > outfile
-			apply_redir(data, curr->filename,  REDIR_OUT);
+		else if (curr->typ == REDIR_OUT)
+			apply_redir(data, curr->filename, REDIR_OUT);
 		if (data->flag.redirect_fail == true)
 		{
-			if (VERBOSE)
-				printf("REDIR FLAG TRUE\n");
 			perror(curr->filename);
 			child_cleanup(1, NULL, data, cmd);
 		}
-		curr = curr->next;;
+		curr = curr->next;
 	}
 }

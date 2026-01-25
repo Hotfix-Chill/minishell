@@ -1,4 +1,4 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
@@ -6,16 +6,15 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 19:34:45 by pjelinek          #+#    #+#             */
-/*   Updated: 2025/11/27 22:44:52 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:00:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// add SHLVL, PWD, _= to environment if they have been removed by command env -u SHLVL
 static bool	add_env(t_data *data, int i)
 {
-	char *str;
+	char	*str;
 
 	if (!data->flag.shlvl)
 	{
@@ -42,7 +41,6 @@ static bool	add_env(t_data *data, int i)
 	return (true);
 }
 
-//counts envp for allocation and checks if SHLVL, PWD, and _= existis and if not it counts i for later allocation!
 static int	count_lines(t_data *data, char **envp)
 {
 	int	i;
@@ -66,10 +64,10 @@ static int	count_lines(t_data *data, char **envp)
 		i++;
 	return (i);
 }
-//copies enviroment from envp to data->env[i]
+
 static bool	extract_env(t_data *data, char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -88,30 +86,7 @@ static bool	extract_env(t_data *data, char **envp)
 		return (false);
 	return (true);
 }
-bool	create_export_list(t_data *data)
-{
-	data->export[PWD].key = ft_strdup("PWD");
-	if (!data->export[PWD].key)
-		return (false);
-	data->export[PWD].value = getcwd(NULL, 0);
-	if (!data->export[PWD].value)
-		return (false);
-	data->export[SHLVL].key = ft_strdup("SHLVL");
-	if (!data->export[SHLVL].key)
-		return (false);
-	data->export[SHLVL].value = ft_strdup("1");
-	if (!data->export[SHLVL].value)
-		return (false);
-	data->export[LAST_CMD].key = ft_strdup("_");
-	if (!data->export[LAST_CMD].key)
-		return (false);
-	data->export[LAST_CMD].value = ft_strdup("/usr/bin/env");
-	if (!data->export[LAST_CMD].value)
-		return (false);
-	return (true);
-}
 
-//creates environment if envp is empty
 static bool	create_env(t_data *data)
 {
 	char	**env;
@@ -136,7 +111,6 @@ static bool	create_env(t_data *data)
 	return (true);
 }
 
-//fills selfmade data->env struct with envp values
 bool	init_env(char **envp, t_data *data)
 {
 	if (!envp || !*envp)
@@ -156,10 +130,8 @@ bool	init_env(char **envp, t_data *data)
 		data->export_len = data->env_len;
 		data->env = ft_calloc(data->env_len + 1, sizeof(char *));
 		data->export = ft_calloc(data->export_len, sizeof(t_export));
-		if (!data->env || !data->export	|| !extract_env(data, envp))
+		if (!data->env || !data->export || !extract_env(data, envp))
 			return (false);
 	}
-	if (VERBOSE)
-		print_env(data);
 	return (true);
 }

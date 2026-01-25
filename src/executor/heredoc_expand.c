@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   heredoc_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 14:27:34 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+void	heredoc_expand(t_data *data, char *line, int fd)
 {
-	bool	flag;
+	char	*new_line;
 
-	flag = false;
-	if (**p == '-' || **p == '+')
-	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
-	}
-	return (flag);
+	new_line = split_dollar(data, line);
+	if (!new_line)
+		cleanup(data, ERROR);
+	ft_putendl_fd(new_line, fd);
+	free(new_line);
+	return ;
 }

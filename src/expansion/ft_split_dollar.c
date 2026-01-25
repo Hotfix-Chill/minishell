@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_dollar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 14:25:29 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 17:17:25 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/20 15:56:44 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 14:31:54 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 static char	*ft_cpy(char const *str, char c)
 {
@@ -47,7 +47,7 @@ static void	ft_freeall(char **freearr, size_t index)
 	free(freearr);
 }
 
-char	**ft_split_loop(char **split, char const *s, char c)
+static char	**ft_split_loop(char **split, char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
@@ -62,24 +62,51 @@ char	**ft_split_loop(char **split, char const *s, char c)
 			if (!split[j])
 				return (ft_freeall(split, j), NULL);
 			j++;
-			while (s[i] != c && s[i] != '\0')
+			while (s[i] != c && s[i + 1] != '\0')
 				i++;
-			if (s[i] == '\0')
-				return (split);
 		}
 		i++;
 	}
+	if (s[i - 1] == c && s[i] == '\0')
+		split[j] = ft_strdup("$");
 	return (split);
 }
 
-char	**ft_split(char const *s, char c)
+static ssize_t	wordcount(char const *str, char c)
+{
+	size_t	i;
+	size_t	words;
+	bool	in_word;
+
+	words = 0;
+	i = 0;
+	in_word = false;
+	if (!str)
+		return (-1);
+	while (str[i])
+	{
+		if (c == str[i])
+			in_word = false;
+		else if (!in_word)
+		{
+			in_word = true;
+			words++;
+		}
+		i++;
+	}
+	if (str[i - 1] == '$')
+		words += 1;
+	return (words);
+}
+
+char	**ft_split_dollar(char const *s, char c)
 {
 	char	**split;
 	int		words;
 
 	if (!s)
 		return (NULL);
-	words = ft_wordcount(s, c);
+	words = wordcount(s, c);
 	if (words == -1)
 		return (NULL);
 	split = (char **)ft_calloc(words + 1, sizeof(char *));
@@ -87,21 +114,3 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	return (ft_split_loop(split, s, c));
 }
-
-/* int	main(void)
-{
-	char **split;
-	int i = 0;
-
-	split = (char **)ft_split("lorem ipsum dolor sit amet, mmn, mi. ", ' ');
-
-	if (!split)
-		return (0);
-	while(split[i])
-	{
-		printf("**split[%d]: %s\n", i, split[i]);
-		free(split[i]);
-		i++;
-	}
-	free(split);
-} */

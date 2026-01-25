@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 14:55:47 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 14:58:06 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+void	init_signals_child(void)
 {
-	bool	flag;
+	struct sigaction	sa;
 
-	flag = false;
-	if (**p == '-' || **p == '+')
-	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
-	}
-	return (flag);
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	init_signals_parent(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }

@@ -3,17 +3,15 @@
 
 
 
-####
+#### DONE
 
-WORKING ON
 $ export HEHE=hehe$HEHE$HEHE
 $ $HOME$BULLSHIT$USER
 	--> /home/pj   '\0'(empty)    pjelinek
 
 
 
-####
-
+#### still not clear, but env with flags are not supposed to work
 
 in minishell command: env -i ./minishell
 not starting a new minishell with ignored environment but printing env
@@ -33,7 +31,7 @@ Bash Output: bash: exit: : numeric argument required
 Behavior is handled in builtin exit. The shell exits with status 2.
 
 
-###
+### DONE
 
 
 $ cat Makefile >
@@ -49,7 +47,18 @@ if there is a redirs token, make sure that filname is not NULL or empty
 if filename ist NULL
 
 
-############################# ARSI
+
+
+
+############################# ARSI DONE
 
 REDIRS: Fix redirections, overall they dont work.
 HEREDOC: They lead to segfault and dont get removed.
+
+
+############################### ARSI / JAN 18 19:32
+
+❯ minishell ▸ $ $ export B=42
+
+should be an: ->>>   error : $: command not found
+FOR US it leaves the program, it goes out of it!!

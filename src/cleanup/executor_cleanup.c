@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   executor_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 00:21:36 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 13:47:21 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+void	executor_cleanup(t_data *data)
 {
-	bool	flag;
+	t_cmds	*cmd;
 
-	flag = false;
-	if (**p == '-' || **p == '+')
+	cmd = data->cmd;
+	if (cmd)
 	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
+		cmd_lstclear(&cmd);
+		ft_memset(&data->cmd, 0, sizeof(t_cmds));
 	}
-	return (flag);
+	if (data->list)
+	{
+		free_cmd_list(data->list);
+		data->list = NULL;
+	}
+	return ;
 }

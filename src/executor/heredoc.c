@@ -6,17 +6,24 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 10:49:36 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 16:05:17 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	write_into_heredoc(t_redirs *redirs, int fd)
+void	print_heredoc_sigquit(char *redirs_filename, size_t line_count)
 {
-	char	*line;
-	char	*delimiter;
-	int		delimiter_len;
+	printf("minishell: warning: here-document at line %li delimited " \
+		"by end-of-file (wanted `%s')\n", line_count, redirs_filename);
+	return ;
+}
+
+static int	write_into_heredoc(t_data *data, t_redirs *redirs, int fd)
+{
+	char			*line;
+	char			*delimiter;
+	int				delimiter_len;
 	static size_t	count = 0;
 
 	delimiter = redirs->filename;
@@ -27,24 +34,21 @@ static int	write_into_heredoc(t_redirs *redirs, int fd)
 		line = readline(HEREDOC_PROMPT);
 		count++;
 		if ((!line))
-		{
-			printf("minishell: warning: here-document at line %li delimited" \
-				"by end-of-file (wanted `%s')\n", count, redirs->filename);
-			return (0);
-		}
+			return (print_heredoc_sigquit(redirs->filename, count), 0);
 		if (!ft_memcmp(line, delimiter, delimiter_len + 1) || g_signal == 1)
 			return (free(line), 0);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		if (redirs->heredoc_expand && find_char(line, '$') != NO_DOLLAR)
+			heredoc_expand(data, line, fd);
+		else
+			ft_putendl_fd(line, fd);
 		free(line);
 	}
 }
 
-
 static char	*get_filename(int index)
 {
-	char *idx;
-	char *filename;
+	char	*idx;
+	char	*filename;
 
 	idx = ft_itoa(index);
 	if (!idx)
@@ -56,39 +60,11 @@ static char	*get_filename(int index)
 	return (filename);
 }
 
-/* static char	*get_filename(int index)
-{
-	int pid_nb;
-	char *tmp;
-	char *nb;
-	char *pid;
-	char *filename;
-
-	pid_nb = getpid();
-	pid = ft_itoa(pid_nb);
-	if (!pid)
-		return (NULL);
-	nb = ft_itoa(index);
-	if (!nb)
-		return (free(pid), NULL);
-	tmp = ft_strjoin(pid, nb);
-	free(pid);
-	free(nb);
-	if (!tmp)
-		return(NULL);
-	filename = ft_strjoin("heredoc_", tmp);
-	free(tmp);
-	if (!filename)
-		return (NULL);
-	return (filename);
-} */
-
-// creates a file with random name from name + pid + index
 static void	create_file(t_data *data, t_redirs *redir)
 {
-	int fd;
-	char *heredoc_name;
-	int index;
+	int		fd;
+	char	*heredoc_name;
+	int		index;
 
 	fd = -1;
 	if (!redir)
@@ -103,7 +79,7 @@ static void	create_file(t_data *data, t_redirs *redir)
 			close(fd);
 		cleanup(data, ERROR);
 	}
-	write_into_heredoc(redir, fd);
+	write_into_heredoc(data, redir, fd);
 	free(redir->filename);
 	redir->filename = NULL;
 	redir->typ = REDIR_IN;
@@ -113,7 +89,6 @@ static void	create_file(t_data *data, t_redirs *redir)
 		close(fd);
 }
 
-// finds heredocs by heredoc flag if true!
 int	heredocs(t_data *data, t_cmds *cmd)
 {
 	t_cmds		*curr;

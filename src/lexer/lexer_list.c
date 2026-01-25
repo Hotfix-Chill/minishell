@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abita <abita@student.42vienna.com>         +#+  +:+       +#+        */
+/*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:48:09 by abita             #+#    #+#             */
-/*   Updated: 2025/12/09 17:03:54 by abita            ###   ########.fr       */
+/*   Updated: 2026/01/24 15:05:46 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-t_token_list *init_token_list(void)
+t_token_list	*init_token_list(void)
 {
-	t_token_list *lst;
+	t_token_list	*lst;
 
 	lst = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	if (!lst)
@@ -26,9 +25,9 @@ t_token_list *init_token_list(void)
 	return (lst);
 }
 
-t_token *create_token(void)
+t_token	*create_token(void)
 {
-	t_token *token;
+	t_token		*token;
 
 	token = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!token)
@@ -39,11 +38,14 @@ t_token *create_token(void)
 	token->len = 0;
 	token->cap = 0;
 	token->no_expand = false;
+	token->quoted = false;
+	token->quote = QUOTE_NORMAL;
 	token->next = NULL;
-	token->prev = NULL; 
+	token->prev = NULL;
 	return (token);
 }
-int add_token(t_token_list *lst, t_token *node)
+
+int	add_token(t_token_list *lst, t_token *node)
 {
 	if (!lst || !node)
 		return (-1);
@@ -62,10 +64,10 @@ int add_token(t_token_list *lst, t_token *node)
 	return (EXIT_SUCCESS);
 }
 
-void free_token_list(t_token_list *lst)
+void	free_token_list(t_token_list *lst)
 {
-	t_token *cur;
-	t_token *next;
+	t_token		*cur;
+	t_token		*next;
 
 	if (!lst)
 		return ;
@@ -77,5 +79,5 @@ void free_token_list(t_token_list *lst)
 		free(cur);
 		cur = next;
 	}
-	free(lst); //here leak
+	free(lst);
 }

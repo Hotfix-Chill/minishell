@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:12:03 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 14:09:15 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/22 20:11:36 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	add_values(t_data *data, char *str)
 	if (!key)
 		cleanup(data, ERROR);
 	value = get_value(data, str, key);
-	if (!check_entry_export(data, key, value)) // no entry means return false
+	if (!check_entry_export(data, key, value))
 	{
 		if (!add_export_entry(data, key, value))
 		{
@@ -63,7 +63,7 @@ void	add_values(t_data *data, char *str)
 
 bool	split_into_key_and_value(t_data *data, char *str, int idx)
 {
-	char **arr;
+	char	**arr;
 
 	if (!str)
 		return (false);
@@ -82,17 +82,17 @@ bool	split_into_key_and_value(t_data *data, char *str, int idx)
 			return (free_split(arr), false);
 	}
 	free_split(arr);
-	return true;
+	return (true);
 }
 
 static bool	valid_identifier_export(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (false);
 	i = 1;
-	while (str[i] && str[i] !=  '=')
+	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (false);
@@ -100,7 +100,6 @@ static bool	valid_identifier_export(char *str)
 	}
 	return (true);
 }
-
 
 void	ft_export(t_data *data, t_cmds *cmd)
 {
@@ -117,12 +116,13 @@ void	ft_export(t_data *data, t_cmds *cmd)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		if (!valid_identifier_export(cmd->argv[i]))// first letter only LETTERS or _ --> after only letters, digits or _
+		if (!valid_identifier_export(cmd->argv[i]))
 		{
 			valid = false;
 			data->return_value = 1;
-			printf("minishell: export: `%s': not a valid identifier\n", cmd->argv[i++]);
-			continue;
+			printf("minishell: export: `%s': not a valid identifier\n", \
+				cmd->argv[i++]);
+			continue ;
 		}
 		add_values(data, cmd->argv[i++]);
 	}

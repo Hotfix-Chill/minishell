@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   env_cleanup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/24 00:16:37 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 00:19:05 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+void	env_cleanup(t_data *data, int exit_code)
 {
-	bool	flag;
-
-	flag = false;
-	if (**p == '-' || **p == '+')
+	if (data->env && exit_code != RESET)
 	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
+		free_split(data->env);
+		data->env = NULL;
 	}
-	return (flag);
+	if (data->path_list)
+	{
+		free_split(data->path_list);
+		data->path_list = NULL;
+	}
+	if (data->export && exit_code != RESET)
+	{
+		clean_export(data->export, data->export_len);
+		free(data->export);
+		data->export = NULL;
+	}
+	return ;
 }

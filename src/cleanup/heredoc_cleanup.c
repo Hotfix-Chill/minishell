@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_signs.c                                    :+:      :+:    :+:   */
+/*   heredoc_cleanup.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 05:16:17 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 16:47:45 by pjelinek         ###   ########.fr       */
+/*   Created: 2026/01/23 15:28:27 by pjelinek          #+#    #+#             */
+/*   Updated: 2026/01/24 22:04:11 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_skip_signs(const char **p)
+void	ft_heredoc_cleanup(t_data *data)
 {
-	bool	flag;
+	int	i;
 
-	flag = false;
-	if (**p == '-' || **p == '+')
+	i = 0;
+	while (i < data->heredoc.count)
 	{
-		if (**p == '-')
-			flag = true;
-		(*p)++;
+		unlink(data->heredoc.files[i++]);
+		if (VERBOSE)
+			printf("HEREDOC FILE %s DELETED\n", data->heredoc.files[i - 1]);
 	}
-	return (flag);
+	free_split(data->heredoc.files);
+	ft_memset(&data->heredoc, 0, sizeof(t_heredoc));
+	return ;
 }

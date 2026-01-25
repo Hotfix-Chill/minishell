@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:56:09 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/16 07:21:50 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:59:57 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	find_char(char *str, char c)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == c)
-			return i;
+			return (i);
 		i++;
 	}
-	return -1;
+	return (-1);
 }
 
 char	*increment_shlvl(char *str)

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/16 15:41:55 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:38:53 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ void	change_pwd_path(t_data *data, char *path)
 		i++;
 	}
 	save_free(&tmp, &dir);
+	data->return_value = 0;
 }
 
 char	*find_home_path(t_data *data)
 {
-	int i;
-	char *path = NULL;
+	int		i;
+	char	*path;
 
+	path = NULL;
 	i = 0;
 	while (data->env[i])
 	{
@@ -70,7 +72,7 @@ char	*find_home_path(t_data *data)
 
 void	ft_cd(t_data *data, t_cmds *cmd)
 {
-	char *path;
+	char	*path;
 
 	path = NULL;
 	if (!cmd->argv[1])
@@ -95,5 +97,4 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 		return ;
 	}
 	change_pwd_path(data, path);
-	data->return_value = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 13:06:18 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/15 10:13:05 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/01/24 22:03:08 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,83 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-int	init_data(t_data *data)
+bool	parser(t_data *data, char *line)
 {
-	ft_memset(data, 0, sizeof(t_data));
-	ft_memset(&data->fd, -1, sizeof(t_fds));
-	return (1);
-}
-int	main_loop(char *line, char	*prompt, t_data	*data)
-{
-	t_token_list *tokens;
+	t_token_list	*tokens;
 
+	tokens = tokenizer(line);
+	if (!tokens)
+	{
+		printf("minishell: syntax error\n");
+		data->return_value = 1;
+		return (false);
+	}
+	data->list = parsing(tokens, data);
+	if (!data->list)
+	{
+		printf("minishell: syntax error\n");
+		free_token_list(tokens);
+		data->return_value = 2;
+		return (false);
+	}
+	free_token_list(tokens);
+	return (true);
+}
+
+bool	execution(t_data *data)
+{
+	if (heredocs(data, data->list->head) == SIGINT)
+	{
+		data->return_value = 130;
+		return (false);
+	}
+	expansion(data->list, data);
+	word_splitting(data->list, data);
+	update_builtins(data->list);
+	executor(data->list->head, data);
+	return (true);
+}
+
+void	ft_sig_int(t_data *data, char **line)
+{
+	data->return_value = 130;
+	g_signal = 0;
+	if (*line)
+		free(*line);
+	return ;
+}
+
+int	main_loop(char *line, t_data	*data)
+{
 	while (1)
 	{
-		line = readline(prompt);
-		if (!line) // NULL → Ctrl+D pressed (EOF)
+		line = readline(PROMPT);
+		if (g_signal == SIGINT)
+		{
+			ft_sig_int(data, &line);
+			continue ;
+		}
+		if (!line)
 			return (printf("exit\n"), cleanup(data, OK_EXIT), 0);
-		if (*line) // not empty input
+		if (*line)
 		{
 			if (*line != SPACE)
 				add_history(line);
-			tokens = tokenizer(line);
-			if (!tokens)
-			{
-				printf("minishell: syntax error\n");
-				free(line);
-				data->return_value = 1;
-				continue ;
-			}
-			if (VERBOSE)
-				print_token_list(tokens);
-
-			// PARSING
-			data->list = parsing(tokens, data);
-			if (!data->list)
-			{
-				printf("minishell: syntax error\n");
-				free_token_list(tokens);
-				free(line);
-				data->return_value = 2;
-				continue ;
-			}
- 			if (VERBOSE)
-			{
-				print_cmd_list(data->list->head);
-				printf("data_list_size: %i\n", data->list->size);
-			}
-			free_token_list(tokens);
-
-			//HERDOCS
-			if (heredocs(data, data->list->head) == SIGINT)
+			if (whitespaces(line) || !parser(data, line) || !execution(data))
 			{
 				free(line);
-				data->return_value = 130;
+				line = NULL;
 				continue ;
 			}
-			expansion(data->list, data);
-			executor(data->list->head, data);
 			cleanup(data, RESET);
 		}
 		free(line);
 	}
 	rl_clear_history();
 }
-// main
+
 int	main(int ac, char **av, char **envp)
 {
-	char	*prompt;
 	char	*line;
 	t_data	data;
 
@@ -87,11 +98,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (0);
-	prompt = "\001\033[1;32m\002❯ \001\033[1;37m\002minishell\001\033[0m\002 ▸ $ ";
 	if (!!init_signals_prompt() || !init_data(&data) || !init_env(envp, &data))
 		cleanup(&data, 1);
-	//// main looop version
-	main_loop(line, prompt, &data);
+	main_loop(line, &data);
 	rl_clear_history();
 	return (0);
 }
