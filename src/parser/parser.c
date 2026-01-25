@@ -22,6 +22,8 @@ static int	handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, \
 	curr_cmd = *curr_cmd_ptr;
 	if (tok->typ == TOKEN_PIPE)
 	{
+		if (!tok->next)
+			return (EXIT_FAILURE);
 		if (!curr_cmd->argv && !curr_cmd->redirs)
 			return (EXIT_FAILURE);
 		if (add_cmd_to_list(cmd_list, curr_cmd) != EXIT_SUCCESS)
