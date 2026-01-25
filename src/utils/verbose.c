@@ -39,7 +39,7 @@ void print_cmd_list(t_stack *list)
 } */
 
 
-/* void	print_token_list(t_token_list *tokens)
+void	print_token_list(t_token_list *tokens)
 {
 	t_token_list	*curr;
 	t_token			*cur;
@@ -52,7 +52,7 @@ void print_cmd_list(t_stack *list)
 		cur = cur->next;
 	}
 	return ;
-} */
+}
 
 
 static const	char *redir_type_to_str(int type)
