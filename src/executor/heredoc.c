@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 02:34:22 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/25 14:39:52 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:18:03 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*get_filename(int index)
 	idx = ft_itoa(index);
 	if (!idx)
 		return (NULL);
-	filename = ft_strjoin("heredoc_", idx);
+	filename = ft_strjoin(".heredoc_", idx);
 	free(idx);
 	if (!filename)
 		return (NULL);

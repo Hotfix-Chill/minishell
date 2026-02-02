@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 00:42:02 by netrunner         #+#    #+#             */
-/*   Updated: 2026/01/25 19:30:53 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:20:48 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,17 @@ static void	apply_execve(t_data *data, t_cmds *cmd)
 	int	error_code;
 
 	error_code = 0;
-	if (access(data->exec.path, X_OK) == 0)
+	if (access(data->exec.path, F_OK) == 0)
 	{
-		execve(data->exec.path, cmd->argv, data->env);
-		error_code = errno;
-		free(data->exec.path);
-		handle_errno(data, cmd, error_code);
+		if (access(data->exec.path, X_OK) == 0)
+		{
+			execve(data->exec.path, cmd->argv, data->env);
+			error_code = errno;
+			free(data->exec.path);
+			handle_errno(data, cmd, error_code);
+		}
+		else
+			child_cleanup(126, " : Permission denied\n", data, cmd);
 	}
 }
 
