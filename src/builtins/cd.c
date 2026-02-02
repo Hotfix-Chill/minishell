@@ -6,46 +6,43 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:06:18 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/23 17:38:53 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 23:21:25 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	save_free(char **tmp, char **arr)
+void	save_free(char **arr)
 {
 	if (*arr)
 		free(*arr);
-	if (*tmp)
-		free(*tmp);
 }
 
-void	change_pwd_path(t_data *data, char *path)
+void	change_pwd_path(t_data *data)
 {
 	int		i;
 	char	*dir;
-	char	*tmp;
 	char	*pwd;
 
 	i = 0;
 	dir = NULL;
-	tmp = NULL;
 	while (data->env[i])
 	{
 		if (ft_strncmp(data->env[i], "PWD=", 4) == 0)
 		{
 			dir = getcwd(NULL, 0);
-			tmp = ft_strjoin(dir, "/");
-			pwd = ft_strjoin(tmp, path);
-			if (!dir || !tmp || !pwd)
+			pwd = ft_strjoin("PWD=", dir);
+			if (!dir || !pwd)
 				break ;
+			printf("ENV: %s\n", data->env[i]);
 			free(data->env[i]);
 			data->env[i] = pwd;
+			printf("PWD: %s\n", data->env[i]);
 			break ;
 		}
 		i++;
 	}
-	save_free(&tmp, &dir);
+	save_free(&dir);
 	data->return_value = 0;
 }
 
@@ -96,5 +93,5 @@ void	ft_cd(t_data *data, t_cmds *cmd)
 		data->return_value = 1;
 		return ;
 	}
-	change_pwd_path(data, path);
+	change_pwd_path(data);
 }
