@@ -14,7 +14,7 @@
 
 void	print_heredoc_sigquit(char *redirs_filename, size_t line_count)
 {
-	printf("minishell: warning: here-document at line %li delimited " \
+	printf("minishell: warning: here-document at line %li delimited "
 		"by end-of-file (wanted `%s')\n", line_count, redirs_filename);
 	return ;
 }

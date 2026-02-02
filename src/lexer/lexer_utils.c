@@ -79,10 +79,10 @@ int	decide_token_type(char *line, int *i_ptr, t_token *tok)
 	else if (res_pipe == REDIR_FOUND)
 		return (EXIT_SUCCESS);
 	else if (line[i] == '>')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT, \
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_OUT,
 			*i_ptr = i + 1, EXIT_SUCCESS);
 	else if (line[i] == '<')
-		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN, \
+		return (tok->typ = TOKEN_REDIR, tok->redir = REDIR_IN,
 			*i_ptr = i + 1, EXIT_SUCCESS);
 	tok->typ = TOKEN_WORD;
 	tok->quote = QUOTE_NORMAL;

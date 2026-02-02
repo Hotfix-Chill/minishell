@@ -60,9 +60,7 @@ static void	child_process(t_data *data, t_cmds *cmd, int loop)
 	if (loop == 0)
 	{
 		if (dup2(data->fd.curr[1], STDOUT_FILENO) < 0)
-		{
 			child_cleanup(1, "child[1] - dup2 fd.curr failed\n", data, cmd);
-		}
 	}
 	else if (loop > 0 && loop < data->list->size - 1)
 	{
@@ -74,7 +72,7 @@ static void	child_process(t_data *data, t_cmds *cmd, int loop)
 	else if (loop == data->list->size - 1)
 	{
 		if (dup2(data->fd.prev[0], STDIN_FILENO) < 0)
-			child_cleanup(1, "child[last] - dup2 fd.prev[0] failed\n", \
+			child_cleanup(1, "child[last] - dup2 fd.prev[0] failed\n",
 				data, cmd);
 	}
 	ft_close(data);

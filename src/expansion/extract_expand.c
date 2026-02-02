@@ -38,7 +38,7 @@ static size_t	count_split_chars(char **split)
 	return (count);
 }
 
-static char	**expand(char **dollar_split, char **exp_word, t_data *data, \
+static char	**expand(char **dollar_split, char **exp_word, t_data *data,\
 	bool first_dollar)
 {
 	int		i;

@@ -6,13 +6,13 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 15:41:52 by abita             #+#    #+#             */
-/*   Updated: 2026/01/25 17:27:50 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 12:38:53 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, \
+static int	handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr,
 	t_stack *cmd_list)
 {
 	t_token		*tok;
@@ -37,7 +37,7 @@ static int	handle_pipe(t_token **tok_ptr, t_cmds **curr_cmd_ptr, \
 	return (EXIT_SUCCESS);
 }
 
-static int	parser_loop(t_token *tok, t_cmds **curr_cmd, \
+static int	parser_loop(t_token *tok, t_cmds **curr_cmd,
 	t_stack *cmd_list, t_data *data)
 {
 	while (tok)
@@ -48,15 +48,15 @@ static int	parser_loop(t_token *tok, t_cmds **curr_cmd, \
 		{
 			if (!tok->next || tok->next->typ != TOKEN_WORD)
 				return (EXIT_FAILURE);
-			if (add_redir_to_cmd(*curr_cmd, tok, tok->next, data) \
+			if (add_redir_to_cmd(*curr_cmd, tok, tok->next, data)
 				!= EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next->next;
 		}
 		else if (tok->typ == TOKEN_WORD)
 		{
-			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand, \
-				tok->quoted) != EXIT_SUCCESS)
+			if (add_arg_to_cmd(*curr_cmd, tok->content, tok->no_expand,
+					tok->quoted) != EXIT_SUCCESS)
 				return (EXIT_FAILURE);
 			tok = tok->next;
 		}

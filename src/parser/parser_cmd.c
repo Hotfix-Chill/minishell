@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:32:39 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 20:31:09 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 12:37:16 by abita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	add_arg_to_cmd(t_cmds *curr_cmd, const char *tok_content,
 	if (arg_count < 0)
 		return (-1);
 	if (!copy_old_args(curr_cmd, &buf, arg_count))
-		return (free_split(buf.new_argv), free(buf.flag_for_expansion), \
+		return (free_split(buf.new_argv), free(buf.flag_for_expansion),
 			free(buf.flag_for_split), -1);
 	buf.new_argv[arg_count] = ft_strdup(tok_content);
 	if (!buf.new_argv[arg_count])
-		return (free_split(buf.new_argv), free(buf.flag_for_expansion), \
+		return (free_split(buf.new_argv), free(buf.flag_for_expansion),
 			free(buf.flag_for_split), -1);
 	buf.flag_for_expansion[arg_count] = no_expand_flag;
 	buf.flag_for_split[arg_count] = no_split_flag;

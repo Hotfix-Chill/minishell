@@ -50,8 +50,8 @@ void	delete_entries(t_data *data, t_cmds *cmd, size_t idx)
 	i = 0;
 	while (i < data->export_len)
 	{
-		if (ft_memcmp(data->export[i].key, cmd->argv[idx], \
-			ft_strlen(cmd->argv[idx]) + 1) == 0)
+		if (ft_memcmp(data->export[i].key, cmd->argv[idx],
+				ft_strlen(cmd->argv[idx]) + 1) == 0)
 		{
 			delete_export_entry(data, i);
 			break ;
