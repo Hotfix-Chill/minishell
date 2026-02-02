@@ -6,13 +6,12 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/24 20:32:22 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:33:32 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// 7) Populate the new argv by splitting unquoted entries and copying quoted. */
 static int	build_from_args(t_cmds *cmd, t_buffer *buf)
 {
 	size_t	i;

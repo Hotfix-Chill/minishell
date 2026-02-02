@@ -62,7 +62,6 @@ SRCS = \
 	executor/extract_path_list.c \
 	expansion/expander_utils_pt2.c \
 
-# baue aus z.B. "executor/landing_file.c" -> "obj/executor/landing_file.o"
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 # ==========================
@@ -71,22 +70,22 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 all: $(LIBFT) $(NAME)
 
-# Debug-Build: CFLAGS erweitern und komplett neu bauen
 verbose: CFLAGS += $(DEBUG_FLAGS)
 verbose: re
 
-# Objektdateien
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c inc/minishell.h
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Executable
+
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(EXT_LIBS) -o $(NAME)
 
-# Libft bauen
+
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) all
+
 
 # ==========================
 # Clean rules
