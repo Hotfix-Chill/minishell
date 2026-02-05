@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 01:06:32 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/25 12:43:16 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/05 22:03:51 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	digit_check(t_cmds *cmd)
 		p++;
 	while (*p)
 	{
-		if (!ft_isdigit(*p) && !ft_isspace(*p))
+		if (!ft_isdigit(*p))
 		{
 			return (false);
 		}
