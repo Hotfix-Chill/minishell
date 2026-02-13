@@ -1,5 +1,5 @@
 
-*This project has been created as part of the 42 curriculumby pjelinek & abita.*
+*This project has been created as part of the 42 curriculum by pjelinek & abita.*
 
 # 🐚 Minishell
 
@@ -59,7 +59,6 @@ The program will display a prompt and wait for user input.
 | `Ctrl-C` | Display a new prompt |
 | `Ctrl-D` | Exit the shell       |
 | `Ctrl-\` | No action            |
-
 
 
 ## 🧩 Features
