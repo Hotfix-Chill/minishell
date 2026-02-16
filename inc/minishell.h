@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 15:39:56 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/01/25 19:30:46 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/16 00:16:15 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stddef.h>
@@ -69,6 +67,9 @@
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+# include <readline/history.h>
+# include <readline/readline.h>
 
 /* ************************************************************************** */
 /*                                   TYPES                                    */

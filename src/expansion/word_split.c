@@ -6,7 +6,7 @@
 /*   By: pjelinek <pjelinek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 12:11:02 by pjelinek          #+#    #+#             */
-/*   Updated: 2026/02/02 14:33:32 by pjelinek         ###   ########.fr       */
+/*   Updated: 2026/02/16 00:16:27 by pjelinek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 static int	build_from_args(t_cmds *cmd, t_buffer *buf)
 {
 	size_t	i;
-	size_t	idx;
 
 	i = 0;
-	idx = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
 		if (cmd->no_split && cmd->no_split[i])
